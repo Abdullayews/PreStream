@@ -1,0 +1,30 @@
+# Render Blueprint — deploy PreStream in one click.
+# Spec: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: prestream
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/health
+
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+
+      # 24/7 keep-alive (instrumentation.ts): the ping target is AUTO-DETECTED
+      # from RENDER_EXTERNAL_URL — a fresh blueprint deploy needs no config.
+      # sync: false → a value set manually in the Render dashboard (e.g. your
+      # custom domain) is never overwritten or wiped by blueprint syncs.
+      # This deployment uses: https://prestream.dpdns.org
+      - key: PRESTREAM_SELF_PING_URL
+        sync: false
+
+      # Everything below is OPTIONAL — SQLite self-heals at boot:
+      #
+      # DATABASE_URL            → point at a mounted Render disk for
+      #                           persistence (e.g. file:/data/custom.db
+      #                           with a disk mounted at /data)
+      # PRESTREAM_SELF_PING=off → disable the keep-alive loop entirely
