@@ -1,0 +1,304 @@
+/* ==================================================================
+ * AMBIENT DECOR ENGINE — keyframes + layer styles.
+ * Every animated piece is transform/opacity-only (GPU-friendly).
+ * The safety layer in themes.generated.css guarantees:
+ *   .theme-decor { position: fixed; inset: 0; pointer-events: none !important; z-index: 0 }
+ * and prefers-reduced-motion disables all motion (display:none pieces).
+ * Pausing: .theme-decor.decor-paused * { animation-play-state: paused }
+ * is toggled by the decor component when the tab is hidden.
+ * ================================================================== */
+
+.theme-decor {
+  /* per-theme ambient speed multiplier (1 = normal) */
+  --decor-speed: var(--anim-speed, 1);
+}
+
+/* ---------- falling pieces (snow, leaves, petals) ---------- */
+@keyframes decor-fall {
+  0% { transform: translate3d(0, -8vh, 0) rotate(0deg); }
+  50% { transform: translate3d(var(--sway, 20px), 52vh, 0) rotate(180deg); }
+  100% { transform: translate3d(0, 110vh, 0) rotate(360deg); }
+}
+/* ---------- rising pieces (hearts, bubbles, embers) ---------- */
+@keyframes decor-rise {
+  0% { transform: translate3d(0, 108vh, 0) rotate(0deg); }
+  50% { transform: translate3d(var(--sway, 24px), 54vh, 0) rotate(-9deg); }
+  100% { transform: translate3d(0, -10vh, 0) rotate(9deg); }
+}
+/* ---------- swooping fly-across (bats) ---------- */
+@keyframes decor-fly {
+  0% { transform: translate3d(-12vw, var(--fly-y1, 20vh), 0) rotate(-6deg); }
+  25% { transform: translate3d(24vw, calc(var(--fly-y1, 20vh) + 6vh), 0) rotate(4deg); }
+  50% { transform: translate3d(52vw, calc(var(--fly-y1, 20vh) - 4vh), 0) rotate(-3deg); }
+  75% { transform: translate3d(80vw, calc(var(--fly-y1, 20vh) + 8vh), 0) rotate(5deg); }
+  100% { transform: translate3d(114vw, var(--fly-y2, 26vh), 0) rotate(-4deg); }
+}
+.decor-fall, .decor-rise, .decor-fly {
+  position: absolute;
+  top: 0;
+  left: var(--x, 50%);
+  line-height: 1;
+  will-change: transform;
+  user-select: none;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* ---------- blurred orbs (bokeh) ---------- */
+.decor-bokeh {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform, opacity;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* ---------- garland lights ---------- */
+.decor-garland {
+  position: absolute;
+  top: 0;
+  left: -2%;
+  width: 104%;
+  height: 46px;
+}
+.decor-light {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: currentColor;
+  box-shadow: 0 0 10px 2px currentColor;
+  animation: decor-twinkle var(--tw, 2.4s) ease-in-out infinite;
+}
+@keyframes decor-twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* ---------- firework bursts ---------- */
+.decor-spark {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #fff 0%, transparent 65%);
+  box-shadow:
+    0 0 calc(var(--burst, 90px)) calc(var(--burst, 90px) * 0.35) var(--spark-color, #f5d061),
+    0 0 12px 2px rgba(255, 255, 255, 0.8);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: decor-spark var(--spark-dur, 9s) ease-out infinite;
+}
+@keyframes decor-spark {
+  0%, 68% { opacity: 0; transform: scale(0.2); }
+  71% { opacity: 1; transform: scale(0.5); }
+  74% { opacity: 0.9; transform: scale(1); }
+  82% { opacity: 0; transform: scale(1.25); }
+  100% { opacity: 0; transform: scale(0.2); }
+}
+/* sparkle rays inside a burst */
+.decor-spark::after {
+  content: "";
+  position: absolute;
+  inset: -60px;
+  border-radius: 9999px;
+  background:
+    repeating-conic-gradient(from 0deg,
+      var(--spark-color, #f5d061) 0deg 2deg,
+      transparent 2deg 30deg);
+  opacity: 0.5;
+  animation: decor-spark-rays var(--spark-dur, 9s) ease-out infinite;
+}
+@keyframes decor-spark-rays {
+  0%, 70% { opacity: 0; transform: scale(0.2) rotate(0deg); }
+  74% { opacity: 0.6; transform: scale(1) rotate(20deg); }
+  84%, 100% { opacity: 0; transform: scale(1.3) rotate(60deg); }
+}
+
+/* ---------- star field + shooting stars ---------- */
+.decor-star {
+  position: absolute;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: decor-twinkle var(--tw, 4s) ease-in-out infinite;
+}
+.decor-shooting-star {
+  position: absolute;
+  width: 120px;
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, #ffffff 60%, #ffffff);
+  opacity: 0;
+  transform: rotate(-24deg);
+  will-change: transform, opacity;
+  animation: decor-shoot var(--shoot-dur, 14s) linear infinite;
+}
+@keyframes decor-shoot {
+  0%, 92% { opacity: 0; transform: translate3d(0, 0, 0) rotate(-24deg); }
+  93% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate3d(34vw, 16vw, 0) rotate(-24deg); }
+}
+
+/* ---------- fog bands ---------- */
+.decor-fog {
+  /* softness is baked into the gradient (no runtime filter blur) */
+  position: absolute;
+  left: -20vw;
+  width: 150vw;
+  height: 40vh;
+  border-radius: 9999px;
+  will-change: transform;
+  animation: decor-fog-drift var(--fog-dur, 90s) ease-in-out infinite alternate;
+}
+@keyframes decor-fog-drift {
+  from { transform: translate3d(-6vw, 0, 0); }
+  to { transform: translate3d(8vw, -3vh, 0); }
+}
+
+/* ---------- light rays ---------- */
+.decor-rays {
+  position: absolute;
+  top: -32vmax;
+  right: -32vmax;
+  width: 84vmax;
+  height: 84vmax;
+  border-radius: 9999px;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    var(--rays-tint, rgba(255, 255, 255, 0.05)) 0deg 5deg,
+    transparent 5deg 16deg
+  );
+  -webkit-mask: radial-gradient(circle at 50% 50%, black 0%, transparent 62%);
+  mask: radial-gradient(circle at 50% 50%, black 0%, transparent 62%);
+  animation: decor-rays-spin 150s linear infinite;
+  will-change: transform;
+}
+@keyframes decor-rays-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- morphing mesh blobs ---------- */
+.decor-mesh {
+  /* gradient-softened (no runtime filter blur) */
+  position: absolute;
+  width: 60vmax;
+  height: 60vmax;
+  border-radius: 9999px;
+  will-change: transform;
+  animation: decor-mesh-a var(--mesh-dur, 48s) ease-in-out infinite alternate;
+}
+@keyframes decor-mesh-a {
+  0% { transform: translate3d(-6vw, -4vh, 0) scale(1); }
+  33% { transform: translate3d(8vw, 2vh, 0) scale(1.08); }
+  66% { transform: translate3d(-2vw, 8vh, 0) scale(0.94); }
+  100% { transform: translate3d(6vw, -6vh, 0) scale(1.04); }
+}
+
+/* ---------- code rain ---------- */
+.decor-rain-col {
+  position: absolute;
+  top: -100%;
+  will-change: transform;
+  animation: decor-coderain var(--rain-dur, 16s) linear infinite;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--rain-color, #00ff66);
+  opacity: 0.05;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  white-space: nowrap;
+}
+@keyframes decor-coderain {
+  from { transform: translate3d(0, -40%, 0); }
+  to { transform: translate3d(0, 160%, 0); }
+}
+
+/* ---------- rain streaks ---------- */
+.decor-rain-layer {
+  position: absolute;
+  inset: -60% -10%;
+  transform: rotate(14deg);
+}
+.decor-rain-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    102deg,
+    var(--rain-tint, rgba(160, 220, 255, 0.10)) 0 1px,
+    transparent 1px 26px
+  );
+  will-change: transform;
+  animation: decor-rain-fall var(--rain-dur, 1.2s) linear infinite;
+}
+@keyframes decor-rain-fall {
+  from { transform: translate3d(0, -26px, 0); }
+  to { transform: translate3d(0, 26px, 0); }
+}
+
+/* ---------- gears (steampunk) ---------- */
+.decor-gear {
+  position: absolute;
+  width: var(--gear-size, 220px);
+  height: var(--gear-size, 220px);
+  opacity: 0.14;
+  will-change: transform;
+}
+.decor-gear svg { width: 100%; height: 100%; display: block; }
+.decor-gear-spin { animation: decor-gear-spin 80s linear infinite; }
+.decor-gear-spin-rev { animation: decor-gear-spin 64s linear infinite reverse; }
+@keyframes decor-gear-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- lanterns ---------- */
+.decor-lantern {
+  position: absolute;
+  width: 16px;
+  height: 22px;
+  border-radius: 8px 8px 10px 10px;
+  background: linear-gradient(180deg, var(--lantern-color, #d4202c) 30%, rgba(247, 201, 72, 0.9));
+  box-shadow:
+    0 0 18px 4px color-mix(in oklab, var(--lantern-color, #d4202c) 55%, transparent),
+    0 0 2px 1px rgba(247, 201, 72, 0.6);
+  will-change: transform, opacity;
+  animation: decor-lantern-float var(--lan-dur, 26s) ease-in-out infinite;
+}
+.decor-lantern::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 6px;
+  height: 5px;
+  transform: translateX(-50%);
+  border-radius: 3px;
+  background: color-mix(in oklab, var(--lantern-color, #d4202c) 40%, #f7c948);
+}
+.decor-lantern::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 4px;
+  height: 6px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--lantern-color, #d4202c) 30%, #f7c948 60%);
+}
+@keyframes decor-lantern-float {
+  0% { transform: translate3d(0, 106vh, 0) rotate(-2deg); }
+  50% { transform: translate3d(var(--sway, 30px), 52vh, 0) rotate(2deg); }
+  100% { transform: translate3d(0, -8vh, 0) rotate(-2deg); }
+}
+
+/* ---------- pause when tab hidden (toggled by the component) ---------- */
+.theme-decor.decor-paused *,
+.theme-decor.decor-paused,
+.theme-decor.decor-paused *::before,
+.theme-decor.decor-paused *::after {
+  animation-play-state: paused !important;
+}
