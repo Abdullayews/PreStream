@@ -16,9 +16,8 @@ services:
 
       # 24/7 keep-alive (instrumentation.ts): the ping target is AUTO-DETECTED
       # from RENDER_EXTERNAL_URL — a fresh blueprint deploy needs no config.
-      # sync: false → a value set manually in the Render dashboard (e.g. your
+      # sync: false → a value set manually in the Render dashboard (e.g. a
       # custom domain) is never overwritten or wiped by blueprint syncs.
-      # This deployment uses: https://prestream.dpdns.org
       - key: PRESTREAM_SELF_PING_URL
         sync: false
 

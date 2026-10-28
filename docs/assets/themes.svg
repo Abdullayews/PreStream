@@ -1,0 +1,367 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1128" height="900" viewBox="0 0 1128 900">
+<rect width="1128" height="900" rx="14" fill="#0d1117"/>
+<defs><linearGradient id="sw-neutral" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#101012"/>
+        <stop offset="0.55" stop-color="#1b1b1f"/>
+        <stop offset="1" stop-color="#f2f2f2"/>
+      </linearGradient>
+<linearGradient id="sw-midnight-black" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#000000"/>
+        <stop offset="0.55" stop-color="#0d0d12"/>
+        <stop offset="1" stop-color="#ffb86b"/>
+      </linearGradient>
+<linearGradient id="sw-pure-light" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0e1116"/>
+        <stop offset="0.55" stop-color="#151a21"/>
+        <stop offset="1" stop-color="#f59e0b"/>
+      </linearGradient>
+<linearGradient id="sw-ocean-blue" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#06182b"/>
+        <stop offset="0.55" stop-color="#0c2a47"/>
+        <stop offset="1" stop-color="#7df9e6"/>
+      </linearGradient>
+<linearGradient id="sw-forest-green" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0b1a12"/>
+        <stop offset="0.55" stop-color="#12281b"/>
+        <stop offset="1" stop-color="#d9b26f"/>
+      </linearGradient>
+<linearGradient id="sw-crimson-red" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#14070a"/>
+        <stop offset="0.55" stop-color="#230b10"/>
+        <stop offset="1" stop-color="#f5c16c"/>
+      </linearGradient>
+<linearGradient id="sw-royal-purple" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#100a1f"/>
+        <stop offset="0.55" stop-color="#1a1233"/>
+        <stop offset="1" stop-color="#f0abfc"/>
+      </linearGradient>
+<linearGradient id="sw-amber-gold" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#17110a"/>
+        <stop offset="0.55" stop-color="#241a0e"/>
+        <stop offset="1" stop-color="#fde68a"/>
+      </linearGradient>
+<linearGradient id="sw-slate-grey" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#14181d"/>
+        <stop offset="0.55" stop-color="#1e242b"/>
+        <stop offset="1" stop-color="#38bdf8"/>
+      </linearGradient>
+<linearGradient id="sw-aurora" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0f2027"/>
+        <stop offset="0.55" stop-color="#16303a"/>
+        <stop offset="1" stop-color="#7b61ff"/>
+      </linearGradient>
+<linearGradient id="sw-sunset-horizon" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1b1035"/>
+        <stop offset="0.55" stop-color="#2a1642"/>
+        <stop offset="1" stop-color="#ffb86b"/>
+      </linearGradient>
+<linearGradient id="sw-neon-cyber" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0a0014"/>
+        <stop offset="0.55" stop-color="#1c0b2e"/>
+        <stop offset="1" stop-color="#4cc9f0"/>
+      </linearGradient>
+<linearGradient id="sw-deep-ocean" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#001219"/>
+        <stop offset="0.55" stop-color="#00323d"/>
+        <stop offset="1" stop-color="#94d2bd"/>
+      </linearGradient>
+<linearGradient id="sw-cotton-candy" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#241a33"/>
+        <stop offset="0.55" stop-color="#332547"/>
+        <stop offset="1" stop-color="#a5e7ff"/>
+      </linearGradient>
+<linearGradient id="sw-lava-flow" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1a0500"/>
+        <stop offset="0.55" stop-color="#2b0c00"/>
+        <stop offset="1" stop-color="#ffc300"/>
+      </linearGradient>
+<linearGradient id="sw-northern-mist" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0b132b"/>
+        <stop offset="0.55" stop-color="#1c2541"/>
+        <stop offset="1" stop-color="#6ffcd9"/>
+      </linearGradient>
+<linearGradient id="sw-mesh-prism" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#12102b"/>
+        <stop offset="0.55" stop-color="#1d1a3e"/>
+        <stop offset="1" stop-color="#ff6ec7"/>
+      </linearGradient>
+<linearGradient id="sw-halloween" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0d0711"/>
+        <stop offset="0.55" stop-color="#1a0f22"/>
+        <stop offset="1" stop-color="#8cff3c"/>
+      </linearGradient>
+<linearGradient id="sw-christmas" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0b1f17"/>
+        <stop offset="0.55" stop-color="#12301f"/>
+        <stop offset="1" stop-color="#f2c14e"/>
+      </linearGradient>
+<linearGradient id="sw-new-year-eve" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#05060f"/>
+        <stop offset="0.55" stop-color="#0f1226"/>
+        <stop offset="1" stop-color="#c0c8ff"/>
+      </linearGradient>
+<linearGradient id="sw-valentines-day" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1f0a14"/>
+        <stop offset="0.55" stop-color="#35101f"/>
+        <stop offset="1" stop-color="#ffb3c7"/>
+      </linearGradient>
+<linearGradient id="sw-easter-spring" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#132018"/>
+        <stop offset="0.55" stop-color="#1e3324"/>
+        <stop offset="1" stop-color="#ffb5e8"/>
+      </linearGradient>
+<linearGradient id="sw-autumn-harvest" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1c1008"/>
+        <stop offset="0.55" stop-color="#2b1a0d"/>
+        <stop offset="1" stop-color="#e0a63b"/>
+      </linearGradient>
+<linearGradient id="sw-st-patricks" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#06150b"/>
+        <stop offset="0.55" stop-color="#0d2616"/>
+        <stop offset="1" stop-color="#f4c430"/>
+      </linearGradient>
+<linearGradient id="sw-independence-day-usa" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#070b1f"/>
+        <stop offset="0.55" stop-color="#101a3d"/>
+        <stop offset="1" stop-color="#6b93f5"/>
+      </linearGradient>
+<linearGradient id="sw-lunar-new-year" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1a0505"/>
+        <stop offset="0.55" stop-color="#2b0a0a"/>
+        <stop offset="1" stop-color="#f7c948"/>
+      </linearGradient>
+<linearGradient id="sw-diwali" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#12051f"/>
+        <stop offset="0.55" stop-color="#1e0a33"/>
+        <stop offset="1" stop-color="#e83f6f"/>
+      </linearGradient>
+<linearGradient id="sw-eid-ramadan" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#06141c"/>
+        <stop offset="0.55" stop-color="#0d2431"/>
+        <stop offset="1" stop-color="#38b6a8"/>
+      </linearGradient>
+<linearGradient id="sw-nowruz-spring" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0e1f17"/>
+        <stop offset="0.55" stop-color="#17301f"/>
+        <stop offset="1" stop-color="#f2c14e"/>
+      </linearGradient>
+<linearGradient id="sw-winter-frost" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#081019"/>
+        <stop offset="0.55" stop-color="#0e1c2b"/>
+        <stop offset="1" stop-color="#e0f2fe"/>
+      </linearGradient>
+<linearGradient id="sw-cyberpunk-city" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#080812"/>
+        <stop offset="0.55" stop-color="#12122a"/>
+        <stop offset="1" stop-color="#05d9e8"/>
+      </linearGradient>
+<linearGradient id="sw-retro-synthwave" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1a0b2e"/>
+        <stop offset="0.55" stop-color="#2a1048"/>
+        <stop offset="1" stop-color="#784ba0"/>
+      </linearGradient>
+<linearGradient id="sw-terminal-hacker" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#000000"/>
+        <stop offset="0.55" stop-color="#07110a"/>
+        <stop offset="1" stop-color="#ffb000"/>
+      </linearGradient>
+<linearGradient id="sw-glassmorphism" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0c0f2e"/>
+        <stop offset="0.55" stop-color="#1a1742"/>
+        <stop offset="1" stop-color="#ff7ab8"/>
+      </linearGradient>
+<linearGradient id="sw-neumorphism-soft" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#20242e"/>
+        <stop offset="0.55" stop-color="#262b37"/>
+        <stop offset="1" stop-color="#ff9fb8"/>
+      </linearGradient>
+<linearGradient id="sw-zen-minimal" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#171614"/>
+        <stop offset="0.55" stop-color="#21201c"/>
+        <stop offset="1" stop-color="#c96f5a"/>
+      </linearGradient>
+<linearGradient id="sw-space-galaxy" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#02030a"/>
+        <stop offset="0.55" stop-color="#0a0d24"/>
+        <stop offset="1" stop-color="#ff7ad9"/>
+      </linearGradient>
+<linearGradient id="sw-vintage-paper" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#2b2318"/>
+        <stop offset="0.55" stop-color="#3a2f1f"/>
+        <stop offset="1" stop-color="#b8860b"/>
+      </linearGradient>
+<linearGradient id="sw-steampunk" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1b130c"/>
+        <stop offset="0.55" stop-color="#2a1e13"/>
+        <stop offset="1" stop-color="#b87333"/>
+      </linearGradient>
+<linearGradient id="sw-high-contrast-accessible" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#000000"/>
+        <stop offset="0.55" stop-color="#000000"/>
+        <stop offset="1" stop-color="#00ffff"/>
+      </linearGradient></defs>
+<text x="24" y="36" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#8b949e">BASE COLORS · 9</text>
+<rect x="24" y="48" width="128" height="72" rx="10" fill="url(#sw-neutral)"/>
+<rect x="24" y="48" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="38" cy="106" r="5" fill="#f2f2f2"/>
+<text x="88" y="134" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Monochrome</text>
+<rect x="160" y="48" width="128" height="72" rx="10" fill="url(#sw-midnight-black)"/>
+<rect x="160" y="48" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="174" cy="106" r="5" fill="#7c9cff"/>
+<text x="224" y="134" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Midnight Black</text>
+<rect x="296" y="48" width="128" height="72" rx="10" fill="url(#sw-pure-light)"/>
+<rect x="296" y="48" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="310" cy="106" r="5" fill="#3b82f6"/>
+<text x="360" y="134" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Pure Light</text>
+<rect x="432" y="48" width="128" height="72" rx="10" fill="url(#sw-ocean-blue)"/>
+<rect x="432" y="48" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="446" cy="106" r="5" fill="#1fa2ff"/>
+<text x="496" y="134" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Ocean Blue</text>
+<rect x="568" y="48" width="128" height="72" rx="10" fill="url(#sw-forest-green)"/>
+<rect x="568" y="48" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="582" cy="106" r="5" fill="#3ddc84"/>
+<text x="632" y="134" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Forest Green</text>
+<rect x="704" y="48" width="128" height="72" rx="10" fill="url(#sw-crimson-red)"/>
+<rect x="704" y="48" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="718" cy="106" r="5" fill="#d1153f"/>
+<text x="768" y="134" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Crimson Red</text>
+<rect x="840" y="48" width="128" height="72" rx="10" fill="url(#sw-royal-purple)"/>
+<rect x="840" y="48" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="854" cy="106" r="5" fill="#a78bfa"/>
+<text x="904" y="134" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Royal Purple</text>
+<rect x="976" y="48" width="128" height="72" rx="10" fill="url(#sw-amber-gold)"/>
+<rect x="976" y="48" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="990" cy="106" r="5" fill="#f59e0b"/>
+<text x="1040" y="134" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Amber Gold</text>
+<rect x="24" y="150" width="128" height="72" rx="10" fill="url(#sw-slate-grey)"/>
+<rect x="24" y="150" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="38" cy="208" r="5" fill="#94a3b8"/>
+<text x="88" y="236" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Slate Grey</text>
+<text x="24" y="278" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#8b949e">GRADIENTS · 8</text>
+<rect x="24" y="290" width="128" height="72" rx="10" fill="url(#sw-aurora)"/>
+<rect x="24" y="290" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="38" cy="348" r="5" fill="#00f5a0"/>
+<text x="88" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Aurora</text>
+<rect x="160" y="290" width="128" height="72" rx="10" fill="url(#sw-sunset-horizon)"/>
+<rect x="160" y="290" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="174" cy="348" r="5" fill="#ff6b6b"/>
+<text x="224" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Sunset Horizon</text>
+<rect x="296" y="290" width="128" height="72" rx="10" fill="url(#sw-neon-cyber)"/>
+<rect x="296" y="290" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="310" cy="348" r="5" fill="#f72585"/>
+<text x="360" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Neon Cyber</text>
+<rect x="432" y="290" width="128" height="72" rx="10" fill="url(#sw-deep-ocean)"/>
+<rect x="432" y="290" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="446" cy="348" r="5" fill="#0a9396"/>
+<text x="496" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Deep Ocean</text>
+<rect x="568" y="290" width="128" height="72" rx="10" fill="url(#sw-cotton-candy)"/>
+<rect x="568" y="290" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="582" cy="348" r="5" fill="#e8a7f3"/>
+<text x="632" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Cotton Candy</text>
+<rect x="704" y="290" width="128" height="72" rx="10" fill="url(#sw-lava-flow)"/>
+<rect x="704" y="290" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="718" cy="348" r="5" fill="#ff4d00"/>
+<text x="768" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Lava Flow</text>
+<rect x="840" y="290" width="128" height="72" rx="10" fill="url(#sw-northern-mist)"/>
+<rect x="840" y="290" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="854" cy="348" r="5" fill="#5bc0be"/>
+<text x="904" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Northern Mist</text>
+<rect x="976" y="290" width="128" height="72" rx="10" fill="url(#sw-mesh-prism)"/>
+<rect x="976" y="290" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="990" cy="348" r="5" fill="#7873f5"/>
+<text x="1040" y="376" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Mesh Prism</text>
+<text x="24" y="418" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#8b949e">HOLIDAYS · 13</text>
+<rect x="24" y="430" width="128" height="72" rx="10" fill="url(#sw-halloween)"/>
+<rect x="24" y="430" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="38" cy="488" r="5" fill="#ff7518"/>
+<text x="88" y="516" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Halloween</text>
+<rect x="160" y="430" width="128" height="72" rx="10" fill="url(#sw-christmas)"/>
+<rect x="160" y="430" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="174" cy="488" r="5" fill="#c73e3e"/>
+<text x="224" y="516" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Christmas</text>
+<rect x="296" y="430" width="128" height="72" rx="10" fill="url(#sw-new-year-eve)"/>
+<rect x="296" y="430" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="310" cy="488" r="5" fill="#f5d061"/>
+<text x="360" y="516" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">New Year's Eve</text>
+<rect x="432" y="430" width="128" height="72" rx="10" fill="url(#sw-valentines-day)"/>
+<rect x="432" y="430" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="446" cy="488" r="5" fill="#ff4d8d"/>
+<text x="496" y="516" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Valentine's Day</text>
+<rect x="568" y="430" width="128" height="72" rx="10" fill="url(#sw-easter-spring)"/>
+<rect x="568" y="430" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="582" cy="488" r="5" fill="#7bd389"/>
+<text x="632" y="516" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Easter Spring</text>
+<rect x="704" y="430" width="128" height="72" rx="10" fill="url(#sw-autumn-harvest)"/>
+<rect x="704" y="430" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="718" cy="488" r="5" fill="#d2691e"/>
+<text x="768" y="516" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Autumn Harvest</text>
+<rect x="840" y="430" width="128" height="72" rx="10" fill="url(#sw-st-patricks)"/>
+<rect x="840" y="430" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="854" cy="488" r="5" fill="#1faf5a"/>
+<text x="904" y="516" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">St. Patrick's</text>
+<rect x="976" y="430" width="128" height="72" rx="10" fill="url(#sw-independence-day-usa)"/>
+<rect x="976" y="430" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="990" cy="488" r="5" fill="#c93042"/>
+<text x="1040" y="516" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Independence Day</text>
+<rect x="24" y="532" width="128" height="72" rx="10" fill="url(#sw-lunar-new-year)"/>
+<rect x="24" y="532" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="38" cy="590" r="5" fill="#d4202c"/>
+<text x="88" y="618" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Lunar New Year</text>
+<rect x="160" y="532" width="128" height="72" rx="10" fill="url(#sw-diwali)"/>
+<rect x="160" y="532" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="174" cy="590" r="5" fill="#ff9f1c"/>
+<text x="224" y="618" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Diwali</text>
+<rect x="296" y="532" width="128" height="72" rx="10" fill="url(#sw-eid-ramadan)"/>
+<rect x="296" y="532" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="310" cy="590" r="5" fill="#d9b44a"/>
+<text x="360" y="618" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Eid &amp; Ramadan</text>
+<rect x="432" y="532" width="128" height="72" rx="10" fill="url(#sw-nowruz-spring)"/>
+<rect x="432" y="532" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="446" cy="590" r="5" fill="#3fbf7f"/>
+<text x="496" y="618" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Nowruz Spring</text>
+<rect x="568" y="532" width="128" height="72" rx="10" fill="url(#sw-winter-frost)"/>
+<rect x="568" y="532" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="582" cy="590" r="5" fill="#67e8f9"/>
+<text x="632" y="618" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Winter Frost</text>
+<text x="24" y="660" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#8b949e">STYLES · 10</text>
+<rect x="24" y="672" width="128" height="72" rx="10" fill="url(#sw-cyberpunk-city)"/>
+<rect x="24" y="672" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="38" cy="730" r="5" fill="#ff2a6d"/>
+<text x="88" y="758" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Cyberpunk City</text>
+<rect x="160" y="672" width="128" height="72" rx="10" fill="url(#sw-retro-synthwave)"/>
+<rect x="160" y="672" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="174" cy="730" r="5" fill="#ff3cac"/>
+<text x="224" y="758" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Retro Synthwave</text>
+<rect x="296" y="672" width="128" height="72" rx="10" fill="url(#sw-terminal-hacker)"/>
+<rect x="296" y="672" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="310" cy="730" r="5" fill="#00ff66"/>
+<text x="360" y="758" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Terminal Hacker</text>
+<rect x="432" y="672" width="128" height="72" rx="10" fill="url(#sw-glassmorphism)"/>
+<rect x="432" y="672" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="446" cy="730" r="5" fill="#a68bff"/>
+<text x="496" y="758" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Glassmorphism</text>
+<rect x="568" y="672" width="128" height="72" rx="10" fill="url(#sw-neumorphism-soft)"/>
+<rect x="568" y="672" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="582" cy="730" r="5" fill="#8fa7ff"/>
+<text x="632" y="758" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Neumorphism Soft</text>
+<rect x="704" y="672" width="128" height="72" rx="10" fill="url(#sw-zen-minimal)"/>
+<rect x="704" y="672" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="718" cy="730" r="5" fill="#e8e4d8"/>
+<text x="768" y="758" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Zen Minimal</text>
+<rect x="840" y="672" width="128" height="72" rx="10" fill="url(#sw-space-galaxy)"/>
+<rect x="840" y="672" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="854" cy="730" r="5" fill="#7c5cff"/>
+<text x="904" y="758" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Space Galaxy</text>
+<rect x="976" y="672" width="128" height="72" rx="10" fill="url(#sw-vintage-paper)"/>
+<rect x="976" y="672" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="990" cy="730" r="5" fill="#e0b352"/>
+<text x="1040" y="758" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Vintage Paper</text>
+<rect x="24" y="774" width="128" height="72" rx="10" fill="url(#sw-steampunk)"/>
+<rect x="24" y="774" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="38" cy="832" r="5" fill="#d4af37"/>
+<text x="88" y="860" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#c9d1d9">Steampunk</text>
+<rect x="160" y="774" width="128" height="72" rx="10" fill="url(#sw-high-contrast-accessible)"/>
+<rect x="160" y="774" width="128" height="72" rx="10" fill="none" stroke="#30363d" stroke-width="1"/>
+<circle cx="174" cy="832" r="5" fill="#ffff00"/>
+<text x="224" y="860" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#c9d1d9">High Contrast (Accessible)</text>
+</svg>

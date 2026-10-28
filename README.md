@@ -1,34 +1,60 @@
+<div align="center">
+
+<img src="public/logo.svg" width="108" alt="PreStream" />
+
 # PreStream
 
 A streaming front-end for the PrimeWire catalog — fast search, a multi-provider
 player, watchlists and full account sync in a clean, modern interface.
 
-**Live:** https://prestream.dpdns.org
+[![Live demo](https://img.shields.io/badge/live-demo-00C896?style=for-the-badge&logo=firefox&logoColor=white)](https://prestream.dpdns.org)
+[![Next.js 16](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org)
+[![React 19](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=000)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS_4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-3DA639?style=for-the-badge)](LICENSE)
 
-## Features
+**Try it live → <https://prestream.dpdns.org>**
+
+</div>
+
+---
+
+## ✨ Features
 
 **Watch**
-- Multi-provider player: VidSrc, VidLink, VidFast, 2Embed, Videm and Videasy, plus PrimeWire's own hosts — switch sources mid-watch with one click
+- Multi-provider player — VidSrc, VidLink, VidFast, 2Embed, Videm and Videasy, plus PrimeWire's own hosts; switch sources mid-watch with one click
 - Watch progress syncs to your PrimeWire account; episode tracker for shows
 - Trailer playback on detail pages
 
 **Discover**
 - Cinematic home feed with curated rows
-- Faceted browse: type, genre, year, rating, country, cast, sort
-- Instant search (Ctrl+K) with autocomplete
+- Faceted browse — type, genre, year, rating, country, cast, sort
+- Instant search (`Ctrl`+`K`) with autocomplete
 - Airing-schedule calendar
 - Detail pages: ratings, cast, seasons, comments
 
 **Organize**
 - Watchlist and library statuses
-- Drag-and-drop playlists
+- Playlists — build, curate and share collections
 - Account hub: feed, messages, notifications, friends, forum, public profiles
 
 **Personalize**
-- 40 themes (gradients, styles, holiday specials), all WCAG contrast-checked
+- 40 hand-tuned themes, all WCAG contrast-checked
 - Guest mode — everything that doesn't need an account works without one
 
-## Tech stack
+## 🎨 Themes
+
+Nine base palettes, eight gradient atmospheres, thirteen holiday specials and
+ten distinct styles — each with its own typography, textures and motion.
+Every theme ships in light and dark, and every pairing is contrast-verified
+(`scripts/verify-theme-contrast.ts`).
+
+<div align="center">
+<img src="docs/assets/themes.svg" alt="All 40 theme palettes" width="880"/>
+</div>
+
+## 🛠 Tech stack
 
 | Layer | Tools |
 | --- | --- |
@@ -38,7 +64,7 @@ player, watchlists and full account sync in a clean, modern interface.
 | Backend | Route handlers, cheerio, Prisma + SQLite |
 | Deploy | Standalone build, Render blueprint |
 
-## Getting started
+## 🚀 Getting started
 
 ```bash
 git clone https://github.com/Abdullayews/PreStream.git
@@ -67,9 +93,9 @@ sync, or keep browsing as a guest.
 | `PRESTREAM_SELF_PING_URL` | auto-detected | URL the keep-alive loop pings once a minute |
 | `PRESTREAM_SELF_PING` | — | Set to `off` to disable the keep-alive loop |
 
-## Deploy
+## ☁️ Deploy
 
-The repo ships a [`render.yaml`](render.yaml) blueprint: Node 22, free plan,
+The repo ships a [`render.yaml`](render.yaml) blueprint — Node 22, free plan,
 `/api/health` health check, no configuration required.
 
 [![Deploy to Render](https://img.shields.io/badge/Deploy_to_Render-23272f?style=for-the-badge&logo=render&logoColor=white)](https://render.com/deploy?repo=https%3A%2F%2Fgithub.com%2FAbdullayews%2FPreStream)
@@ -81,7 +107,7 @@ Any other Node host works too — `npm run build` + `npm run start`.
 > The built-in keep-alive loop pings `/api/health` once a minute so the
 > instance never sleeps.
 
-## Project structure
+## 📁 Project structure
 
 ```
 src/
@@ -94,7 +120,7 @@ prisma/schema.prisma  # Profile model
 scripts/              # theme generator + contrast checker
 ```
 
-## API overview
+## 🔌 API overview
 
 | Route | Returns |
 | --- | --- |
@@ -110,20 +136,20 @@ scripts/              # theme generator + contrast checker
 | `POST /api/users/register` | Local profile registry |
 | `GET /api/health` | Liveness probe — `{ ok, uptimeSec }` |
 
-## Roadmap
+## 🗺 Roadmap
 
 - [ ] PostgreSQL adapter for persistent deploys
 - [ ] Docker setup
 - [ ] E2E test suite
 - [ ] i18n (`next-intl`)
 
-## Disclaimer
+## ⚖️ Disclaimer
 
 PreStream is an independent, open-source project and is not affiliated with
 PrimeWire or any streaming provider. It hosts no video files — it is a
 front-end that surfaces catalog metadata and third-party embeds. Use
 responsibly and in accordance with your local laws.
 
-## License
+## 📄 License
 
 MIT — see [LICENSE](LICENSE).
