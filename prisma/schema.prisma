@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/**
+ * A per-user profile keyed by our app token (apiKey).
+ * The user signs in with their PrimeWire account; we store the PrimeWire
+ * session cookie (never the password) plus cached identity fields.
+ * Theme + local watchlist are cached per user.
+ */
+model Profile {
+  id        String   @id @default(cuid())
+  /** Our app token — the client keeps this and uses it for all /api calls. */
+  apiKey    String   @unique
+  /** Legacy free-form display name (no longer collected — username comes from PrimeWire). */
+  name      String?
+  /** PrimeWire username (from the signed-in account). */
+  username  String?  @unique
+  /** PrimeWire numeric user id. */
+  pwUserId  Int?
+  /** PrimeWire session cookie value (_primewire_key). */
+  pwSession String?
+  /** PrimeWire per-user API key (fetched from their settings page). */
+  pwApiKey  String?
+  /** Avatar image path on PrimeWire, e.g. "/avatar/noavatar.jpg". */
+  avatar    String?
+  themeId   String   @default("mono")
+  /** JSON-encoded watchlist items (MediaItem[]) */
+  watchlist String   @default("[]")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
