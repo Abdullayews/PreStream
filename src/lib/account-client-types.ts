@@ -31,6 +31,7 @@ import type {
   WallPost,
 } from "@/lib/primewire/account-types";
 import type { MediaItem, ScheduleDay } from "@/lib/primewire/types";
+import { PRIMARY_MIRROR } from "@/lib/primewire/mirrors";
 
 export type {
   CommentsFeedResponse,
@@ -207,5 +208,5 @@ export function avatarUrl(
 
 /** Absolute PrimeWire profile URL for a username. */
 export function primewireUserUrl(username: string): string {
-  return `https://primewire.pw/user/${encodeURIComponent(username)}`;
+  return `${PRIMARY_MIRROR}/user/${encodeURIComponent(username)}`;
 }

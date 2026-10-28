@@ -130,7 +130,7 @@ export async function pwLogin(login: string, password: string): Promise<LoginRes
   }
   if (res.status === 302 || res.status === 303) {
     if (landing && landing.includes(CONFIRM_REDIRECT)) {
-      throw new LoginError('This PrimeWire account still needs email confirmation. Confirm it on primewire.pw first.', 403);
+      throw new LoginError(`This PrimeWire account still needs email confirmation. Confirm it on ${PRIMARY_MIRROR.replace('https://', '')} first.`, 403);
     }
     if (landing && landing.includes(LOGIN_REDIRECT)) {
       throw new LoginError('Wrong email/username or password');

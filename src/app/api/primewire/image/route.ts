@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { PRIMARY_MIRROR } from '@/lib/primewire/mirrors';
+
 export const dynamic = 'force-dynamic';
 
 /**
@@ -35,7 +37,7 @@ export async function GET(req: NextRequest) {
   } else if (AVATAR_PATH_RE.test(rawPath)) {
     // cache-bust: PrimeWire keeps the same URL when the avatar changes
     const bust = sp.get('v');
-    upstreamUrl = `https://primewire.pw${rawPath}${bust ? `?v=${encodeURIComponent(bust)}` : ''}`;
+    upstreamUrl = `${PRIMARY_MIRROR}${rawPath}${bust ? `?v=${encodeURIComponent(bust)}` : ''}`;
   }
 
   if (!upstreamUrl) {

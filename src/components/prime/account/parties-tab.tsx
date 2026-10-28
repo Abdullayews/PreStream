@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useAccount } from "../hooks/use-account";
 import type { PartiesResponse } from "@/lib/account-client-types";
 import { TabEmpty, TabError, TabLoading } from "./account-states";
+import { PRIMARY_MIRROR } from "@/lib/primewire/mirrors";
 
 /** Active PrimeWire watch parties — synced viewing rooms. */
 export function PartiesTab() {
@@ -28,7 +29,7 @@ export function PartiesTab() {
       <TabEmpty
         icon={PartyPopper}
         title="No watch parties right now"
-        description="Watch parties are synced viewing rooms on PrimeWire. Start one from any streaming link on primewire.pw, or check back later to join an open party."
+        description={`Watch parties are synced viewing rooms on PrimeWire. Start one from any streaming link on ${PRIMARY_MIRROR.replace("https://", "")}, or check back later to join an open party.`}
       />
     );
   }

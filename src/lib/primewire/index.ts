@@ -7,6 +7,7 @@
  */
 import { coalesce } from './cache';
 import { detailPath, fetchPage, searchSignature, sourceUrl, PRIMARY_MIRROR, PrimeWireError } from './client';
+import { PLAYER_MIRROR } from './mirrors';
 import {
   embedParams, parseDetailPage, parseEmbedPath, parseListPage, parsePlaylistDetailPage,
   parsePlaylistsPage, parseSchedulePage,
@@ -230,7 +231,7 @@ export async function getHome(): Promise<HomeResponse> {
  *    through the player's own in-frame server menu (which is why our UI
  *    leaves it uncovered).
  */
-const PLAYER_ORIGIN = 'https://primewire.zip';
+const PLAYER_ORIGIN = PLAYER_MIRROR;
 
 /** Re-host a parsed /embed/… path on the PrimeSrc origin. */
 function playerEmbedUrl(embedPath: string): string {

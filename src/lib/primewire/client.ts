@@ -1,13 +1,15 @@
 /**
  * PrimeWire HTTP client — mirror failover, browser-like headers, timeouts.
  * Notes:
- *  - Working mirrors: primewire.pw (primary), primewire.zip (fallback)
- *  - No JS challenge on these mirrors; plain HTTP works
+ *  - Mirror list lives in ./mirrors (single source of truth)
+ *  - No JS challenge on the current mirrors; plain HTTP works
  *  - Title search requires `ds` param = sha1(s + SALT).slice(0, 10)
  */
 import { createHash } from 'crypto';
 
-const MIRRORS = ['https://primewire.pw', 'https://primewire.zip'] as const;
+import { MIRRORS, PRIMARY_MIRROR } from './mirrors';
+
+export { PRIMARY_MIRROR };
 
 /** Salt used by PrimeWire's own JS to sign search terms. */
 const SEARCH_SALT = 'JyjId97F9PVqUPuMO0';
@@ -94,12 +96,10 @@ export async function fetchPage(
 
 /** Build the PrimeWire source URL (for "Watch on PrimeWire" links). */
 export function sourceUrl(type: 'movie' | 'tv', id: number, slug: string): string {
-  return `${MIRRORS[0]}/${type}/${id}-${slug}`;
+  return `${PRIMARY_MIRROR}/${type}/${id}-${slug}`;
 }
 
 /** Canonical path for a detail page (id + slug; PrimeWire redirects dummy slugs to canonical). */
 export function detailPath(type: 'movie' | 'tv', id: number, slug: string): string {
   return `/${type}/${id}-${slug || 'x'}`;
 }
-
-export const PRIMARY_MIRROR = MIRRORS[0];

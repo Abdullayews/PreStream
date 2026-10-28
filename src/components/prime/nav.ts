@@ -9,6 +9,8 @@
  */
 import type { useRouter } from "next/navigation";
 
+import { PRIMARY_MIRROR } from "@/lib/primewire/mirrors";
+
 export type NavRouter = ReturnType<typeof useRouter>;
 
 /** Params that the browse view understands (URL-level, all optional). */
@@ -157,7 +159,7 @@ export function primewireUrl(item: {
   id: number | string;
   slug: string;
 }): string {
-  return `https://primewire.pw/${item.type}/${item.id}-${item.slug}`;
+  return `${PRIMARY_MIRROR}/${item.type}/${item.id}-${item.slug}`;
 }
 
 /* ---------------- account hub (?view=account&tab=…) ---------------- */
