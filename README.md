@@ -1,18 +1,20 @@
 # PreStream — Rust rewrite
 
-The TypeScript app on `main` works and stays the reference. This branch is
-where the Rust port lands.
+Every time machine gets built twice: first in the imagination, then in
+brass. The TypeScript app on `main` is the present, and it keeps running.
+This branch is the machine being assembled to replace it.
 
-## Scope
+## The build
 
-- `primewire-core` — the scraping client (parsers, mirror failover, session
-  handling) rebuilt on tokio + scraper, with 1:1 behavior parity
-- `frontend` — Leptos compiled to WASM, same routes, same 40 themes
+- `primewire-core` — the scraping client rebuilt on tokio + scraper:
+  parsers, mirror failover, session handling. Same behavior, 1:1 — a
+  hotter engine under the same hood.
+- `frontend` — Leptos compiled to WASM. Same routes, same 40 themes.
 
-Same public API and the same embed providers. No feature changes: parity
-first, then performance.
+No features added, none removed. The dials read the same; only the
+machinery underneath changes.
 
 ## Status
 
-Early. Parser ports are underway; code gets pushed here as soon as it is
-presentable.
+Gears are being cut — parser ports are underway. Code lands here as soon
+as the machine is presentable. Until then, the present lives on `main`.
