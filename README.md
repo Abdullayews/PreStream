@@ -153,3 +153,6 @@ responsibly and in accordance with your local laws.
 ## 📄 License
 
 MIT — see [LICENSE](LICENSE).
+
+> 🍿 Looking for the original classic release? It lives on in
+> [PreStream-old](https://github.com/Abdullayews/PreStream-old).
