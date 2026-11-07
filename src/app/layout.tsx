@@ -1,25 +1,49 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/prime/providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/* Type system — "Aurora" voice:
+   - Space Grotesk: the display voice (headings, brand, big numerals) —
+     geometric, slightly retro-cinematic, unmistakably not-default.
+   - Inter: the reading voice (body, UI labels) — quiet and legible.
+   - JetBrains Mono: keyboard hints and data chips. */
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const jetMono = JetBrains_Mono({
+  variable: "--font-jet-mono",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "PreStream",
+  title: {
+    default: "PreStream — your screening room",
+    template: "%s · PreStream",
+  },
   description:
-    "A modern way to browse the PrimeWire catalog: movies, TV shows, ratings, cast and trailers.",
+    "A cinematic way to browse the PrimeWire catalog: movies, TV shows, ratings, cast and trailers — with watchlists, playlists and full account sync.",
+  applicationName: "PreStream",
   icons: {
     icon: "/logo.svg",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#15161f" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f4ee" },
+  ],
 };
 
 export default function RootLayout({
@@ -61,7 +85,7 @@ if(known.split(" ").indexOf(id)>=0)t.dataset.theme=id;
           strictly. */}
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${jetMono.variable} font-sans antialiased bg-background text-foreground`}
       >
         <Providers>{children}</Providers>
       </body>

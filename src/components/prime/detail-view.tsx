@@ -190,7 +190,7 @@ export function DetailView({
   return (
     <div>
       {/* ---------------- hero band ---------------- */}
-      <div className="relative h-[42vh] min-h-[320px] w-full overflow-hidden">
+      <div className="relative h-[46vh] min-h-[340px] w-full overflow-hidden">
         {backdrop && (
           <img
             src={backdrop}
@@ -201,6 +201,11 @@ export function DetailView({
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/50 via-transparent to-transparent" />
+        {/* faint accent beam along the top of the band */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"
+        />
 
         <button
           type="button"
@@ -229,7 +234,6 @@ export function DetailView({
               </div>
             )}
           </div>
-
           <div className="min-w-0 flex-1 pb-2 sm:pt-16 md:pt-24">
             <h1 className="text-balance text-3xl font-bold tracking-tight md:text-5xl">
               {data.title}
@@ -295,7 +299,7 @@ export function DetailView({
                     : null;
                 return (
                   <Button
-                    className="h-11 rounded-full bg-foreground px-6 text-sm font-semibold text-background hover:bg-foreground/85"
+                    className="h-11 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:brightness-110"
                     onClick={() =>
                       toPlayer(router, {
                         type: data.type,
@@ -399,7 +403,7 @@ export function DetailView({
                     <div
                       key={`${episode.season}-${episode.number}`}
                       className={cn(
-                        "flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3 transition-colors hover:border-foreground/25",
+                        "flex items-center gap-3 rounded-xl border border-border/60 bg-card p-3 transition-all hover:border-primary/40 hover:shadow-lg hover:shadow-black/10",
                         !episode.released && "opacity-60",
                       )}
                     >
@@ -452,7 +456,7 @@ export function DetailView({
                           })
                         }
                         aria-label={`Play ${data.title} season ${episode.season} episode ${episode.number}`}
-                        className="flex size-11 shrink-0 items-center justify-center rounded-full bg-foreground text-background transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md shadow-primary/25 transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       >
                         <Play className="size-4 fill-current" aria-hidden />
                       </button>

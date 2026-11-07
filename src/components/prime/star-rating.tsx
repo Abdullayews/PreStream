@@ -4,8 +4,9 @@ import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Five-star rating display (0–5 scale) in crisp monochrome —
- * filled foreground stars with a clipped overlay for fractional values.
+ * Five-star rating display (0–5 scale) in signature gold — the only gold
+ * element in the Aurora system, so score signals read instantly. Filled
+ * stars with a clipped overlay for fractional values.
  *
  * The fill overlay clips a NON-SHRINKING copy of the star row: the inner
  * row is `w-max` and every star `shrink-0`, so each filled star sits at
@@ -44,7 +45,7 @@ export function StarRating({
     >
       <span className="relative inline-flex leading-none">
         {/* empty track */}
-        <span className="flex gap-0.5 text-muted-foreground/40">
+        <span className="flex gap-0.5 text-foreground/25">
           {Array.from({ length: 5 }).map((_, i) => (
             <Star key={i} className={cn(iconClass, "shrink-0")} aria-hidden />
           ))}
@@ -55,11 +56,11 @@ export function StarRating({
           className="absolute inset-0 overflow-hidden"
           style={{ width: `${percent}%` }}
         >
-          <span className="flex w-max gap-0.5 text-foreground">
+          <span className="flex w-max gap-0.5 text-star">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
                 key={i}
-                className={cn(iconClass, "shrink-0 fill-foreground")}
+                className={cn(iconClass, "shrink-0 fill-star")}
               />
             ))}
           </span>

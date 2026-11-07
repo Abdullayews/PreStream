@@ -138,8 +138,9 @@ export function PlaylistDetail({
       {/* heading */}
       <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
         <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Community Playlist
+          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            <span className="h-px w-6 bg-gradient-to-r from-primary to-transparent" aria-hidden />
+            <span className="text-brand-gradient">Community</span> Playlist
           </p>
           <SectionTitle as="h1" className="mt-2 text-2xl sm:text-3xl md:text-4xl">
             {data.title}

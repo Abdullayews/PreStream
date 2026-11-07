@@ -22,13 +22,17 @@ export function PageSkeleton() {
 function SkeletonRow() {
   return (
     <div>
-      <Skeleton className="mb-3 h-6 w-52" />
+      <div className="mb-3 flex items-center gap-2.5">
+        <Skeleton className="h-5 w-1 rounded-full" />
+        <Skeleton className="h-6 w-52" />
+      </div>
       <div className="flex gap-3 overflow-hidden">
         {Array.from({ length: 6 }).map((_, i) => (
-          <Skeleton
-            key={i}
-            className="aspect-[2/3] w-[150px] shrink-0 rounded-xl sm:w-[170px] md:w-[190px]"
-          />
+          <div key={i} className="w-[150px] shrink-0 sm:w-[170px] md:w-[190px]">
+            <Skeleton className="aspect-[2/3] w-full rounded-xl" />
+            <Skeleton className="mt-2.5 h-4 w-4/5" />
+            <Skeleton className="mt-1.5 h-3 w-1/2" />
+          </div>
         ))}
       </div>
     </div>
@@ -39,7 +43,18 @@ function SkeletonRow() {
 export function HomeSkeleton() {
   return (
     <div aria-busy="true" aria-label="Loading home">
-      <Skeleton className="h-[70vh] max-h-[640px] min-h-[480px] w-full rounded-none" />
+      <div className="relative h-[70vh] max-h-[640px] min-h-[480px] w-full overflow-hidden">
+        <Skeleton className="absolute inset-0 rounded-none" />
+        <div className="absolute inset-x-0 bottom-0 mx-auto flex max-w-7xl flex-col gap-4 px-4 pb-14 sm:px-6">
+          <Skeleton className="h-3.5 w-40 rounded-full" />
+          <Skeleton className="h-12 w-3/4 max-w-xl md:h-16" />
+          <Skeleton className="h-4 w-56" />
+          <div className="flex gap-3 pt-2">
+            <Skeleton className="h-12 w-44 rounded-full" />
+            <Skeleton className="h-12 w-32 rounded-full" />
+          </div>
+        </div>
+      </div>
       <div className="mx-auto max-w-7xl space-y-10 px-4 py-8 sm:px-6">
         <SkeletonRow />
         <SkeletonRow />
@@ -61,7 +76,11 @@ export function BrowseSkeleton({ className }: { className?: string }) {
       )}
     >
       {Array.from({ length: 24 }).map((_, i) => (
-        <Skeleton key={i} className="aspect-[2/3] w-full rounded-xl" />
+        <div key={i}>
+          <Skeleton className="aspect-[2/3] w-full rounded-xl" />
+          <Skeleton className="mt-2.5 h-4 w-4/5" />
+          <Skeleton className="mt-1.5 h-3 w-1/2" />
+        </div>
       ))}
     </div>
   );

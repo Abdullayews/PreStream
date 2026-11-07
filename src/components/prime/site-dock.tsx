@@ -76,10 +76,12 @@ function useDockClearance(ref: React.RefObject<HTMLDivElement | null>) {
 }
 
 /**
- * Floating glass dock — the primary navigation, Shiopa-style.
- * Fixed to the bottom of the viewport, centered, with a spring-loaded
- * active pill and tooltips on hover. Active states use theme tokens so
- * the selected theme colors the dock.
+ * Floating glass dock — the primary navigation, Aurora cut.
+ * Fixed to the bottom of the viewport, centered. The active destination
+ * is marked by a shared-layout pill that GLIDES between items (framer
+ * layoutId), plus a small dot beneath. Hovering lifts the icon and shows
+ * a glass tooltip. Active states use theme tokens so the selected theme
+ * colors the dock.
  *
  * Width audit (390px viewport): 8 targets × 44px + gap-0.5 + hairline
  * separator + p-1.5 → ~383px, fitting with a small margin.
@@ -136,7 +138,7 @@ export function SiteDock() {
         initial={{ y: 80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 26, delay: 0.15 }}
-        className="glass pointer-events-auto flex items-end gap-0.5 rounded-[1.5rem] p-1.5"
+        className="glass glass-rim pointer-events-auto flex items-end gap-0.5 rounded-[1.75rem] p-1.5"
         onMouseLeave={() => setHovered(null)}
       >
         {DOCK_ITEMS.map((item) => {
@@ -218,7 +220,7 @@ function DockButton({
     <div className="relative flex flex-col items-center">
       {/* tooltip */}
       <AnimatePresence>
-        {hovered && (
+        {hovered && !active && (
           <motion.span
             initial={{ opacity: 0, y: 6, scale: 0.94 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -241,19 +243,28 @@ function DockButton({
         className={cn(
           "relative flex size-11 items-center justify-center rounded-2xl transition-all duration-200",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          hovered && "-translate-y-1.5 scale-110",
+          hovered && !active && "-translate-y-1.5 scale-110 text-glass-foreground",
           active
-            ? "bg-primary text-primary-foreground"
+            ? "text-primary-foreground"
             : "text-glass-foreground/70 hover:text-glass-foreground",
         )}
       >
-        {children}
+        {/* shared-layout active pill — glides between dock items */}
+        {active && (
+          <motion.span
+            layoutId="dock-active-pill"
+            transition={{ type: "spring", stiffness: 420, damping: 32 }}
+            className="absolute inset-0 rounded-2xl bg-primary shadow-lg shadow-primary/30"
+            aria-hidden
+          />
+        )}
+        <span className="relative z-10">{children}</span>
         {badge != null && (
           <span
             aria-hidden
             className={cn(
-              "absolute -top-0.5 -right-0.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full px-1 text-[10px] font-bold",
-              "bg-primary text-primary-foreground",
+              "absolute -top-0.5 -right-0.5 z-10 flex h-4.5 min-w-4.5 items-center justify-center rounded-full px-1 text-[10px] font-bold",
+              "bg-primary text-primary-foreground ring-2 ring-glass",
             )}
           >
             {badge > 99 ? "99+" : badge}
@@ -265,7 +276,7 @@ function DockButton({
       <span
         aria-hidden
         className={cn(
-          "-mt-0.5 h-1 w-1 rounded-full bg-glass-foreground transition-all duration-300",
+          "-mt-0.5 h-1 w-1 rounded-full bg-primary transition-all duration-300",
           active ? "opacity-100" : "opacity-0",
         )}
       />

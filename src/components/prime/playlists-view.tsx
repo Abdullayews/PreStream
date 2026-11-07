@@ -139,7 +139,7 @@ function PlaylistCard({ playlist }: { playlist: PlaylistSummary }) {
       aria-label={`Open playlist: ${playlist.title}`}
       className="group relative w-full cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-2xl"
     >
-      <div className="relative aspect-[2/3] w-full overflow-hidden rounded-2xl bg-card ring-1 ring-foreground/10 transition-all duration-300 group-hover:ring-foreground/30 group-hover:shadow-lg group-hover:shadow-black/20 dark:ring-white/5 dark:group-hover:ring-white/25">
+      <div className="relative aspect-[2/3] w-full overflow-hidden rounded-xl bg-card ring-1 ring-foreground/10 transition-all duration-300 group-hover:ring-primary/50 group-hover:shadow-xl group-hover:shadow-black/20 dark:ring-white/8 dark:group-hover:ring-primary/60">
         {poster ? (
           <img
             src={poster}
