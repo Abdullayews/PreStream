@@ -20,6 +20,12 @@ player, watchlists and full account sync in a clean, modern interface.
 
 ---
 
+## 📸 Screenshots
+
+| Home — cinematic hero & Top 10 | Episodes — season tracker & link counts |
+| :---: | :---: |
+| <img src="docs/assets/screenshot-home.jpg" alt="PreStream home screen with featured hero carousel and Top 10 today row" width="460"/> | <img src="docs/assets/screenshot-episodes.jpg" alt="PreStream episode list with watched checkmarks, air dates and play links" width="460"/> |
+
 ## ✨ Features
 
 **Watch**
@@ -153,6 +159,3 @@ responsibly and in accordance with your local laws.
 ## 📄 License
 
 MIT — see [LICENSE](LICENSE).
-
-> 🍿 Looking for the original classic release? It lives on in
-> [PreStream-old](https://github.com/Abdullayews/PreStream-old).
