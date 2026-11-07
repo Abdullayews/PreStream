@@ -1,17 +1,42 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 /* Theme engine: generated per-theme token blocks (all 40 themes) + ambient decor keyframes.
-   The neutral foundation below is what users see by default; every themed
+   The neutral foundation below is the default "Basement" look; every themed
    block in themes.generated.css overrides these tokens via [data-theme]. */
 @import "../themes/themes.generated.css";
 @import "../themes/decor.css";
+
+/* ------------------------------------------------------------------ */
+/* Cabinet Grotesk — display voice (self-hosted, latin subset)          */
+/* ------------------------------------------------------------------ */
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("/fonts/cabinet-grotesk/cg-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("/fonts/cabinet-grotesk/cg-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("/fonts/cabinet-grotesk/cg-800.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-outfit);
   --font-mono: var(--font-jet-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -53,21 +78,19 @@
 }
 
 /*
- * PreStream "Aurora" — the v3 design language.
+ * PreStream "Basement" design language.
  *
- * Identity: a cinematic screening room. A deep indigo-black stage that lets
- * poster art carry the color, warm ivory type with a display-serif-free
- * geometric voice (Space Grotesk), and ONE signature accent — coral-rose —
- * borrowed from the brand mark's rose→amber gradient. Gold is reserved
- * exclusively for ratings so score signals read instantly.
- *
- * Surfaces sit on a fixed aurora gradient field (body::before/::after):
- * two ultra-soft radial washes of the accent that drift imperceptibly —
- * pure transform/opacity, paused for reduced-motion, invisible in print.
+ * A near-black stage (rgb 8 9 11) with warm bone type (rgb 242 241 236),
+ * one quiet surface ramp (#111216 → #18191e), hairline white-alpha
+ * borders, and pill-shaped controls everywhere. The display voice is
+ * Cabinet Grotesk (self-hosted); the UI voice is Outfit. The primary
+ * action is INVERTED — a bone-filled pill with dark text — exactly like
+ * the reference. No accent color: hierarchy comes from weight and size.
+ * (This is the neutral default; the 40 themes override these tokens.)
  */
 
 :root {
-  --radius: 1rem;
+  --radius: 0.85rem; /* 13.6px — poster artwork corner */
   color-scheme: light;
   /* Dock clearance — the floating bottom dock's on-screen footprint.
      The SiteDock component measures the real value at runtime and sets
@@ -76,83 +99,84 @@
      even before JavaScript runs. */
   --dock-clearance: calc(62px + max(1rem, env(safe-area-inset-bottom, 0px)));
 
-  /* ---- stage: warm paper light ---- */
-  --background: oklch(0.977 0.005 85);
-  --foreground: oklch(0.21 0.014 275);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.21 0.014 275);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.21 0.014 275);
-  --primary: oklch(0.6 0.199 21);
-  --primary-foreground: oklch(0.985 0.005 85);
-  --secondary: oklch(0.945 0.007 85);
-  --secondary-foreground: oklch(0.21 0.014 275);
-  --muted: oklch(0.945 0.007 85);
-  --muted-foreground: oklch(0.5 0.012 275);
-  --accent: oklch(0.93 0.012 60);
-  --accent-foreground: oklch(0.21 0.014 275);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.895 0.008 85);
-  --input: oklch(0.9 0.008 85);
-  --ring: oklch(0.6 0.199 21);
-  --surface: oklch(0.958 0.006 85);
-  --glass: oklch(1 0 0 / 0.74);
-  --glass-foreground: oklch(0.21 0.014 275);
-  /* gold — ratings only */
-  --star: oklch(0.74 0.16 80);
-  --chart-1: oklch(0.6 0.199 21);
-  --chart-2: oklch(0.55 0.12 275);
-  --chart-3: oklch(0.65 0.08 85);
-  --chart-4: oklch(0.8 0.06 60);
-  --chart-5: oklch(0.9 0.03 60);
-  --sidebar: oklch(0.965 0.006 85);
-  --sidebar-foreground: oklch(0.21 0.014 275);
-  --sidebar-primary: oklch(0.6 0.199 21);
-  --sidebar-primary-foreground: oklch(0.985 0.005 85);
-  --sidebar-accent: oklch(0.94 0.01 60);
-  --sidebar-accent-foreground: oklch(0.21 0.014 275);
-  --sidebar-border: oklch(0.895 0.008 85);
-  --sidebar-ring: oklch(0.6 0.199 21);
+  /* ---- warm paper light (inverted ramp of the dark stage) ---- */
+  --background: #f4f3ef;
+  --foreground: #101113;
+  --card: #ffffff;
+  --card-foreground: #101113;
+  --popover: #ffffff;
+  --popover-foreground: #101113;
+  --primary: #101113;
+  --primary-foreground: #f4f3ef;
+  --secondary: #ebe9e2;
+  --secondary-foreground: #101113;
+  --muted: #ebe9e2;
+  --muted-foreground: #6b6b67;
+  --accent: #e6e4dc;
+  --accent-foreground: #101113;
+  --destructive: #e44f4f;
+  --border: oklch(0.16 0.004 90 / 12%);
+  --input: oklch(0.16 0.004 90 / 14%);
+  --ring: oklch(0.16 0.004 90 / 45%);
+  --surface: #edede8;
+  --glass: oklch(0.975 0.004 90 / 0.82);
+  --glass-foreground: #101113;
+  /* rating marks — bone on dark, ink on light */
+  --star: #101113;
+  --chart-1: #101113;
+  --chart-2: #4a4a47;
+  --chart-3: #7d7d78;
+  --chart-4: #ababa5;
+  --chart-5: #d4d2ca;
+  --sidebar: #efeee9;
+  --sidebar-foreground: #101113;
+  --sidebar-primary: #101113;
+  --sidebar-primary-foreground: #f4f3ef;
+  --sidebar-accent: #e6e4dc;
+  --sidebar-accent-foreground: #101113;
+  --sidebar-border: oklch(0.16 0.004 90 / 12%);
+  --sidebar-ring: oklch(0.16 0.004 90 / 45%);
 }
 
 .dark {
   color-scheme: dark;
-  /* ---- stage: cinematic indigo-black ---- */
-  --background: oklch(0.155 0.014 275);
-  --foreground: oklch(0.955 0.006 90);
-  --card: oklch(0.19 0.014 275);
-  --card-foreground: oklch(0.955 0.006 90);
-  --popover: oklch(0.205 0.015 275);
-  --popover-foreground: oklch(0.955 0.006 90);
-  --primary: oklch(0.685 0.187 22);
-  --primary-foreground: oklch(0.16 0.045 25);
-  --secondary: oklch(0.235 0.016 275);
-  --secondary-foreground: oklch(0.955 0.006 90);
-  --muted: oklch(0.235 0.016 275);
-  --muted-foreground: oklch(0.64 0.014 275);
-  --accent: oklch(0.26 0.018 275);
-  --accent-foreground: oklch(0.955 0.006 90);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.275 0.016 275);
-  --input: oklch(0.25 0.016 275);
-  --ring: oklch(0.685 0.187 22);
-  --surface: oklch(0.175 0.015 275);
-  --glass: oklch(0.175 0.015 275 / 0.72);
-  --glass-foreground: oklch(0.955 0.006 90);
-  --star: oklch(0.83 0.15 85);
-  --chart-1: oklch(0.685 0.187 22);
-  --chart-2: oklch(0.6 0.14 275);
-  --chart-3: oklch(0.75 0.1 85);
-  --chart-4: oklch(0.5 0.08 60);
-  --chart-5: oklch(0.4 0.05 60);
-  --sidebar: oklch(0.185 0.014 275);
-  --sidebar-foreground: oklch(0.955 0.006 90);
-  --sidebar-primary: oklch(0.685 0.187 22);
-  --sidebar-primary-foreground: oklch(0.16 0.045 25);
-  --sidebar-accent: oklch(0.26 0.018 275);
-  --sidebar-accent-foreground: oklch(0.955 0.006 90);
-  --sidebar-border: oklch(0.275 0.016 275);
-  --sidebar-ring: oklch(0.685 0.187 22);
+  /* ---- the Basement stage ---- */
+  --background: #08090b;         /* rgb(8,9,11) — page */
+  --foreground: #f2f1ec;         /* rgb(242,241,236) — bone */
+  --card: #111216;               /* rgb(17,18,22) — artwork well */
+  --card-foreground: #f2f1ec;
+  --popover: #18191e;            /* rgb(24,25,30) — raised */
+  --popover-foreground: #f2f1ec;
+  /* primary action: bone fill, ink text (the reference's Play button) */
+  --primary: #f2f1ec;
+  --primary-foreground: #0b0c0e;
+  --secondary: #0a1118;          /* rgb(10,17,24) — deep blue-black */
+  --secondary-foreground: #f2f1ec;
+  --muted: #141519;
+  --muted-foreground: #a5a5a0;   /* rgb(165,165,160) — muted */
+  --accent: #1a1b20;
+  --accent-foreground: #f2f1ec;
+  --destructive: #e44f4f;
+  --border: oklch(1 0 0 / 8%);   /* hairline white-alpha */
+  --input: oklch(1 0 0 / 6%);
+  --ring: oklch(0.95 0.004 90 / 42%);
+  --surface: #0c0d10;
+  --glass: oklch(0.09 0.003 270 / 0.78);
+  --glass-foreground: #f2f1ec;
+  --star: #f2f1ec;               /* ratings are bone, not gold */
+  --chart-1: #f2f1ec;
+  --chart-2: #a5a5a0;
+  --chart-3: #70716e;
+  --chart-4: #47484a;
+  --chart-5: #2a2b30;
+  --sidebar: #0e0f13;
+  --sidebar-foreground: #f2f1ec;
+  --sidebar-primary: #f2f1ec;
+  --sidebar-primary-foreground: #0b0c0e;
+  --sidebar-accent: #1a1b20;
+  --sidebar-accent-foreground: #f2f1ec;
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.95 0.004 90 / 42%);
 }
 
 @layer base {
@@ -161,63 +185,40 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "cv11", "ss01";
+    font-feature-settings: "ss01";
     text-rendering: optimizeLegibility;
   }
   ::selection {
-    background: color-mix(in oklab, var(--primary) 30%, transparent);
+    background: color-mix(in oklab, var(--foreground) 22%, transparent);
   }
-  /* Display voice — Space Grotesk for headings, tabular where numeric */
+  /* Display voice — Cabinet Grotesk for headings (themed --font-heading
+     still wins when a theme is active). Tight tracking, like the reference. */
   h1, h2, h3, h4 {
-    font-family: var(--font-heading, var(--font-space-grotesk)), var(--font-inter), sans-serif;
-    letter-spacing: -0.02em;
+    font-family: var(--font-heading, "Cabinet Grotesk"), var(--font-outfit), sans-serif;
+    letter-spacing: -0.03em;
   }
 }
 
 /* ------------------------------------------------------------------ */
-/* Aurora stage — fixed ambient gradient field behind everything       */
+/* Stage ambience — a barely-there vertical tint + corner vignette     */
 /* ------------------------------------------------------------------ */
-/* Two ultra-soft accent washes + a cool counter-wash give the stage    */
-/* depth without stealing attention from poster art. They sit at        */
-/* z-index -1 (behind body background? no — body is transparent here    */
-/* via .bg-background on the app shell; the washes paint the viewport)  */
-/* and drift on a 40s loop. All motion is transform-only; the whole     */
-/* layer is disabled for prefers-reduced-motion and hidden in print.    */
-body::before,
-body::after {
+body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-}
-body::before {
   background:
-    radial-gradient(58% 42% at 12% -6%, color-mix(in oklab, var(--primary) 13%, transparent), transparent 70%),
-    radial-gradient(50% 38% at 96% 12%, color-mix(in oklab, var(--primary) 7%, transparent), transparent 72%),
-    radial-gradient(64% 48% at 50% 118%, color-mix(in oklab, var(--chart-2, var(--primary)) 10%, transparent), transparent 76%);
-  animation: aurora-drift 42s ease-in-out infinite alternate;
+    radial-gradient(120% 90% at 50% 0%, oklch(1 0 0 / 2.5%), transparent 55%),
+    radial-gradient(90% 60% at 50% 115%, oklch(0 0 0 / 22%), transparent 70%);
 }
-body::after {
-  /* film-grain-free vignette: keeps the very top/bottom of the stage a
-     touch darker so glass panels and poster rows pop */
-  background: linear-gradient(to bottom, oklch(0 0 0 / 0.05), transparent 18%, transparent 82%, oklch(0 0 0 / 0.05));
-}
-.dark body::before {
+:root:not(.dark) body::before {
   background:
-    radial-gradient(58% 42% at 12% -6%, color-mix(in oklab, var(--primary) 16%, transparent), transparent 70%),
-    radial-gradient(50% 38% at 96% 12%, color-mix(in oklab, var(--primary) 9%, transparent), transparent 72%),
-    radial-gradient(64% 48% at 50% 118%, color-mix(in oklab, var(--chart-2, var(--primary)) 13%, transparent), transparent 76%);
-}
-@keyframes aurora-drift {
-  from { transform: translate3d(-1.5%, -1%, 0) scale(1.02); }
-  to   { transform: translate3d(1.5%, 1.5%, 0) scale(1.05); }
-}
-@media (prefers-reduced-motion: reduce) {
-  body::before { animation: none; }
+    radial-gradient(120% 90% at 50% 0%, oklch(1 0 0 / 60%), transparent 55%),
+    radial-gradient(90% 60% at 50% 115%, oklch(0 0 0 / 5%), transparent 70%);
 }
 @media print {
-  body::before, body::after { display: none; }
+  body::before { display: none; }
 }
 
 /* ------------------------------------------------------------------ */
@@ -226,20 +227,14 @@ body::after {
 /* The floating bottom dock always gets its own reserved, guaranteed-   */
 /* empty strip: the app shell pads its bottom by the dock's measured    */
 /* footprint plus a fixed 1.5rem gap, so the last row of any view can   */
-/* never collide with — or come within ~24px of — the dock. Short       */
-/* pages pin the footer just above the lane; long pages end above it.   */
-/* scroll-padding-bottom extends the same lane to keyboard focus        */
-/* jumps / scrollIntoView / anchor scrolls.                             */
+/* never collide with — or come within ~24px of — the floating dock.    */
 .app-shell {
   padding-bottom: calc(var(--dock-clearance) + 1.5rem);
 }
 html {
   scroll-padding-bottom: calc(var(--dock-clearance) + 1.5rem);
 }
-/* Toasts ride just above the dock lane too (sonner positions via an
-   inline --offset-bottom custom property; this !important rule on the
-   position itself follows the measured dock footprint instead —
-   reactive to safe-area and dock size changes). */
+/* Toasts ride just above the dock lane too. */
 [data-sonner-toaster][data-y-position="bottom"] {
   bottom: calc(var(--dock-clearance) + 1rem) !important;
 }
@@ -258,60 +253,38 @@ html {
   text-wrap: balance;
 }
 
-/* Frosted-glass panel — the core surface treatment for floating UI.
-   Deeper blur than v2 + a hairline top highlight for a physical edge. */
+/* Content shell — the reference's 1344px column with responsive side
+   padding (48px from 1024px up). */
+.shell {
+  width: 100%;
+  max-width: 1344px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 640px) { .shell { padding-inline: 2rem; } }
+@media (min-width: 1024px) { .shell { padding-inline: 3rem; } }
+
+/* Frosted-glass panel — dark translucent bar for floating chrome
+   (dock, dropdowns, tooltips). Flat + hairline, like the reference. */
 .glass {
   background-color: var(--glass);
   color: var(--glass-foreground);
-  -webkit-backdrop-filter: blur(22px) saturate(170%);
-  backdrop-filter: blur(22px) saturate(170%);
-  border: 1px solid color-mix(in oklab, var(--glass-foreground) 12%, transparent);
-  box-shadow:
-    0 12px 40px oklch(0 0 0 / 0.3),
-    inset 0 1px 0 color-mix(in oklab, var(--glass-foreground) 9%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid color-mix(in oklab, var(--glass-foreground) 9%, transparent);
+  box-shadow: 0 16px 48px oklch(0 0 0 / 0.42);
 }
 :root:not(.dark) .glass {
-  box-shadow:
-    0 12px 40px oklch(0 0 0 / 0.12),
-    inset 0 1px 0 oklch(1 0 0 / 0.65);
+  box-shadow: 0 16px 48px oklch(0 0 0 / 0.1);
 }
 
-/* Gradient-edge glass panel — for hero CTAs and feature moments:
-   glass body + a 1px accent gradient rim that catches the eye. */
-.glass-rim {
-  position: relative;
-}
-.glass-rim::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    color-mix(in oklab, var(--primary) 65%, transparent),
-    transparent 38%,
-    transparent 62%,
-    color-mix(in oklab, var(--primary) 40%, transparent)
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  pointer-events: none;
+/* Display type — big statement headings (footer intro, page titles). */
+.font-display {
+  font-family: var(--font-heading, "Cabinet Grotesk"), var(--font-outfit), sans-serif;
+  letter-spacing: -0.045em;
 }
 
-/* Display type with the brand's rose→amber gradient — used sparingly
-   (hero eyebrow, empty-state numbers). */
-.text-brand-gradient {
-  background: linear-gradient(100deg, oklch(0.7 0.19 20), oklch(0.78 0.15 60), oklch(0.75 0.16 45));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Poster shelf edge fade — softer than a hard mask so covers dissolve
-   into the stage instead of being cut. */
+/* Poster shelf edge fade */
 .shelf-fade {
   -webkit-mask-image: linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent);
   mask-image: linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent);
@@ -325,7 +298,7 @@ html {
 
 .thin-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: oklch(1 0 0 / 15%) transparent;
+  scrollbar-color: oklch(1 0 0 / 14%) transparent;
 }
 .thin-scrollbar::-webkit-scrollbar {
   width: 6px;
@@ -335,14 +308,14 @@ html {
   background: transparent;
 }
 .thin-scrollbar::-webkit-scrollbar-thumb {
-  background: oklch(1 0 0 / 15%);
+  background: oklch(1 0 0 / 14%);
   border-radius: 9999px;
 }
 :root:not(.dark) .thin-scrollbar {
-  scrollbar-color: oklch(0 0 0 / 20%) transparent;
+  scrollbar-color: oklch(0 0 0 / 18%) transparent;
 }
 :root:not(.dark) .thin-scrollbar::-webkit-scrollbar-thumb {
-  background: oklch(0 0 0 / 20%);
+  background: oklch(0 0 0 / 18%);
 }
 
 /* ---------------- Zen-style transparency mode ---------------- */
@@ -352,8 +325,7 @@ html {
 html[data-transparency="on"] body {
   background: transparent;
 }
-html[data-transparency="on"] body::before,
-html[data-transparency="on"] body::after {
+html[data-transparency="on"] body::before {
   display: none;
 }
 html[data-transparency="on"] .bg-background {
@@ -363,17 +335,14 @@ html[data-transparency="on"] footer.bg-background,
 html[data-transparency="on"] main {
   background-color: transparent;
 }
-/* glass panels get a touch more see-through for the effect */
 html[data-transparency="on"] .glass {
   -webkit-backdrop-filter: blur(14px) saturate(140%);
   backdrop-filter: blur(14px) saturate(140%);
   background-color: color-mix(in oklab, var(--glass) 72%, transparent);
 }
-/* cards blend softer */
 html[data-transparency="on"] .bg-card {
   background-color: color-mix(in oklab, var(--card) 68%, transparent);
 }
-/* the app shell keeps a faint tint so text stays readable */
 html[data-transparency="on"] .app-shell {
   background:
     linear-gradient(to bottom, oklch(0 0 0 / 0.16), oklch(0 0 0 / 0.05));

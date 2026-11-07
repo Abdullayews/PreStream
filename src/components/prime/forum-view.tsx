@@ -50,14 +50,14 @@ function ForumIndex() {
 
   if (index.isLoading && !index.data) {
     return (
-      <div className="mx-auto max-w-4xl px-4 pt-8 pb-32 sm:px-6">
+      <div className="mx-auto max-w-4xl px-4 pt-20 pb-32 sm:px-6">
         <TabLoading rows={6} />
       </div>
     );
   }
   if (index.isError) {
     return (
-      <div className="mx-auto max-w-4xl px-4 pt-8 pb-32 sm:px-6">
+      <div className="mx-auto max-w-4xl px-4 pt-20 pb-32 sm:px-6">
         <TabError
           message={index.error.message}
           onRetry={() => void index.refetch()}
@@ -70,7 +70,7 @@ function ForumIndex() {
   const categories = index.data?.categories ?? [];
   if (categories.length === 0) {
     return (
-      <div className="mx-auto max-w-4xl px-4 pt-8 pb-32 sm:px-6">
+      <div className="mx-auto max-w-4xl px-4 pt-20 pb-32 sm:px-6">
         <TabEmpty
           icon={MessagesSquare}
           title="Forum unavailable"
@@ -81,7 +81,7 @@ function ForumIndex() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-8 pb-32 sm:px-6">
+    <div className="mx-auto max-w-4xl px-4 pt-20 pb-32 sm:px-6">
       <SectionTitle as="h1" className="text-2xl sm:text-3xl">
         Forum
       </SectionTitle>
@@ -144,14 +144,14 @@ function CategoryPage({ categoryId }: { categoryId: number }) {
 
   if (category.isLoading && !category.data) {
     return (
-      <div className="mx-auto max-w-4xl px-4 pt-8 pb-32 sm:px-6">
+      <div className="mx-auto max-w-4xl px-4 pt-20 pb-32 sm:px-6">
         <TabLoading rows={6} />
       </div>
     );
   }
   if (category.isError) {
     return (
-      <div className="mx-auto max-w-4xl px-4 pt-8 pb-32 sm:px-6">
+      <div className="mx-auto max-w-4xl px-4 pt-20 pb-32 sm:px-6">
         <TabError
           message={category.error.message}
           onRetry={() => void category.refetch()}
@@ -163,7 +163,7 @@ function CategoryPage({ categoryId }: { categoryId: number }) {
 
   const cat = category.data?.category;
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-8 pb-32 sm:px-6">
+    <div className="mx-auto max-w-4xl px-4 pt-20 pb-32 sm:px-6">
       <BackRow label="All boards" onClick={() => toForum(router)} />
       <SectionTitle as="h1" className="text-2xl sm:text-3xl">
         {cat?.name ?? "Forum"}
@@ -253,14 +253,14 @@ function ThreadPage({ threadId }: { threadId: number }) {
 
   if (thread.isLoading && !thread.data) {
     return (
-      <div className="mx-auto max-w-4xl px-4 pt-8 pb-32 sm:px-6">
+      <div className="mx-auto max-w-4xl px-4 pt-20 pb-32 sm:px-6">
         <TabLoading rows={5} />
       </div>
     );
   }
   if (thread.isError) {
     return (
-      <div className="mx-auto max-w-4xl px-4 pt-8 pb-32 sm:px-6">
+      <div className="mx-auto max-w-4xl px-4 pt-20 pb-32 sm:px-6">
         <TabError
           message={thread.error.message}
           onRetry={() => void thread.refetch()}
@@ -272,7 +272,7 @@ function ThreadPage({ threadId }: { threadId: number }) {
 
   const data = thread.data;
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-8 pb-32 sm:px-6">
+    <div className="mx-auto max-w-4xl px-4 pt-20 pb-32 sm:px-6">
       <BackRow label="Board" onClick={() => (window.history.length > 1 ? router.back() : toForum(router))} />
       <SectionTitle as="h1" className="text-2xl sm:text-3xl">
         {data?.thread.title ?? "Thread"}

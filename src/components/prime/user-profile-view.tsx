@@ -67,14 +67,14 @@ export function UserProfileView({ name }: { name: string | null }) {
 
   if (profile.isLoading && !profile.data) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
+      <div className="mx-auto max-w-4xl px-4 pt-20 pb-8 sm:px-6">
         <TabLoading rows={4} />
       </div>
     );
   }
   if (profile.isError) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
+      <div className="mx-auto max-w-4xl px-4 pt-20 pb-8 sm:px-6">
         <TabError
           message={profile.error.message}
           onRetry={() => void profile.refetch()}
@@ -117,7 +117,7 @@ export function UserProfileView({ name }: { name: string | null }) {
   const avatarSrc = avatarUrl(user.avatar);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-8 pb-32 sm:px-6">
+    <div className="mx-auto max-w-4xl px-4 pt-20 pb-32 sm:px-6">
       {/* head */}
       <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
         <span className="relative flex size-24 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted ring-1 ring-foreground/10 sm:size-28">

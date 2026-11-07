@@ -64,9 +64,9 @@ export function PlaylistsView() {
   const items = data.items;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+    <div className="shell pt-20 pb-8 sm:pt-24">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <SectionTitle as="h1" className="text-2xl sm:text-3xl">
+        <SectionTitle as="h1" className="text-[26px] sm:text-[32px]">
           Community Playlists
         </SectionTitle>
         <p className="text-xs text-muted-foreground">
@@ -139,7 +139,7 @@ function PlaylistCard({ playlist }: { playlist: PlaylistSummary }) {
       aria-label={`Open playlist: ${playlist.title}`}
       className="group relative w-full cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-2xl"
     >
-      <div className="relative aspect-[2/3] w-full overflow-hidden rounded-xl bg-card ring-1 ring-foreground/10 transition-all duration-300 group-hover:ring-primary/50 group-hover:shadow-xl group-hover:shadow-black/20 dark:ring-white/8 dark:group-hover:ring-primary/60">
+      <div className="relative aspect-[2/3] w-full overflow-hidden rounded-[14px] bg-card transition-colors duration-300 group-hover:bg-accent">
         {poster ? (
           <img
             src={poster}

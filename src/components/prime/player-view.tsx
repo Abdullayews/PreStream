@@ -450,15 +450,15 @@ function PlayerLoaded({
   return (
     <div>
       {/* ---------------- top bar ---------------- */}
-      <div className="mx-auto max-w-[1400px] px-4 pt-6 sm:px-6">
+      <div className="shell pt-20 pb-0 sm:pt-24">
         <div className="flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={onBack}
             aria-label="Go back"
-            className="glass flex h-11 items-center gap-1.5 rounded-full pr-4 pl-3 text-sm font-medium transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex h-10 items-center gap-1.5 rounded-full bg-foreground/[0.05] pr-4 pl-3 text-sm font-semibold text-muted-foreground transition-colors hover:bg-foreground/[0.09] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <ArrowLeft className="size-5" aria-hidden />
+            <ArrowLeft className="size-4.5" aria-hidden />
             Back
           </button>
 
@@ -467,7 +467,7 @@ function PlayerLoaded({
             onClick={() =>
               toDetail(router, { type: data.type, id: data.id, slug: data.slug })
             }
-            className="glass hidden h-11 items-center gap-1.5 rounded-full px-4 text-sm font-medium transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:flex"
+            className="hidden h-10 items-center gap-1.5 rounded-full bg-foreground/[0.05] px-4 text-sm font-semibold text-muted-foreground transition-colors hover:bg-foreground/[0.09] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:flex"
           >
             <Layers className="size-4" aria-hidden />
             Title details
@@ -476,7 +476,7 @@ function PlayerLoaded({
       </div>
 
       {/* theater layout — the player spans the full width */}
-      <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-6">
+      <div className="shell py-6">
         {/* ---------------- header ---------------- */}
         <div className="mb-6 flex items-center gap-4">
           <div className="hidden h-[84px] w-14 shrink-0 overflow-hidden rounded-lg bg-card ring-1 ring-foreground/10 sm:block">
@@ -499,7 +499,7 @@ function PlayerLoaded({
             </h1>
             <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
               {isEpisode ? (
-                <span className="font-semibold text-primary">
+                <span className="font-semibold text-foreground">
                   S{String(data.season).padStart(2, "0")}
                   E{String(data.number).padStart(2, "0")}
                   {data.episodeName ? ` — ${data.episodeName}` : ""}
@@ -528,13 +528,13 @@ function PlayerLoaded({
         <div
           ref={frameRef}
           className={cn(
-            "glass overflow-hidden rounded-2xl p-2 sm:p-3",
+            "overflow-hidden rounded-2xl bg-card p-2 sm:p-3",
             fullscreen && "flex h-full flex-col justify-center bg-black p-0",
           )}
         >
           <div
             className={cn(
-              "relative w-full overflow-hidden rounded-xl bg-black",
+              "relative w-full overflow-hidden rounded-[14px] bg-black",
               fullscreen ? "aspect-video max-h-full max-w-full" : "aspect-video",
             )}
           >
@@ -605,7 +605,7 @@ function PlayerLoaded({
               <PopoverTrigger asChild>
                 <button
                   type="button"
-                  className="flex h-9 items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3.5 text-xs font-semibold text-foreground transition-colors hover:border-primary/60 hover:bg-primary/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="flex h-9 items-center gap-2 rounded-full bg-foreground/[0.05] px-3.5 text-xs font-semibold text-muted-foreground transition-colors hover:bg-foreground/[0.09] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   aria-label="Browse and switch sources"
                 >
                   <MonitorPlay className="size-4" aria-hidden />
@@ -666,7 +666,7 @@ function PlayerLoaded({
                   disabled={!data.prev}
                   onClick={() => data.prev && goEpisode(data.prev)}
                   aria-label={`Previous episode${data.prev ? ` (S${data.prev.season}E${data.prev.number})` : ""}`}
-                  className="flex size-9 items-center justify-center rounded-full border border-border/70 bg-card/60 transition-colors hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
+                  className="flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-foreground/[0.06] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
                 >
                   <ChevronLeft className="size-4" aria-hidden />
                 </button>
@@ -675,7 +675,7 @@ function PlayerLoaded({
                   disabled={!data.next}
                   onClick={() => data.next && goEpisode(data.next)}
                   aria-label={`Next episode${data.next ? ` (S${data.next.season}E${data.next.number})` : ""}`}
-                  className="flex size-9 items-center justify-center rounded-full border border-border/70 bg-card/60 transition-colors hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
+                  className="flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-foreground/[0.06] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
                 >
                   <ChevronRight className="size-4" aria-hidden />
                 </button>
@@ -689,7 +689,7 @@ function PlayerLoaded({
                 onClick={reloadPlayer}
                 aria-label="Reload the player"
                 title="Reload player (R)"
-                className="flex size-9 items-center justify-center rounded-full border border-border/70 bg-card/60 transition-colors hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-foreground/[0.06] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <RefreshCw className="size-4" aria-hidden />
               </button>
@@ -699,7 +699,7 @@ function PlayerLoaded({
                 onClick={toggleFullscreen}
                 aria-label="Toggle fullscreen"
                 title="Fullscreen (F)"
-                className="flex size-9 items-center justify-center rounded-full border border-border/70 bg-card/60 transition-colors hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-foreground/[0.06] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <Maximize2 className="size-4" aria-hidden />
               </button>
@@ -1262,7 +1262,7 @@ function PlayerError({
 
 function PlayerSkeleton() {
   return (
-    <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-6">
+    <div className="shell py-6">
       <div className="mb-6 h-11 w-24 animate-pulse rounded-full bg-card" />
       <div className="mb-6 flex items-center gap-4">
         <div className="hidden h-[84px] w-14 animate-pulse rounded-lg bg-card sm:block" />

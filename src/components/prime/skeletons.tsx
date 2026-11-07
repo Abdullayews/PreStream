@@ -10,7 +10,7 @@ export function PageSkeleton() {
       <div className="sticky top-0 z-50 h-16 border-b border-border/60 bg-background/80 backdrop-blur-xl" />
       <main className="flex-1">
         <Skeleton className="h-[70vh] max-h-[640px] min-h-[480px] w-full rounded-none" />
-        <div className="mx-auto max-w-7xl space-y-10 px-4 pt-8 sm:px-6">
+        <div className="shell space-y-10 pt-8">
           <SkeletonRow />
           <SkeletonRow />
         </div>
@@ -43,19 +43,19 @@ function SkeletonRow() {
 export function HomeSkeleton() {
   return (
     <div aria-busy="true" aria-label="Loading home">
-      <div className="relative h-[70vh] max-h-[640px] min-h-[480px] w-full overflow-hidden">
+      <div className="relative h-[76vh] max-h-[760px] min-h-[520px] w-full overflow-hidden">
         <Skeleton className="absolute inset-0 rounded-none" />
-        <div className="absolute inset-x-0 bottom-0 mx-auto flex max-w-7xl flex-col gap-4 px-4 pb-14 sm:px-6">
+        <div className="absolute inset-x-0 bottom-0 mx-auto flex max-w-[1344px] flex-col gap-4 px-5 pb-20 sm:px-8 sm:pb-24 lg:px-12">
           <Skeleton className="h-3.5 w-40 rounded-full" />
           <Skeleton className="h-12 w-3/4 max-w-xl md:h-16" />
           <Skeleton className="h-4 w-56" />
           <div className="flex gap-3 pt-2">
-            <Skeleton className="h-12 w-44 rounded-full" />
+            <Skeleton className="h-12 w-40 rounded-full" />
             <Skeleton className="h-12 w-32 rounded-full" />
           </div>
         </div>
       </div>
-      <div className="mx-auto max-w-7xl space-y-10 px-4 py-8 sm:px-6">
+      <div className="shell space-y-10 py-8">
         <SkeletonRow />
         <SkeletonRow />
         <SkeletonRow />
@@ -91,7 +91,7 @@ export function ScheduleSkeleton() {
   return (
     <div aria-busy="true" aria-label="Loading schedule">
       <div className="border-b border-border/60">
-        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+        <div className="shell py-4">
           <Skeleton className="h-8 w-48" />
           <div className="mt-4 flex gap-2">
             {Array.from({ length: 7 }).map((_, i) => (
@@ -100,7 +100,7 @@ export function ScheduleSkeleton() {
           </div>
         </div>
       </div>
-      <div className="mx-auto max-w-7xl space-y-2 px-4 py-6 sm:px-6">
+      <div className="shell space-y-2 py-6">
         {Array.from({ length: 8 }).map((_, i) => (
           <Skeleton key={i} className="h-[92px] w-full rounded-2xl" />
         ))}
@@ -115,7 +115,7 @@ export function PlaylistsSkeleton() {
     <div
       aria-busy="true"
       aria-label="Loading playlists"
-      className="mx-auto max-w-7xl px-4 py-8 sm:px-6"
+      className="shell py-8"
     >
       <Skeleton className="h-8 w-64" />
       <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
@@ -136,7 +136,7 @@ export function DetailSkeleton() {
   return (
     <div aria-busy="true" aria-label="Loading title">
       <div className="h-[42vh] min-h-[320px] w-full" />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="shell">
         <div className="relative z-10 -mt-28 flex flex-col gap-6 sm:flex-row sm:gap-8">
           <Skeleton className="aspect-[2/3] w-[200px] shrink-0 rounded-xl md:w-[240px]" />
           <div className="flex-1 space-y-4 pb-4">

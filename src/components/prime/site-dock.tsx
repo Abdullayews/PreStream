@@ -35,8 +35,7 @@ const DOCK_ITEMS = [
  * offset incl. mobile safe-area) and publishes it as --dock-clearance on
  * <html>. The page then reserves exactly that much space (+ a fixed gap)
  * at its bottom, so content can never end up under — or 1px from — the
- * floating dock, regardless of viewport, zoom, safe-area or future dock
- * size changes. Measured live (ResizeObserver + resize/orientation/
+ * floating dock. Measured live (ResizeObserver + resize/orientation/
  * visualViewport listeners) instead of hardcoded, so it is self-maintaining.
  *
  * CSS fallback (globals.css) mirrors the dock geometry for first paint;
@@ -48,9 +47,6 @@ function useDockClearance(ref: React.RefObject<HTMLDivElement | null>) {
     if (!el) return;
 
     const apply = () => {
-      // The wrapper's layout box is stable: the pill's framer-motion intro
-      // and hover translates are transforms on inner elements, which never
-      // affect this box — so any measurement moment is safe.
       const h = el.getBoundingClientRect().height;
       if (h > 0) {
         document.documentElement.style.setProperty(
@@ -76,12 +72,11 @@ function useDockClearance(ref: React.RefObject<HTMLDivElement | null>) {
 }
 
 /**
- * Floating glass dock — the primary navigation, Aurora cut.
- * Fixed to the bottom of the viewport, centered. The active destination
- * is marked by a shared-layout pill that GLIDES between items (framer
- * layoutId), plus a small dot beneath. Hovering lifts the icon and shows
- * a glass tooltip. Active states use theme tokens so the selected theme
- * colors the dock.
+ * Floating glass dock — the primary navigation (PreStream's own system),
+ * Basement-cut: a dark translucent pill bar with quiet round targets.
+ * The active destination gets a soft bone-tinted fill + glide (framer
+ * layoutId); hover lifts the icon and shows a glass tooltip. All colors
+ * are theme tokens, so the 40 themes still color the dock.
  *
  * Width audit (390px viewport): 8 targets × 44px + gap-0.5 + hairline
  * separator + p-1.5 → ~383px, fitting with a small margin.
@@ -138,7 +133,7 @@ export function SiteDock() {
         initial={{ y: 80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 26, delay: 0.15 }}
-        className="glass glass-rim pointer-events-auto flex items-end gap-0.5 rounded-[1.75rem] p-1.5"
+        className="glass pointer-events-auto flex items-end gap-0.5 rounded-[1.4rem] p-1.5"
         onMouseLeave={() => setHovered(null)}
       >
         {DOCK_ITEMS.map((item) => {
@@ -153,7 +148,7 @@ export function SiteDock() {
               onHover={() => setHovered(item.key)}
               onClick={() => go(item.key)}
             >
-              <Icon className="size-5" aria-hidden />
+              <Icon className="size-[18px]" aria-hidden />
             </DockButton>
           );
         })}
@@ -173,7 +168,7 @@ export function SiteDock() {
           }}
           badge={watchHydrated && watchCount > 0 ? watchCount : null}
         >
-          <Bookmark className="size-5" aria-hidden />
+          <Bookmark className="size-[18px]" aria-hidden />
         </DockButton>
 
         {/* account */}
@@ -188,10 +183,10 @@ export function SiteDock() {
             <img
               src={avatarSrc}
               alt=""
-              className="size-[26px] rounded-full object-cover ring-1 ring-glass-foreground/30"
+              className="size-[26px] rounded-full object-cover ring-1 ring-glass-foreground/25"
             />
           ) : (
-            <CircleUserRound className="size-5" aria-hidden />
+            <CircleUserRound className="size-[18px]" aria-hidden />
           )}
         </DockButton>
       </motion.nav>
@@ -241,20 +236,20 @@ function DockButton({
         aria-label={label}
         aria-current={active ? "page" : undefined}
         className={cn(
-          "relative flex size-11 items-center justify-center rounded-2xl transition-all duration-200",
+          "relative flex size-11 items-center justify-center rounded-full transition-all duration-200",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          hovered && !active && "-translate-y-1.5 scale-110 text-glass-foreground",
+          hovered && !active && "-translate-y-1 text-foreground",
           active
-            ? "text-primary-foreground"
-            : "text-glass-foreground/70 hover:text-glass-foreground",
+            ? "text-foreground"
+            : "text-muted-foreground hover:text-foreground",
         )}
       >
-        {/* shared-layout active pill — glides between dock items */}
+        {/* shared-layout active fill — glides between dock items */}
         {active && (
           <motion.span
             layoutId="dock-active-pill"
             transition={{ type: "spring", stiffness: 420, damping: 32 }}
-            className="absolute inset-0 rounded-2xl bg-primary shadow-lg shadow-primary/30"
+            className="absolute inset-0.5 rounded-full bg-foreground/[0.08]"
             aria-hidden
           />
         )}
@@ -271,15 +266,6 @@ function DockButton({
           </span>
         )}
       </button>
-
-      {/* active dot */}
-      <span
-        aria-hidden
-        className={cn(
-          "-mt-0.5 h-1 w-1 rounded-full bg-primary transition-all duration-300",
-          active ? "opacity-100" : "opacity-0",
-        )}
-      />
     </div>
   );
 }
@@ -288,7 +274,7 @@ function DockSeparator() {
   return (
     <span
       aria-hidden
-      className="mx-0.5 h-8 w-px self-center bg-glass-foreground/15"
+      className="mx-0.5 h-8 w-px self-center bg-foreground/10"
     />
   );
 }

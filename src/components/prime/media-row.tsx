@@ -3,15 +3,15 @@
 import { useRef } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { MediaCard } from "./media-card";
-import { SectionTitle } from "./section-title";
 import { toBrowse } from "./nav";
 import type { MediaItem } from "@/lib/primewire/types";
 
 /**
- * Netflix-style horizontal shelf, Aurora cut: snap scrolling, soft edge
- * fades and hover-reveal chevrons (always visible on touch devices).
+ * Horizontal media shelf — Basement cut: a display-font section header on
+ * the left with a quiet "See all" pill on the right, snap scrolling with
+ * soft edge fades, and small round muted chevrons (revealed on hover from
+ * md up; always visible on touch devices).
  */
 export function MediaRow({
   title,
@@ -36,19 +36,20 @@ export function MediaRow({
 
   return (
     <section className="group/row relative" aria-label={title}>
-      <div className="mb-4 flex items-end justify-between gap-4">
-        <SectionTitle>{title}</SectionTitle>
+      <div className="mb-3.5 flex items-center justify-between gap-4">
+        <h2 className="font-display truncate text-[22px] leading-tight font-bold text-foreground">
+          {title}
+        </h2>
         {params && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-10 gap-1 rounded-full text-muted-foreground hover:text-foreground"
+          <button
+            type="button"
             onClick={() => toBrowse(router, params)}
             aria-label={`See all ${title}`}
+            className="flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3.5 text-xs font-semibold text-muted-foreground transition-colors hover:bg-foreground/[0.09] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             See all
-            <ArrowRight className="size-4 transition-transform duration-200 group-hover/row:translate-x-0.5" aria-hidden />
-          </Button>
+            <ArrowRight className="size-3.5" aria-hidden />
+          </button>
         )}
       </div>
 
@@ -60,29 +61,29 @@ export function MediaRow({
           {items.map((item) => (
             <div
               key={`${item.type}-${item.id}`}
-              className="w-[150px] shrink-0 snap-start sm:w-[165px] md:w-[180px]"
+              className="w-[150px] shrink-0 snap-start sm:w-[160px] md:w-[168px]"
             >
               <MediaCard item={item} />
             </div>
           ))}
         </div>
 
-        {/* edge chevrons — glass, always visible on touch, on hover from md up */}
+        {/* edge chevrons — small round muted buttons */}
         <button
           type="button"
           onClick={() => scrollByAmount(-1)}
           aria-label={`Scroll ${title} backwards`}
-          className="glass absolute -left-2 top-[35%] z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-full transition-all hover:bg-background md:opacity-0 md:group-hover/row:opacity-100 focus-visible:opacity-100"
+          className="absolute -left-1.5 top-[38%] z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-background/70 text-muted-foreground opacity-0 backdrop-blur-sm transition-all hover:text-foreground md:group-hover/row:opacity-100 focus-visible:opacity-100"
         >
-          <ChevronLeft className="size-5" aria-hidden />
+          <ChevronLeft className="size-4" aria-hidden />
         </button>
         <button
           type="button"
           onClick={() => scrollByAmount(1)}
           aria-label={`Scroll ${title} forwards`}
-          className="glass absolute -right-2 top-[35%] z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-full transition-all hover:bg-background md:opacity-0 md:group-hover/row:opacity-100 focus-visible:opacity-100"
+          className="absolute -right-1.5 top-[38%] z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-background/70 text-muted-foreground opacity-0 backdrop-blur-sm transition-all hover:text-foreground md:group-hover/row:opacity-100 focus-visible:opacity-100"
         >
-          <ChevronRight className="size-5" aria-hidden />
+          <ChevronRight className="size-4" aria-hidden />
         </button>
       </div>
     </section>
