@@ -15,7 +15,7 @@ import type {
 import type { HostHealth } from "@/lib/primewire/hosts";
 import type { ProviderHealth as ExternalProviderHealth } from "@/lib/primewire/external-sources";
 
-export type ImageSize = "w200" | "w300" | "w400" | "w500" | "w780" | "w1280";
+export type ImageSize = "w200" | "w300" | "w400" | "w500" | "w780" | "w1280" | "original";
 
 /**
  * Build a same-origin proxy URL for a TMDB poster path
