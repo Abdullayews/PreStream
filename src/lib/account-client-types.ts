@@ -83,13 +83,20 @@ export interface SidebarSummary {
 }
 
 export interface LoginResponse {
-  /** OUR API token (ps_…) — the PrimeWire session lives server-side. */
+  /** OUR API token (ps_…). */
   apiKey: string;
   isNew: boolean;
   user: LoginUser;
   sidebar: SidebarSummary;
   themeId: string;
   watchlist: unknown;
+  /**
+   * The user's PrimeWire session cookie line, mirrored to the client so it
+   * can self-heal its profile after the server's local database is lost
+   * (free-tier hosts wipe the filesystem on every redeploy). Same trust
+   * level as the apiKey itself — it is the user's own session.
+   */
+  pwSession?: string | null;
 }
 
 /** GET /api/account/me */

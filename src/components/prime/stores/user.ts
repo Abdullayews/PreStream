@@ -9,6 +9,13 @@ import type { LoginResponse } from "@/lib/account-client-types";
 interface UserState {
   /** OUR API token (ps_…) returned by /api/account/login. */
   apiKey: string | null;
+  /**
+   * The user's PrimeWire session cookie line, mirrored from the login
+   * response. Lets the client self-heal its server profile after the
+   * host wipes the database on a redeploy (see use-account.ts) — the
+   * user stays signed in instead of being dropped to the sign-in prompt.
+   */
+  pwSession: string | null;
   /** PrimeWire identity (all straight from PrimeWire, never user-entered). */
   username: string | null;
   avatar: string | null;
@@ -43,6 +50,7 @@ export const useUser = create<UserState>()(
   persist(
     (set, get) => ({
       apiKey: null,
+      pwSession: null,
       username: null,
       avatar: null,
       pwApiKey: null,
@@ -58,6 +66,7 @@ export const useUser = create<UserState>()(
             : AUTO_THEME_ID;
         set({
           apiKey: login.apiKey,
+          pwSession: login.pwSession ?? null,
           username: login.user.username ?? null,
           avatar: login.user.avatar ?? null,
           pwApiKey: login.user.pwApiKey ?? null,
@@ -89,18 +98,21 @@ export const useUser = create<UserState>()(
       },
 
       logout: () => {
-        const apiKey = get().apiKey;
+        const { apiKey, pwSession } = get();
         // Detach the PrimeWire session (fire-and-forget). Our profile row
         // keeps theme + watchlist cached for the next sign-in.
         if (apiKey) {
           fetch("/api/account/logout", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ apiKey }),
+            // pwSession lets the server kill the live PrimeWire session even
+            // when a redeploy already wiped the profile row.
+            body: JSON.stringify({ apiKey, pwSession: pwSession ?? "" }),
           }).catch(() => {});
         }
         set({
           apiKey: null,
+          pwSession: null,
           username: null,
           avatar: null,
           pwApiKey: null,
