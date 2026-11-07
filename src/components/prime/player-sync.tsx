@@ -380,7 +380,7 @@ function SyncPanel({ sync }: { sync: ReturnType<typeof useWatchSync> }) {
         <p className="text-xs leading-relaxed text-muted-foreground">
           {sync.tracker?.library ? (
             <span className="flex items-center gap-1.5">
-              <Check className="size-3.5 text-primary" aria-hidden />
+              <Check className="size-3.5 text-foreground" aria-hidden />
               In your PrimeWire library
             </span>
           ) : (

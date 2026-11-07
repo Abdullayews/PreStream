@@ -115,10 +115,8 @@ export function SettingsSheet() {
         className="flex w-full flex-col gap-0 p-0 sm:max-w-md"
       >
         <SheetHeader className="border-b border-border/60 px-5 py-4">
-          <SheetTitle className="flex items-center gap-2.5">
-            <span className="flex size-8 items-center justify-center rounded-full bg-primary/10 ring-1 ring-primary/25">
-              <SettingsIcon className="size-4 text-primary" aria-hidden />
-            </span>
+          <SheetTitle className="font-display flex items-center gap-2.5 text-lg font-bold">
+            <SettingsIcon className="size-5 text-muted-foreground" aria-hidden />
             Settings
           </SheetTitle>
           <SheetDescription className="sr-only">
@@ -147,11 +145,11 @@ export function SettingsSheet() {
                   aria-selected={active}
                   onClick={() => setSection(s.id)}
                   className={cn(
-                    "h-9 shrink-0 rounded-full px-4 text-sm font-medium whitespace-nowrap transition-all",
+                    "h-9 shrink-0 rounded-full px-4 text-[13px] font-semibold whitespace-nowrap transition-colors",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     active
-                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
-                      : "border border-border text-muted-foreground hover:border-primary/40 hover:bg-muted hover:text-foreground",
+                      ? "bg-foreground/[0.08] text-foreground"
+                      : "text-muted-foreground hover:bg-foreground/[0.05] hover:text-foreground",
                   )}
                 >
                   {s.label}
@@ -259,7 +257,7 @@ function QuickActions({ onClose }: { onClose: () => void }) {
       <button
         type="button"
         onClick={openWatchlist}
-        className="flex h-10 flex-1 items-center justify-center gap-2 rounded-full border border-border text-sm font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="flex h-10 flex-1 items-center justify-center gap-2 rounded-full bg-foreground/[0.05] text-[13px] font-semibold text-muted-foreground transition-colors hover:bg-foreground/[0.09] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <Bookmark className="size-4" aria-hidden />
         Watchlist
@@ -268,7 +266,7 @@ function QuickActions({ onClose }: { onClose: () => void }) {
         type="button"
         onClick={() => setTheme(isDark ? "light" : "dark")}
         aria-label="Toggle light/dark theme"
-        className="flex h-10 flex-1 items-center justify-center gap-2 rounded-full border border-border text-sm font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="flex h-10 flex-1 items-center justify-center gap-2 rounded-full bg-foreground/[0.05] text-[13px] font-semibold text-muted-foreground transition-colors hover:bg-foreground/[0.09] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         {isDark ? (
           <Sun className="size-4" aria-hidden />
@@ -1069,7 +1067,7 @@ function AppearanceSection() {
       {/* ---------- seasonal suggestion (consent-based) ---------- */}
       {seasonal && !seasonalActive && (
         <div className="mt-3 flex items-center gap-3 rounded-xl border border-primary/40 bg-primary/10 px-3 py-2.5">
-          <Sparkles className="size-4 shrink-0 text-primary" aria-hidden />
+          <Sparkles className="size-4 shrink-0 text-foreground" aria-hidden />
           <p className="min-w-0 flex-1 text-xs leading-relaxed text-foreground">
             <span className="font-semibold">Seasonal pick:</span>{" "}
             {seasonal.theme.name} — {seasonal.note}

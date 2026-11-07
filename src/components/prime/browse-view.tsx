@@ -239,21 +239,21 @@ export function BrowseView() {
   const showEmpty = !isLoading && !isError && data && items.length === 0;
 
   return (
-    <div>
-      {/* ---------------- filter bar (slim, glass-matched with the header) ---------------- */}
-      <div className="glass sticky top-16 z-40 rounded-none border-x-0 border-t-0 shadow-none">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+    <div className="pt-14 sm:pt-16">
+      {/* ---------------- filter bar (sticky under the fixed header) ---------------- */}
+      <div className="glass sticky top-14 z-40 rounded-none border-x-0 border-t-0 shadow-none sm:top-16">
+        <div className="shell">
           <div className="no-scrollbar flex items-center gap-2 overflow-x-auto py-2.5">
             {/* search pill — opens the spotlight palette */}
             <button
               type="button"
               onClick={openSearch}
               aria-label="Search the catalog"
-              className="flex h-9 shrink-0 items-center gap-2 rounded-full border border-border/70 bg-card/60 pr-3 pl-3 text-xs font-medium text-muted-foreground transition-all hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-9 shrink-0 items-center gap-2 rounded-full bg-foreground/[0.05] pr-3 pl-3 text-xs font-semibold text-muted-foreground transition-colors hover:bg-foreground/[0.09] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Search className="size-3.5" aria-hidden />
               {params.q ? (
-                <span className="max-w-32 truncate font-semibold text-foreground">“{params.q}”</span>
+                <span className="max-w-32 truncate text-foreground">“{params.q}”</span>
               ) : (
                 <span>Search</span>
               )}
@@ -570,7 +570,7 @@ export function BrowseView() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="shell">
         {/* active filters */}
         {chips.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 pt-6">
@@ -583,10 +583,10 @@ export function BrowseView() {
                 type="button"
                 onClick={chip.clear}
                 aria-label={`Remove filter: ${chip.label}`}
-                className="group flex h-10 items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 pl-3.5 pr-2 text-xs font-medium text-foreground transition-colors hover:border-primary/60 hover:bg-primary/15"
+                className="group flex h-9 items-center gap-1.5 rounded-full bg-foreground/[0.06] pl-3.5 pr-2 text-xs font-semibold text-foreground transition-colors hover:bg-foreground/[0.11]"
               >
                 {chip.label}
-                <span className="flex size-6 items-center justify-center rounded-full text-muted-foreground transition-colors group-hover:bg-primary/25 group-hover:text-foreground">
+                <span className="flex size-6 items-center justify-center rounded-full text-muted-foreground transition-colors group-hover:bg-foreground/[0.12] group-hover:text-foreground">
                   <X className="size-3" aria-hidden />
                 </span>
               </button>
@@ -595,7 +595,7 @@ export function BrowseView() {
               <button
                 type="button"
                 onClick={resetAll}
-                className="h-10 rounded-full px-3 text-xs font-medium text-muted-foreground underline decoration-muted-foreground/40 underline-offset-4 transition-colors hover:text-foreground"
+                className="h-9 rounded-full px-3 text-xs font-semibold text-muted-foreground underline decoration-muted-foreground/40 underline-offset-4 transition-colors hover:text-foreground"
               >
                 Clear all
               </button>

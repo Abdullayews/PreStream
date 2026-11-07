@@ -1,21 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Inter, JetBrains_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/prime/providers";
 
-/* Type system — "Aurora" voice:
-   - Space Grotesk: the display voice (headings, brand, big numerals) —
-     geometric, slightly retro-cinematic, unmistakably not-default.
-   - Inter: the reading voice (body, UI labels) — quiet and legible.
+/* Type system — "Basement" voice:
+   - Outfit: the UI voice (body, labels, buttons) — geometric, friendly.
+   - Cabinet Grotesk: the display voice (headings, big statements) —
+     self-hosted from public/fonts (see @font-face in globals.css),
+     with Outfit as its own fallback.
+   - Inter: reading fallback for long-form copy.
    - JetBrains Mono: keyboard hints and data chips. */
-const inter = Inter({
-  variable: "--font-inter",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
@@ -41,8 +43,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#15161f" },
-    { media: "(prefers-color-scheme: light)", color: "#f7f4ee" },
+    { media: "(prefers-color-scheme: dark)", color: "#08090b" },
+    { media: "(prefers-color-scheme: light)", color: "#f4f3ef" },
   ],
 };
 
@@ -85,7 +87,7 @@ if(known.split(" ").indexOf(id)>=0)t.dataset.theme=id;
           strictly. */}
       <body
         suppressHydrationWarning
-        className={`${inter.variable} ${spaceGrotesk.variable} ${jetMono.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${outfit.variable} ${inter.variable} ${jetMono.variable} font-sans antialiased bg-background text-foreground`}
       >
         <Providers>{children}</Providers>
       </body>

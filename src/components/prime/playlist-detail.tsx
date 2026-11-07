@@ -106,7 +106,7 @@ export function PlaylistDetail({
     );
   }
 
-  if (isLoading) return <BrowseSkeleton className="mx-auto max-w-7xl px-4 py-8 sm:px-6" />;
+  if (isLoading) return <BrowseSkeleton className="shell py-8" />;
 
   if (isError || !data) {
     return (
@@ -123,24 +123,23 @@ export function PlaylistDetail({
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+    <div className="shell pt-20 pb-8 sm:pt-24">
       {/* back */}
       <button
         type="button"
         onClick={handleBack}
         aria-label="Back to playlists"
-        className="glass mb-6 flex h-11 items-center gap-1.5 rounded-full pr-4 pl-3 text-sm font-medium transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="mb-6 flex h-10 items-center gap-1.5 rounded-full bg-foreground/[0.05] pr-4 pl-3 text-sm font-semibold text-muted-foreground transition-colors hover:bg-foreground/[0.09] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        <ArrowLeft className="size-5" aria-hidden />
+        <ArrowLeft className="size-4.5" aria-hidden />
         Back
       </button>
 
       {/* heading */}
       <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
         <div className="min-w-0">
-          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            <span className="h-px w-6 bg-gradient-to-r from-primary to-transparent" aria-hidden />
-            <span className="text-brand-gradient">Community</span> Playlist
+          <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-muted-foreground">
+            Community Playlist
           </p>
           <SectionTitle as="h1" className="mt-2 text-2xl sm:text-3xl md:text-4xl">
             {data.title}
@@ -154,7 +153,7 @@ export function PlaylistDetail({
             <Button
               variant="outline"
               size="icon"
-              className={cn("size-11 rounded-full", isFavorite && "border-primary text-primary")}
+              className={cn("size-11 rounded-full", isFavorite && "bg-foreground/[0.08] text-foreground")}
               onClick={toggleFavorite}
               disabled={playlistAction.isPending}
               aria-pressed={isFavorite}

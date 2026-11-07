@@ -168,13 +168,10 @@ export function OnboardingDialog() {
         className="glass max-w-[calc(100%-2rem)] gap-0 rounded-2xl border-border/60 p-0 sm:max-w-md"
       >
         <DialogHeader className="border-b border-border/60 px-6 pt-6 pb-5">
-          <div className="relative mb-4 flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/70 text-primary-foreground shadow-lg shadow-primary/30">
+          <div className="mb-4 flex size-12 items-center justify-center rounded-2xl bg-foreground/[0.06] text-foreground">
             <Clapperboard className="size-6" aria-hidden />
           </div>
-          <DialogTitle
-            className="text-left text-2xl font-semibold tracking-tight"
-            style={{ fontFamily: "var(--font-heading, var(--font-space-grotesk)), sans-serif" }}
-          >
+          <DialogTitle className="font-display text-left text-2xl font-bold tracking-tight">
             {reloginOpen ? "Sign in again" : "Welcome to PreStream"}
           </DialogTitle>
           <DialogDescription className="mt-1.5 text-left text-sm leading-relaxed text-muted-foreground">
@@ -261,7 +258,7 @@ export function OnboardingDialog() {
           <Button
             type="submit"
             disabled={submitting}
-            className="h-11 w-full rounded-xl bg-primary font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:brightness-110"
+            className="h-11 w-full rounded-xl font-bold"
           >
             {submitting && <Loader2 className="size-4 animate-spin" aria-hidden />}
             Sign in

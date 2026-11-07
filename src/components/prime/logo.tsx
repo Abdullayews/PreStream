@@ -95,24 +95,17 @@ export function LogoMark({ className }: { className?: string }) {
   );
 }
 
-/** Full logo — mark + wordmark in the display voice, "Stream" in brand gradient. */
+/** Full logo — mark + wordmark in the display voice (Cabinet Grotesk). */
 export function PreStreamLogo({ className }: { className?: string }) {
   return (
     <span className={cn("group flex items-center gap-2.5", className)}>
       <span className="relative">
         <LogoMark className="size-9 transition-transform duration-200 group-hover:scale-105 group-active:scale-95" />
-        {/* soft brand glow */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 rounded-2xl bg-rose-500/35 blur-lg"
-        />
       </span>
       <span
-        className="text-lg font-bold tracking-tight text-foreground"
-        style={{ fontFamily: "var(--font-heading, var(--font-space-grotesk)), sans-serif" }}
+        className="font-display text-[19px] font-bold tracking-tight text-foreground"
       >
-        Pre
-        <span className="text-brand-gradient">Stream</span>
+        PreStream
       </span>
     </span>
   );

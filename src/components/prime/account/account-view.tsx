@@ -109,7 +109,7 @@ export function AccountView() {
   return (
     <div>
       {/* ---------------- hero ---------------- */}
-      <div className="mx-auto max-w-7xl px-4 pt-8 pb-6 sm:px-6">
+      <div className="shell pt-20 pb-6 sm:pt-24">
         {heroLoading ? (
           <div className="flex items-center gap-4 sm:gap-6" aria-busy="true">
             <Skeleton className="size-20 rounded-full sm:size-24" />
@@ -121,7 +121,7 @@ export function AccountView() {
           </div>
         ) : user ? (
           <div className="flex items-start gap-4 sm:items-center sm:gap-6">
-            <span className="relative flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted ring-2 ring-primary/25 ring-offset-2 ring-offset-background sm:size-24">
+            <span className="relative flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted sm:size-24">
               {avatarSrc ? (
                 <img
                   src={avatarSrc}
@@ -144,7 +144,7 @@ export function AccountView() {
                     aria-hidden
                     className={cn(
                       "size-1.5 rounded-full",
-                      user.online ? "bg-primary" : "bg-muted-foreground/40",
+                      user.online ? "bg-foreground" : "bg-muted-foreground/40",
                     )}
                   />
                   {user.online ? "Online" : "Offline"}
@@ -190,8 +190,8 @@ export function AccountView() {
       </div>
 
       {/* ---------------- sticky tab bar ---------------- */}
-      <div className="glass sticky top-16 z-40 rounded-none border-x-0 border-t-0">
-        <div className="mx-auto max-w-7xl px-4 pt-1 sm:px-6">
+      <div className="glass sticky top-14 z-40 rounded-none border-x-0 border-t-0 shadow-none sm:top-16">
+        <div className="shell pt-1">
           <div
             className="no-scrollbar flex gap-2 overflow-x-auto py-2.5"
             role="tablist"
@@ -213,11 +213,11 @@ export function AccountView() {
                   aria-selected={active}
                   onClick={() => selectTab(id)}
                   className={cn(
-                    "flex h-10 shrink-0 items-center gap-1.5 rounded-full px-4 text-sm font-medium whitespace-nowrap transition-all",
+                    "flex h-10 shrink-0 items-center gap-1.5 rounded-full px-4 text-[13px] font-semibold whitespace-nowrap transition-colors",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     active
-                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
-                      : "border border-border text-muted-foreground hover:border-primary/40 hover:bg-muted hover:text-foreground",
+                      ? "bg-foreground/[0.08] text-foreground"
+                      : "text-muted-foreground hover:bg-foreground/[0.05] hover:text-foreground",
                   )}
                 >
                   {TAB_LABELS[id] ?? id}
@@ -226,8 +226,8 @@ export function AccountView() {
                       className={cn(
                         "flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-[10px] font-bold",
                         active
-                          ? "bg-primary-foreground/20 text-primary-foreground"
-                          : "bg-primary text-primary-foreground",
+                          ? "bg-foreground/[0.14] text-foreground"
+                          : "bg-foreground/[0.07] text-foreground",
                       )}
                     >
                       {unread > 99 ? "99+" : unread}
@@ -241,7 +241,7 @@ export function AccountView() {
       </div>
 
       {/* ---------------- tab content (pb-32 clears the dock) ---------------- */}
-      <div className="mx-auto max-w-7xl px-4 pt-6 pb-32 sm:px-6">
+      <div className="shell pt-6 pb-32">
         {tab === "library" && <LibraryTab />}
         {tab === "playlists" && <PlaylistsTab />}
         {tab === "schedule" && <ScheduleTab />}

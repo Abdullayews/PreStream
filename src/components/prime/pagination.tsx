@@ -39,7 +39,7 @@ export function Pagination({
         onClick={() => onPage(page - 1)}
         disabled={page <= 1}
         aria-label="Previous page"
-        className="flex size-11 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
+        className="flex size-11 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-foreground/[0.05] hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
       >
         <ChevronLeft className="size-5" aria-hidden />
       </button>
@@ -52,10 +52,10 @@ export function Pagination({
           aria-current={p === page ? "page" : undefined}
           aria-label={`Page ${p}`}
           className={cn(
-            "flex size-11 items-center justify-center rounded-full text-sm font-medium tabular-nums transition-colors",
+            "flex size-11 items-center justify-center rounded-full text-sm font-semibold tabular-nums transition-colors",
             p === page
-              ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
-              : "border border-border text-muted-foreground hover:border-primary/40 hover:text-foreground",
+              ? "bg-foreground/[0.08] text-foreground"
+              : "text-muted-foreground hover:bg-foreground/[0.05] hover:text-foreground",
           )}
         >
           {p}
@@ -67,7 +67,7 @@ export function Pagination({
         onClick={() => onPage(page + 1)}
         disabled={!hasNext}
         aria-label="Next page"
-        className="flex size-11 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
+        className="flex size-11 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-foreground/[0.05] hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
       >
         <ChevronRight className="size-5" aria-hidden />
       </button>
