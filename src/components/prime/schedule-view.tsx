@@ -160,17 +160,17 @@ export function ScheduleDayPicker({
             aria-selected={active}
             onClick={() => onSelect(i)}
             className={cn(
-              "h-10 shrink-0 rounded-full px-4 text-sm font-medium whitespace-nowrap transition-colors",
+              "h-10 shrink-0 rounded-full px-4 text-sm font-medium whitespace-nowrap transition-all",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               active
-                ? "bg-primary text-primary-foreground"
-                : "border border-border text-muted-foreground hover:bg-muted hover:text-foreground",
+                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
+                : "border border-border text-muted-foreground hover:border-primary/40 hover:bg-muted hover:text-foreground",
             )}
           >
             {day.day}
             <span
               className={cn(
-                "ml-2 text-xs",
+                "ml-2 text-xs tabular-nums",
                 active ? "opacity-75" : "text-muted-foreground/70",
               )}
             >
@@ -196,12 +196,12 @@ export function ScheduleRow({ episode }: { episode: ScheduleEpisode }) {
     });
 
   return (
-    <li className="group flex items-stretch gap-2 rounded-2xl border border-border/60 bg-card transition-colors hover:border-foreground/25">
+    <li className="group flex items-stretch gap-2 rounded-xl border border-border/60 bg-card transition-all hover:border-primary/40 hover:shadow-lg hover:shadow-black/10">
       <button
         type="button"
         onClick={openShow}
         aria-label={`Open ${episode.title} — season ${episode.season}, episode ${episode.number}`}
-        className="flex min-w-0 flex-1 items-center gap-3 rounded-2xl p-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset sm:gap-4 sm:p-3"
+        className="flex min-w-0 flex-1 items-center gap-3 rounded-xl p-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset sm:gap-4 sm:p-3"
       >
         {/* poster thumbnail (56px wide) */}
         <span className="w-14 shrink-0 overflow-hidden rounded-xl bg-muted">
@@ -233,7 +233,7 @@ export function ScheduleRow({ episode }: { episode: ScheduleEpisode }) {
                 "shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide",
                 episode.aired
                   ? "bg-muted text-muted-foreground"
-                  : "border border-foreground/30 text-foreground",
+                  : "border border-primary/40 bg-primary/10 text-primary",
               )}
             >
               {episode.aired ? "Aired" : "Upcoming"}
@@ -261,7 +261,7 @@ export function ScheduleRow({ episode }: { episode: ScheduleEpisode }) {
         }
         aria-label={`Play ${episode.title} season ${episode.season} episode ${episode.number}`}
         title="Play episode"
-        className="my-auto ml-1 flex size-11 shrink-0 items-center justify-center rounded-full bg-foreground text-background transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="my-auto ml-1 flex size-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md shadow-primary/25 transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <Play className="size-4 fill-current" aria-hidden />
       </button>

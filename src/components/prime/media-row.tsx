@@ -10,8 +10,8 @@ import { toBrowse } from "./nav";
 import type { MediaItem } from "@/lib/primewire/types";
 
 /**
- * Netflix-style horizontal shelf with snap scrolling, edge fades and
- * hover-reveal chevrons (always visible on touch devices).
+ * Netflix-style horizontal shelf, Aurora cut: snap scrolling, soft edge
+ * fades and hover-reveal chevrons (always visible on touch devices).
  */
 export function MediaRow({
   title,
@@ -47,7 +47,7 @@ export function MediaRow({
             aria-label={`See all ${title}`}
           >
             See all
-            <ArrowRight className="size-4" aria-hidden />
+            <ArrowRight className="size-4 transition-transform duration-200 group-hover/row:translate-x-0.5" aria-hidden />
           </Button>
         )}
       </div>
@@ -55,7 +55,7 @@ export function MediaRow({
       <div className="relative">
         <div
           ref={scroller}
-          className="no-scrollbar flex snap-x gap-4 overflow-x-auto scroll-smooth py-1 [mask-image:linear-gradient(to_right,transparent,black_12px,black_calc(100%-12px),transparent)]"
+          className="no-scrollbar shelf-fade flex snap-x gap-4 overflow-x-auto scroll-smooth py-1"
         >
           {items.map((item) => (
             <div

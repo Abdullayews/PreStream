@@ -1,9 +1,10 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Section heading — big, bold, with a small primary accent tick on the
- * leading edge (theme-colored, so active themes color the shelves too).
- * `text-xl font-semibold tracking-tight` per the design system.
+ * Section heading — Aurora cut. An eyebrow-style heading in the display
+ * voice with a small primary accent wedge on the leading edge (theme
+ * colored, so active themes color the shelves too). The wedge uses a
+ * gradient fade toward the text so it reads as a "spotlight beam".
  */
 export function SectionTitle({
   children,
@@ -23,7 +24,7 @@ export function SectionTitle({
     >
       <span
         aria-hidden
-        className="h-5 w-1 shrink-0 rounded-full bg-primary/90"
+        className="h-5 w-1 shrink-0 rounded-full bg-gradient-to-b from-primary to-primary/20"
       />
       {children}
     </Tag>

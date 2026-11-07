@@ -1,11 +1,13 @@
 import { cn } from "@/lib/utils";
 
 /**
- * PreStream brand mark — a squircle badge with a warm rose→amber gradient,
- * a bold "P" whose bowl is a play triangle (Pre + Play), and a gold
- * sparkle. Rendered as inline SVG so gradients stay crisp at any size.
- * The gradient is a fixed brand asset (deliberately not theme-mapped):
- * a logo keeps its identity across the 40 themes.
+ * PreStream brand mark — v3 "Aurora" cut.
+ *
+ * A squircle badge carrying the brand's rose→amber gradient (kept as a
+ * fixed asset: the logo keeps its identity across the 40 themes), with a
+ * bold "P" whose bowl is a play triangle (Pre + Play), a warm gold
+ * sparkle, and a new deep inner rim that reads crisply on the dark stage.
+ * Rendered inline so gradients stay sharp at any size.
  */
 export function LogoMark({ className }: { className?: string }) {
   return (
@@ -28,6 +30,17 @@ export function LogoMark({ className }: { className?: string }) {
           <stop offset="0.45" stopColor="#e11d48" />
           <stop offset="1" stopColor="#f59e0b" />
         </linearGradient>
+        <linearGradient
+          id="prestream-rim"
+          x1="24"
+          y1="3"
+          x2="24"
+          y2="45"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0" stopColor="#ffffff" stopOpacity="0.35" />
+          <stop offset="1" stopColor="#000000" stopOpacity="0.25" />
+        </linearGradient>
       </defs>
       {/* badge */}
       <rect
@@ -38,7 +51,16 @@ export function LogoMark({ className }: { className?: string }) {
         rx="13"
         fill="url(#prestream-badge)"
       />
-      {/* top-edge sheen for depth */}
+      {/* inner rim for depth on dark stages */}
+      <rect
+        x="3"
+        y="3"
+        width="42"
+        height="42"
+        rx="13"
+        fill="url(#prestream-rim)"
+      />
+      {/* top-edge sheen */}
       <rect
         x="3"
         y="3"
@@ -73,7 +95,7 @@ export function LogoMark({ className }: { className?: string }) {
   );
 }
 
-/** Full logo — mark + wordmark, with the brand gradient on "Stream". */
+/** Full logo — mark + wordmark in the display voice, "Stream" in brand gradient. */
 export function PreStreamLogo({ className }: { className?: string }) {
   return (
     <span className={cn("group flex items-center gap-2.5", className)}>
@@ -85,11 +107,12 @@ export function PreStreamLogo({ className }: { className?: string }) {
           className="pointer-events-none absolute inset-0 -z-10 rounded-2xl bg-rose-500/35 blur-lg"
         />
       </span>
-      <span className="text-lg font-bold tracking-tight text-foreground">
+      <span
+        className="text-lg font-bold tracking-tight text-foreground"
+        style={{ fontFamily: "var(--font-heading, var(--font-space-grotesk)), sans-serif" }}
+      >
         Pre
-        <span className="bg-gradient-to-r from-rose-500 via-rose-600 to-amber-500 bg-clip-text text-transparent">
-          Stream
-        </span>
+        <span className="text-brand-gradient">Stream</span>
       </span>
     </span>
   );

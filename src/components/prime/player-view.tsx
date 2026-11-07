@@ -499,7 +499,7 @@ function PlayerLoaded({
             </h1>
             <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
               {isEpisode ? (
-                <span className="font-semibold text-foreground">
+                <span className="font-semibold text-primary">
                   S{String(data.season).padStart(2, "0")}
                   E{String(data.number).padStart(2, "0")}
                   {data.episodeName ? ` — ${data.episodeName}` : ""}
@@ -605,7 +605,7 @@ function PlayerLoaded({
               <PopoverTrigger asChild>
                 <button
                   type="button"
-                  className="flex h-9 items-center gap-2 rounded-full bg-foreground/5 px-3.5 text-xs font-semibold transition-colors hover:bg-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="flex h-9 items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3.5 text-xs font-semibold text-foreground transition-colors hover:border-primary/60 hover:bg-primary/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   aria-label="Browse and switch sources"
                 >
                   <MonitorPlay className="size-4" aria-hidden />
@@ -666,7 +666,7 @@ function PlayerLoaded({
                   disabled={!data.prev}
                   onClick={() => data.prev && goEpisode(data.prev)}
                   aria-label={`Previous episode${data.prev ? ` (S${data.prev.season}E${data.prev.number})` : ""}`}
-                  className="flex size-9 items-center justify-center rounded-full bg-foreground/5 transition-colors hover:bg-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
+                  className="flex size-9 items-center justify-center rounded-full border border-border/70 bg-card/60 transition-colors hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
                 >
                   <ChevronLeft className="size-4" aria-hidden />
                 </button>
@@ -675,7 +675,7 @@ function PlayerLoaded({
                   disabled={!data.next}
                   onClick={() => data.next && goEpisode(data.next)}
                   aria-label={`Next episode${data.next ? ` (S${data.next.season}E${data.next.number})` : ""}`}
-                  className="flex size-9 items-center justify-center rounded-full bg-foreground/5 transition-colors hover:bg-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
+                  className="flex size-9 items-center justify-center rounded-full border border-border/70 bg-card/60 transition-colors hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-40"
                 >
                   <ChevronRight className="size-4" aria-hidden />
                 </button>
@@ -689,7 +689,7 @@ function PlayerLoaded({
                 onClick={reloadPlayer}
                 aria-label="Reload the player"
                 title="Reload player (R)"
-                className="flex size-9 items-center justify-center rounded-full bg-foreground/5 transition-colors hover:bg-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex size-9 items-center justify-center rounded-full border border-border/70 bg-card/60 transition-colors hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <RefreshCw className="size-4" aria-hidden />
               </button>
@@ -699,7 +699,7 @@ function PlayerLoaded({
                 onClick={toggleFullscreen}
                 aria-label="Toggle fullscreen"
                 title="Fullscreen (F)"
-                className="flex size-9 items-center justify-center rounded-full bg-foreground/5 transition-colors hover:bg-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex size-9 items-center justify-center rounded-full border border-border/70 bg-card/60 transition-colors hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <Maximize2 className="size-4" aria-hidden />
               </button>

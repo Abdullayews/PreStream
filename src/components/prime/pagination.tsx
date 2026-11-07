@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 /**
  * Shared pagination control (browse + playlists). PrimeWire exposes a
  * sliding window of page numbers; the current page is merged in when the
- * window doesn't include it. 44px touch targets, themed active pill.
+ * window doesn't include it. 44px touch targets, themed active pill with
+ * a soft accent glow.
  */
 export function Pagination({
   page,
@@ -38,7 +39,7 @@ export function Pagination({
         onClick={() => onPage(page - 1)}
         disabled={page <= 1}
         aria-label="Previous page"
-        className="flex size-11 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
+        className="flex size-11 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
       >
         <ChevronLeft className="size-5" aria-hidden />
       </button>
@@ -51,10 +52,10 @@ export function Pagination({
           aria-current={p === page ? "page" : undefined}
           aria-label={`Page ${p}`}
           className={cn(
-            "flex size-11 items-center justify-center rounded-full text-sm font-medium transition-colors",
+            "flex size-11 items-center justify-center rounded-full text-sm font-medium tabular-nums transition-colors",
             p === page
-              ? "bg-primary text-primary-foreground shadow-lg shadow-black/20"
-              : "border border-border text-muted-foreground hover:bg-muted hover:text-foreground",
+              ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
+              : "border border-border text-muted-foreground hover:border-primary/40 hover:text-foreground",
           )}
         >
           {p}
@@ -66,13 +67,13 @@ export function Pagination({
         onClick={() => onPage(page + 1)}
         disabled={!hasNext}
         aria-label="Next page"
-        className="flex size-11 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
+        className="flex size-11 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
       >
         <ChevronRight className="size-5" aria-hidden />
       </button>
 
       <span className="ml-3 text-xs text-muted-foreground">
-        Page {page}
+        Page <span className="font-semibold text-foreground">{page}</span>
       </span>
     </nav>
   );

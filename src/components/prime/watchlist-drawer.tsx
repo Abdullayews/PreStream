@@ -53,6 +53,7 @@ export function WatchlistDrawer({
       >
         <SheetHeader className="border-b border-border/60 px-5 py-4">
           <SheetTitle className="flex items-center gap-2.5">
+            <span className="h-4 w-1 rounded-full bg-gradient-to-b from-primary to-primary/20" aria-hidden />
             Watchlist
             {items.length > 0 && (
               <Badge variant="secondary" className="rounded-full px-2">
@@ -77,7 +78,7 @@ export function WatchlistDrawer({
               </p>
             </div>
             <Button
-              className="rounded-full"
+              className="rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:brightness-110"
               onClick={() => {
                 onOpenChange(false);
                 toBrowse(router, { type: "movie" });
@@ -169,7 +170,7 @@ export function WatchlistDrawer({
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="size-11 shrink-0 rounded-full text-muted-foreground hover:text-foreground"
+                      className="size-11 shrink-0 rounded-full bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary"
                       onClick={() => toPlayer(router, item)}
                       aria-label={`Play ${item.title}`}
                     >

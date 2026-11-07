@@ -154,12 +154,12 @@ export function SearchSpotlight() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.97, y: -8 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
-            className="glass w-full max-w-xl overflow-hidden rounded-2xl shadow-2xl"
+            className="glass glass-rim w-full max-w-xl overflow-hidden rounded-2xl shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* input */}
             <div className="flex items-center gap-3 border-b border-border/60 px-4">
-              <Search className="size-5 shrink-0 text-muted-foreground" aria-hidden />
+              <Search className="size-5 shrink-0 text-primary/80" aria-hidden />
               <input
                 ref={inputRef}
                 type="text"
@@ -208,8 +208,10 @@ export function SearchSpotlight() {
                     onClick={() => openItem(item)}
                     onMouseEnter={() => setActive(i)}
                     className={cn(
-                      "flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left transition-colors focus-visible:outline-none",
-                      i === active ? "bg-foreground/10" : "hover:bg-foreground/5",
+                      "flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left transition-all focus-visible:outline-none",
+                      i === active
+                        ? "bg-primary/15 shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--primary)_35%,transparent)]"
+                        : "hover:bg-foreground/5",
                     )}
                   >
                     <span className="flex h-14 w-10 shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted ring-1 ring-foreground/10">
@@ -236,13 +238,13 @@ export function SearchSpotlight() {
                         </span>
                         {item.year != null && <span>{item.year}</span>}
                         {item.rating != null && (
-                          <span className="text-foreground/70">★ {item.rating.toFixed(1)}</span>
+                          <span className="font-semibold text-foreground/80">★ {item.rating.toFixed(1)}</span>
                         )}
                       </span>
                     </span>
                     {i === active && (
                       <CornerDownLeft
-                        className="size-4 shrink-0 text-muted-foreground"
+                        className="size-4 shrink-0 text-primary"
                         aria-hidden
                       />
                     )}

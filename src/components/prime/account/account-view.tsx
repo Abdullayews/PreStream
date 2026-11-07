@@ -121,7 +121,7 @@ export function AccountView() {
           </div>
         ) : user ? (
           <div className="flex items-start gap-4 sm:items-center sm:gap-6">
-            <span className="relative flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted ring-1 ring-foreground/10 sm:size-24">
+            <span className="relative flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted ring-2 ring-primary/25 ring-offset-2 ring-offset-background sm:size-24">
               {avatarSrc ? (
                 <img
                   src={avatarSrc}
@@ -144,7 +144,7 @@ export function AccountView() {
                     aria-hidden
                     className={cn(
                       "size-1.5 rounded-full",
-                      user.online ? "bg-foreground" : "bg-muted-foreground/40",
+                      user.online ? "bg-primary" : "bg-muted-foreground/40",
                     )}
                   />
                   {user.online ? "Online" : "Offline"}
@@ -213,11 +213,11 @@ export function AccountView() {
                   aria-selected={active}
                   onClick={() => selectTab(id)}
                   className={cn(
-                    "flex h-10 shrink-0 items-center gap-1.5 rounded-full px-4 text-sm font-medium whitespace-nowrap transition-colors",
+                    "flex h-10 shrink-0 items-center gap-1.5 rounded-full px-4 text-sm font-medium whitespace-nowrap transition-all",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     active
-                      ? "bg-primary text-primary-foreground"
-                      : "border border-border text-muted-foreground hover:bg-muted hover:text-foreground",
+                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
+                      : "border border-border text-muted-foreground hover:border-primary/40 hover:bg-muted hover:text-foreground",
                   )}
                 >
                   {TAB_LABELS[id] ?? id}

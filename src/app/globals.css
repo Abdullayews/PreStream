@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-/* Theme engine: generated per-theme token blocks (all 40 themes) + ambient decor keyframes */
+/* Theme engine: generated per-theme token blocks (all 40 themes) + ambient decor keyframes.
+   The neutral foundation below is what users see by default; every themed
+   block in themes.generated.css overrides these tokens via [data-theme]. */
 @import "../themes/themes.generated.css";
 @import "../themes/decor.css";
 
@@ -9,8 +11,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jet-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -43,6 +45,7 @@
   --color-surface: var(--surface);
   --color-glass: var(--glass);
   --color-glass-foreground: var(--glass-foreground);
+  --color-star: var(--star);
   --radius-sm: calc(var(--radius) - 8px);
   --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
@@ -50,9 +53,17 @@
 }
 
 /*
- * PreStream palette — Shiopa-inspired monochrome.
- * Pure black/white/gray scale: white primary buttons, deep neutral surfaces,
- * hairline borders. The accent is contrast itself, not color.
+ * PreStream "Aurora" — the v3 design language.
+ *
+ * Identity: a cinematic screening room. A deep indigo-black stage that lets
+ * poster art carry the color, warm ivory type with a display-serif-free
+ * geometric voice (Space Grotesk), and ONE signature accent — coral-rose —
+ * borrowed from the brand mark's rose→amber gradient. Gold is reserved
+ * exclusively for ratings so score signals read instantly.
+ *
+ * Surfaces sit on a fixed aurora gradient field (body::before/::after):
+ * two ultra-soft radial washes of the accent that drift imperceptibly —
+ * pure transform/opacity, paused for reduced-motion, invisible in print.
  */
 
 :root {
@@ -61,44 +72,152 @@
   /* Dock clearance — the floating bottom dock's on-screen footprint.
      The SiteDock component measures the real value at runtime and sets
      --dock-clearance on <html>; this CSS fallback mirrors the dock's
-     geometry (60px pill + max(1rem, safe-area) bottom offset + hairline)
-     so the very first paint already reserves a near-exact lane even
-     before JavaScript runs. */
+     geometry so the very first paint already reserves a near-exact lane
+     even before JavaScript runs. */
   --dock-clearance: calc(62px + max(1rem, env(safe-area-inset-bottom, 0px)));
-  --background: oklch(0.985 0 0);
-  --foreground: oklch(0.18 0.005 240);
+
+  /* ---- stage: warm paper light ---- */
+  --background: oklch(0.977 0.005 85);
+  --foreground: oklch(0.21 0.014 275);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.005 240);
+  --card-foreground: oklch(0.21 0.014 275);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.005 240);
-  --primary: oklch(0.18 0.005 240);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.955 0.002 240);
-  --secondary-foreground: oklch(0.18 0.005 240);
-  --muted: oklch(0.955 0.002 240);
-  --muted-foreground: oklch(0.5 0.005 240);
-  --accent: oklch(0.94 0.002 240);
-  --accent-foreground: oklch(0.18 0.005 240);
+  --popover-foreground: oklch(0.21 0.014 275);
+  --primary: oklch(0.6 0.199 21);
+  --primary-foreground: oklch(0.985 0.005 85);
+  --secondary: oklch(0.945 0.007 85);
+  --secondary-foreground: oklch(0.21 0.014 275);
+  --muted: oklch(0.945 0.007 85);
+  --muted-foreground: oklch(0.5 0.012 275);
+  --accent: oklch(0.93 0.012 60);
+  --accent-foreground: oklch(0.21 0.014 275);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.9 0.003 240);
-  --input: oklch(0.9 0.003 240);
-  --ring: oklch(0.35 0.005 240);
-  --surface: oklch(0.97 0.002 240);
-  --glass: oklch(1 0 0 / 0.72);
-  --glass-foreground: oklch(0.18 0.005 240);
-  --chart-1: oklch(0.18 0.005 240);
-  --chart-2: oklch(0.45 0.01 240);
-  --chart-3: oklch(0.65 0.005 240);
-  --chart-4: oklch(0.8 0.003 240);
-  --chart-5: oklch(0.9 0.002 240);
-  --sidebar: oklch(0.975 0.002 240);
-  --sidebar-foreground: oklch(0.18 0.005 240);
-  --sidebar-primary: oklch(0.18 0.005 240);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.94 0.002 240);
-  --sidebar-accent-foreground: oklch(0.18 0.005 240);
-  --sidebar-border: oklch(0.9 0.003 240);
-  --sidebar-ring: oklch(0.35 0.005 240);
+  --border: oklch(0.895 0.008 85);
+  --input: oklch(0.9 0.008 85);
+  --ring: oklch(0.6 0.199 21);
+  --surface: oklch(0.958 0.006 85);
+  --glass: oklch(1 0 0 / 0.74);
+  --glass-foreground: oklch(0.21 0.014 275);
+  /* gold — ratings only */
+  --star: oklch(0.74 0.16 80);
+  --chart-1: oklch(0.6 0.199 21);
+  --chart-2: oklch(0.55 0.12 275);
+  --chart-3: oklch(0.65 0.08 85);
+  --chart-4: oklch(0.8 0.06 60);
+  --chart-5: oklch(0.9 0.03 60);
+  --sidebar: oklch(0.965 0.006 85);
+  --sidebar-foreground: oklch(0.21 0.014 275);
+  --sidebar-primary: oklch(0.6 0.199 21);
+  --sidebar-primary-foreground: oklch(0.985 0.005 85);
+  --sidebar-accent: oklch(0.94 0.01 60);
+  --sidebar-accent-foreground: oklch(0.21 0.014 275);
+  --sidebar-border: oklch(0.895 0.008 85);
+  --sidebar-ring: oklch(0.6 0.199 21);
+}
+
+.dark {
+  color-scheme: dark;
+  /* ---- stage: cinematic indigo-black ---- */
+  --background: oklch(0.155 0.014 275);
+  --foreground: oklch(0.955 0.006 90);
+  --card: oklch(0.19 0.014 275);
+  --card-foreground: oklch(0.955 0.006 90);
+  --popover: oklch(0.205 0.015 275);
+  --popover-foreground: oklch(0.955 0.006 90);
+  --primary: oklch(0.685 0.187 22);
+  --primary-foreground: oklch(0.16 0.045 25);
+  --secondary: oklch(0.235 0.016 275);
+  --secondary-foreground: oklch(0.955 0.006 90);
+  --muted: oklch(0.235 0.016 275);
+  --muted-foreground: oklch(0.64 0.014 275);
+  --accent: oklch(0.26 0.018 275);
+  --accent-foreground: oklch(0.955 0.006 90);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(0.275 0.016 275);
+  --input: oklch(0.25 0.016 275);
+  --ring: oklch(0.685 0.187 22);
+  --surface: oklch(0.175 0.015 275);
+  --glass: oklch(0.175 0.015 275 / 0.72);
+  --glass-foreground: oklch(0.955 0.006 90);
+  --star: oklch(0.83 0.15 85);
+  --chart-1: oklch(0.685 0.187 22);
+  --chart-2: oklch(0.6 0.14 275);
+  --chart-3: oklch(0.75 0.1 85);
+  --chart-4: oklch(0.5 0.08 60);
+  --chart-5: oklch(0.4 0.05 60);
+  --sidebar: oklch(0.185 0.014 275);
+  --sidebar-foreground: oklch(0.955 0.006 90);
+  --sidebar-primary: oklch(0.685 0.187 22);
+  --sidebar-primary-foreground: oklch(0.16 0.045 25);
+  --sidebar-accent: oklch(0.26 0.018 275);
+  --sidebar-accent-foreground: oklch(0.955 0.006 90);
+  --sidebar-border: oklch(0.275 0.016 275);
+  --sidebar-ring: oklch(0.685 0.187 22);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 30%, transparent);
+  }
+  /* Display voice — Space Grotesk for headings, tabular where numeric */
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading, var(--font-space-grotesk)), var(--font-inter), sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Aurora stage — fixed ambient gradient field behind everything       */
+/* ------------------------------------------------------------------ */
+/* Two ultra-soft accent washes + a cool counter-wash give the stage    */
+/* depth without stealing attention from poster art. They sit at        */
+/* z-index -1 (behind body background? no — body is transparent here    */
+/* via .bg-background on the app shell; the washes paint the viewport)  */
+/* and drift on a 40s loop. All motion is transform-only; the whole     */
+/* layer is disabled for prefers-reduced-motion and hidden in print.    */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+body::before {
+  background:
+    radial-gradient(58% 42% at 12% -6%, color-mix(in oklab, var(--primary) 13%, transparent), transparent 70%),
+    radial-gradient(50% 38% at 96% 12%, color-mix(in oklab, var(--primary) 7%, transparent), transparent 72%),
+    radial-gradient(64% 48% at 50% 118%, color-mix(in oklab, var(--chart-2, var(--primary)) 10%, transparent), transparent 76%);
+  animation: aurora-drift 42s ease-in-out infinite alternate;
+}
+body::after {
+  /* film-grain-free vignette: keeps the very top/bottom of the stage a
+     touch darker so glass panels and poster rows pop */
+  background: linear-gradient(to bottom, oklch(0 0 0 / 0.05), transparent 18%, transparent 82%, oklch(0 0 0 / 0.05));
+}
+.dark body::before {
+  background:
+    radial-gradient(58% 42% at 12% -6%, color-mix(in oklab, var(--primary) 16%, transparent), transparent 70%),
+    radial-gradient(50% 38% at 96% 12%, color-mix(in oklab, var(--primary) 9%, transparent), transparent 72%),
+    radial-gradient(64% 48% at 50% 118%, color-mix(in oklab, var(--chart-2, var(--primary)) 13%, transparent), transparent 76%);
+}
+@keyframes aurora-drift {
+  from { transform: translate3d(-1.5%, -1%, 0) scale(1.02); }
+  to   { transform: translate3d(1.5%, 1.5%, 0) scale(1.05); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+}
+@media print {
+  body::before, body::after { display: none; }
 }
 
 /* ------------------------------------------------------------------ */
@@ -125,53 +244,6 @@ html {
   bottom: calc(var(--dock-clearance) + 1rem) !important;
 }
 
-.dark {
-  color-scheme: dark;
-  --background: oklch(0.18 0.005 240);
-  --foreground: oklch(0.95 0 0);
-  --card: oklch(0.21 0.005 240);
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.21 0.005 240);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.95 0 0);
-  --primary-foreground: oklch(0.18 0.005 240);
-  --secondary: oklch(0.24 0.005 240);
-  --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.24 0.005 240);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.25 0.005 240);
-  --accent-foreground: oklch(0.95 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.26 0.005 240);
-  --input: oklch(0.24 0.005 240);
-  --ring: oklch(0.75 0 0);
-  --surface: oklch(0.14 0 0);
-  --glass: oklch(0.1 0 0 / 0.7);
-  --glass-foreground: oklch(0.95 0 0);
-  --chart-1: oklch(0.95 0 0);
-  --chart-2: oklch(0.75 0 0);
-  --chart-3: oklch(0.55 0.005 240);
-  --chart-4: oklch(0.35 0.005 240);
-  --chart-5: oklch(0.28 0.005 240);
-  --sidebar: oklch(0.205 0.005 240);
-  --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.95 0 0);
-  --sidebar-primary-foreground: oklch(0.18 0.005 240);
-  --sidebar-accent: oklch(0.25 0.005 240);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.26 0.005 240);
-  --sidebar-ring: oklch(0.75 0 0);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
 /* ---------------- custom utilities ---------------- */
 
 .no-scrollbar {
@@ -186,21 +258,69 @@ html {
   text-wrap: balance;
 }
 
-/* Frosted-glass panel — the core surface treatment for floating UI. */
+/* Frosted-glass panel — the core surface treatment for floating UI.
+   Deeper blur than v2 + a hairline top highlight for a physical edge. */
 .glass {
   background-color: var(--glass);
   color: var(--glass-foreground);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
-  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  backdrop-filter: blur(22px) saturate(170%);
   border: 1px solid color-mix(in oklab, var(--glass-foreground) 12%, transparent);
   box-shadow:
-    0 8px 32px oklch(0 0 0 / 0.28),
-    inset 0 1px 0 color-mix(in oklab, var(--glass-foreground) 8%, transparent);
+    0 12px 40px oklch(0 0 0 / 0.3),
+    inset 0 1px 0 color-mix(in oklab, var(--glass-foreground) 9%, transparent);
 }
 :root:not(.dark) .glass {
   box-shadow:
-    0 8px 32px oklch(0 0 0 / 0.12),
-    inset 0 1px 0 oklch(1 0 0 / 0.6);
+    0 12px 40px oklch(0 0 0 / 0.12),
+    inset 0 1px 0 oklch(1 0 0 / 0.65);
+}
+
+/* Gradient-edge glass panel — for hero CTAs and feature moments:
+   glass body + a 1px accent gradient rim that catches the eye. */
+.glass-rim {
+  position: relative;
+}
+.glass-rim::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--primary) 65%, transparent),
+    transparent 38%,
+    transparent 62%,
+    color-mix(in oklab, var(--primary) 40%, transparent)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Display type with the brand's rose→amber gradient — used sparingly
+   (hero eyebrow, empty-state numbers). */
+.text-brand-gradient {
+  background: linear-gradient(100deg, oklch(0.7 0.19 20), oklch(0.78 0.15 60), oklch(0.75 0.16 45));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Poster shelf edge fade — softer than a hard mask so covers dissolve
+   into the stage instead of being cut. */
+.shelf-fade {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent);
+  mask-image: linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent);
+}
+
+/* Shimmer — skeleton highlight sweep */
+@keyframes shimmer-sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
 }
 
 .thin-scrollbar {
@@ -232,6 +352,10 @@ html {
 html[data-transparency="on"] body {
   background: transparent;
 }
+html[data-transparency="on"] body::before,
+html[data-transparency="on"] body::after {
+  display: none;
+}
 html[data-transparency="on"] .bg-background {
   background-color: transparent;
 }
@@ -254,6 +378,5 @@ html[data-transparency="on"] .app-shell {
   background:
     linear-gradient(to bottom, oklch(0 0 0 / 0.16), oklch(0 0 0 / 0.05));
 }
-
 
 /* end of dock lane section */

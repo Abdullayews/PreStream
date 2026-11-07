@@ -241,7 +241,7 @@ export function BrowseView() {
   return (
     <div>
       {/* ---------------- filter bar (slim, glass-matched with the header) ---------------- */}
-      <div className="glass sticky top-16 z-40 rounded-none border-x-0 border-t-0">
+      <div className="glass sticky top-16 z-40 rounded-none border-x-0 border-t-0 shadow-none">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="no-scrollbar flex items-center gap-2 overflow-x-auto py-2.5">
             {/* search pill — opens the spotlight palette */}
@@ -249,11 +249,11 @@ export function BrowseView() {
               type="button"
               onClick={openSearch}
               aria-label="Search the catalog"
-              className="flex h-9 shrink-0 items-center gap-2 rounded-full border border-border/70 bg-foreground/[0.04] pr-3 pl-3 text-xs font-medium text-muted-foreground transition-all hover:border-foreground/25 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-9 shrink-0 items-center gap-2 rounded-full border border-border/70 bg-card/60 pr-3 pl-3 text-xs font-medium text-muted-foreground transition-all hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Search className="size-3.5" aria-hidden />
               {params.q ? (
-                <span className="max-w-32 truncate text-foreground">“{params.q}”</span>
+                <span className="max-w-32 truncate font-semibold text-foreground">“{params.q}”</span>
               ) : (
                 <span>Search</span>
               )}
@@ -574,16 +574,19 @@ export function BrowseView() {
         {/* active filters */}
         {chips.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 pt-6">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground/70">
+              Filters
+            </span>
             {chips.map((chip) => (
               <button
                 key={chip.key}
                 type="button"
                 onClick={chip.clear}
                 aria-label={`Remove filter: ${chip.label}`}
-                className="group flex h-10 items-center gap-1.5 rounded-full border border-border bg-muted/60 pl-3.5 pr-2 text-xs font-medium text-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
+                className="group flex h-10 items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 pl-3.5 pr-2 text-xs font-medium text-foreground transition-colors hover:border-primary/60 hover:bg-primary/15"
               >
                 {chip.label}
-                <span className="flex size-6 items-center justify-center rounded-full text-muted-foreground transition-colors group-hover:bg-foreground/10 group-hover:text-foreground">
+                <span className="flex size-6 items-center justify-center rounded-full text-muted-foreground transition-colors group-hover:bg-primary/25 group-hover:text-foreground">
                   <X className="size-3" aria-hidden />
                 </span>
               </button>
@@ -592,7 +595,7 @@ export function BrowseView() {
               <button
                 type="button"
                 onClick={resetAll}
-                className="h-10 rounded-full px-3 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+                className="h-10 rounded-full px-3 text-xs font-medium text-muted-foreground underline decoration-muted-foreground/40 underline-offset-4 transition-colors hover:text-foreground"
               >
                 Clear all
               </button>
@@ -611,7 +614,7 @@ export function BrowseView() {
         <div className="py-8">
           {isError && !data ? (
             <div className="flex min-h-[50vh] flex-col items-center justify-center gap-5 text-center">
-              <div className="flex size-16 items-center justify-center rounded-full bg-destructive/10">
+              <div className="flex size-16 items-center justify-center rounded-full bg-destructive/10 ring-1 ring-destructive/20">
                 <Film className="size-7 text-destructive" aria-hidden />
               </div>
               <div>
