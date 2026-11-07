@@ -551,8 +551,9 @@ function PlayerLoaded({
                   key={frameKey}
                   src={activeSrc}
                   title={`${data.title}${isEpisode ? ` S${data.season}E${data.number}` : ""} — ${effectiveProvider.name}`}
-                  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                  allow="autoplay; fullscreen; encrypted-media; picture-in-picture; popups=()"
                   allowFullScreen
+                  referrerPolicy="no-referrer"
                   {...(effectiveProvider.sandbox
                     ? { sandbox: effectiveProvider.sandbox }
                     : {})}
@@ -565,8 +566,9 @@ function PlayerLoaded({
                   key={frameKey}
                   src={embedSrc}
                   title={`${data.title}${isEpisode ? ` S${data.season}E${data.number}` : ""} player`}
-                  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                  allow="autoplay; fullscreen; encrypted-media; picture-in-picture; popups=()"
                   allowFullScreen
+                  referrerPolicy="no-referrer"
                   // Sandbox without allow-popups: strips the player's
                   // pop-under ads while scripts, same-origin storage and
                   // playback keep working.

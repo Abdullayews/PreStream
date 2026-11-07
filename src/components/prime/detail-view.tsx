@@ -568,8 +568,9 @@ export function DetailView({
               <iframe
                 src={`https://www.youtube.com/embed/${trailer.key}`}
                 title={`${data.title} trailer`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; popups=()"
                 allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
                 className="absolute inset-0 h-full w-full"
               />
             </div>

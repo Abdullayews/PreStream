@@ -12,7 +12,11 @@ export interface MediaItem {
   type: MediaType;
   title: string;
   year: number | null;
-  /** TMDB poster path, e.g. "/t/p/w200/abc.jpg" — serve via /api/primewire/image?path=...&size=w500 */
+  /**
+   * Proxy-able poster path, e.g. "/poster/small/abc.jpg" (mirror-hosted),
+   * "/t/p/w200/abc.jpg" (TMDB) or "/uploads/…" (TVMaze) — serve via
+   * /api/primewire/image?path=...&size=w500
+   */
   poster: string | null;
   /** PrimeWire community rating 0–5 (null if unrated) */
   rating: number | null;
