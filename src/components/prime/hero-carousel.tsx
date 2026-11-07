@@ -14,12 +14,14 @@ const SLIDE_MS = 7000;
 const TRANSITION = { duration: 0.5, ease: "easeOut" as const };
 
 /**
- * Cinematic hero carousel — Basement cut. A full-bleed backdrop with a
- * scrim, copy pinned to the BOTTOM-LEFT (big display title, quiet meta
- * line, description, bone-filled Play pill + dark translucent Details),
- * thin bar pagination at the bottom edge, and large invisible prev/next
- * click zones on the sides. Auto-advances every 7s (paused on hover).
- * Runs beneath the fixed transparent header.
+ * Cinematic hero carousel — full-bleed cut. A viewport-height backdrop
+ * with a scrim (100svh — pure viewport units, no px caps, so it fills the
+ * screen exactly on every device), copy pinned to the BOTTOM-LEFT at 13%
+ * of the hero height (percentage placement — it scales with the screen),
+ * a bone-filled Play pill + dark translucent Details, thin bar pagination
+ * at 3% from the bottom edge, and large invisible prev/next click zones on
+ * the sides. Auto-advances every 7s (paused on hover). Runs beneath the
+ * fixed transparent header.
  */
 export function HeroCarousel({ items }: { items: HeroItem[] }) {
   const router = useRouter();
@@ -46,7 +48,7 @@ export function HeroCarousel({ items }: { items: HeroItem[] }) {
 
   return (
     <section
-      className="group relative h-[76vh] max-h-[760px] min-h-[520px] w-full overflow-hidden"
+      className="group relative h-svh w-full overflow-hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
@@ -63,10 +65,14 @@ export function HeroCarousel({ items }: { items: HeroItem[] }) {
           className="absolute inset-0"
           aria-hidden
         >
-          {imgUrl(item.poster, "w1280") && (
+          {imgUrl(item.poster, "original") && (
             <img
-              src={imgUrl(item.poster, "w1280") ?? undefined}
+              src={imgUrl(item.poster, "original") ?? undefined}
               alt=""
+              // above-the-fold LCP image: load immediately, ahead of everything else
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
               className="absolute inset-0 h-full w-full object-cover object-top"
             />
           )}
@@ -102,8 +108,8 @@ export function HeroCarousel({ items }: { items: HeroItem[] }) {
         </>
       )}
 
-      {/* copy — pinned bottom-left */}
-      <div className="shell relative z-10 flex h-full flex-col justify-end pb-20 sm:pb-24">
+      {/* copy — anchored bottom-left, 13% up from the hero's bottom edge */}
+      <div className="shell absolute inset-x-0 bottom-[13%] z-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={`content-${item.id}-${item.type}`}
@@ -184,10 +190,10 @@ export function HeroCarousel({ items }: { items: HeroItem[] }) {
         </AnimatePresence>
       </div>
 
-      {/* pagination — thin bars at the bottom edge */}
+      {/* pagination — thin bars, 3% up from the bottom edge */}
       {count > 1 && (
         <div
-          className="absolute inset-x-0 bottom-0 z-20 flex justify-center gap-1.5 pb-5"
+          className="absolute inset-x-0 bottom-[3%] z-20 flex justify-center gap-1.5"
           role="tablist"
           aria-label="Choose featured title"
         >

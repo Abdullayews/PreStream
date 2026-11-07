@@ -9,7 +9,7 @@ export function PageSkeleton() {
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <div className="sticky top-0 z-50 h-16 border-b border-border/60 bg-background/80 backdrop-blur-xl" />
       <main className="flex-1">
-        <Skeleton className="h-[70vh] max-h-[640px] min-h-[480px] w-full rounded-none" />
+        <Skeleton className="h-svh w-full rounded-none" />
         <div className="shell space-y-10 pt-8">
           <SkeletonRow />
           <SkeletonRow />
@@ -43,9 +43,9 @@ function SkeletonRow() {
 export function HomeSkeleton() {
   return (
     <div aria-busy="true" aria-label="Loading home">
-      <div className="relative h-[76vh] max-h-[760px] min-h-[520px] w-full overflow-hidden">
+      <div className="relative h-svh w-full overflow-hidden">
         <Skeleton className="absolute inset-0 rounded-none" />
-        <div className="absolute inset-x-0 bottom-0 mx-auto flex max-w-[1344px] flex-col gap-4 px-5 pb-20 sm:px-8 sm:pb-24 lg:px-12">
+        <div className="shell absolute inset-x-0 bottom-[13%] flex flex-col gap-4">
           <Skeleton className="h-3.5 w-40 rounded-full" />
           <Skeleton className="h-12 w-3/4 max-w-xl md:h-16" />
           <Skeleton className="h-4 w-56" />

@@ -191,6 +191,10 @@ export async function getHome(): Promise<HomeResponse> {
           const d = await getDetail(item.type, item.id, item.slug);
           return {
             ...item,
+            // The list rows only publish ~200px /poster/small/ thumbs;
+            // the detail page links the FULL-SIZE image (TMDB original for
+            // movies, TVMaze original for shows) — use it for the hero.
+            poster: d.poster ?? item.poster,
             description: d.description,
             genres: d.genres,
             tmdbRating: d.tmdbRating,
