@@ -15,6 +15,7 @@ import type {
   FriendsResponse,
   LibraryResponse,
   LinksResponse,
+  LoginResponse,
   MeResponse,
   MessagesResponse,
   MyPlaylistsResponse,
@@ -25,6 +26,7 @@ import type {
   RecommendedResponse,
   SettingsResponse,
 } from "@/lib/account-client-types";
+import { canonicalThemeId } from "@/themes/registry";
 import { openRelogin } from "../stores/relogin";
 import { useUser } from "../stores/user";
 
@@ -57,6 +59,92 @@ function guardSessionError(err: AccountError): void {
   }
 }
 
+/* ------------------------------------------------------------------ */
+/* Session self-heal (redeploy recovery)                               */
+/* ------------------------------------------------------------------ */
+
+let healInFlight: Promise<LoginResponse | null> | null = null;
+
+async function runHeal(): Promise<LoginResponse | null> {
+  const { apiKey, pwSession } = useUser.getState();
+  if (!apiKey || !pwSession) return null;
+  try {
+    const res = await fetch("/api/account/heal", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ apiKey, pwSession }),
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as LoginResponse;
+    if (!data?.apiKey) return null;
+
+    // Apply the healed identity. A fresh row starts at the default theme —
+    // re-assert the client's saved choice so the UI never flashes and the
+    // server-side cache catches up on the next patch.
+    const savedTheme = useUser.getState().themeId;
+    useUser.getState().setProfileFromLogin(data);
+    const canonical = canonicalThemeId(savedTheme);
+    if (canonical) useUser.getState().setTheme(canonical);
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * One heal at a time, shared by every concurrent 401 (a wiped database
+ * fails a whole page of queries at once — they must not each rebuild the
+ * profile; the first one heals, the rest reuse the same promise).
+ */
+function tryHeal(): Promise<LoginResponse | null> {
+  if (!healInFlight) {
+    healInFlight = runHeal().finally(() => {
+      healInFlight = null;
+    });
+  }
+  return healInFlight;
+}
+
+/**
+ * Run one /api/account request. On a 401 session failure, self-heal once
+ * (rebuild the server profile from the client-held PrimeWire session) and
+ * transparently retry — the user stays signed in. The request factory is
+ * invoked AGAIN for the retry so it picks up the (possibly rotated) apiKey.
+ * Only when healing is impossible (no stored session / session dead) does
+ * the re-login guard open as before.
+ */
+async function guardedAccountFetch<T>(run: () => Promise<Response>): Promise<T> {
+  let res = await run();
+  // Parsed lazily — the first 401's body must survive the heal attempt so
+  // the final error still carries the original code/message for the guard.
+  let body: { error?: string; code?: string } = {};
+
+  if (res.status === 401) {
+    body = await parseErrorBody(res);
+    const code = body.code ?? null;
+    if (code && SESSION_CODES.has(code)) {
+      const healed = await tryHeal();
+      if (healed) {
+        const retried = await run();
+        if (retried.ok) return (await retried.json()) as T;
+        res = retried;
+        body = await parseErrorBody(res);
+      }
+    }
+  }
+
+  if (!res.ok) {
+    const err = new AccountError(
+      body.error ?? `Request failed (${res.status})`,
+      res.status,
+      body.code ?? null,
+    );
+    guardSessionError(err);
+    throw err;
+  }
+  return (await res.json()) as T;
+}
+
 async function parseErrorBody(res: Response): Promise<{ error?: string; code?: string }> {
   try {
     return (await res.json()) as { error?: string; code?: string };
@@ -82,46 +170,30 @@ function buildSearch(params: AccountParams): URLSearchParams {
   return qs;
 }
 
-/** GET /api/account/{path}?…&key=… — includes the session guard. */
+/** GET /api/account/{path}?…&key=… — includes the session guard + self-heal. */
 export async function accountGet<T>(path: string, params: AccountParams = {}): Promise<T> {
-  const apiKey = useUser.getState().apiKey;
-  const qs = buildSearch({ ...params, key: apiKey ?? "" });
-  const res = await fetch(`/api/account/${path}?${qs.toString()}`);
-  if (!res.ok) {
-    const body = await parseErrorBody(res);
-    const err = new AccountError(
-      body.error ?? `Request failed (${res.status})`,
-      res.status,
-      body.code ?? null,
-    );
-    guardSessionError(err);
-    throw err;
-  }
-  return (await res.json()) as T;
+  return guardedAccountFetch<T>(() => {
+    // apiKey is read INSIDE the factory: a heal may rotate it between the
+    // failed attempt and the retry.
+    const apiKey = useUser.getState().apiKey;
+    const qs = buildSearch({ ...params, key: apiKey ?? "" });
+    return fetch(`/api/account/${path}?${qs.toString()}`);
+  });
 }
 
-/** POST /api/account/{path} with { apiKey, …body } — includes the session guard. */
+/** POST /api/account/{path} with { apiKey, …body } — includes the session guard + self-heal. */
 export async function accountPost<T>(
   path: string,
   body: Record<string, unknown> = {},
 ): Promise<T> {
-  const apiKey = useUser.getState().apiKey;
-  const res = await fetch(`/api/account/${path}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...body, apiKey: apiKey ?? "" }),
+  return guardedAccountFetch<T>(() => {
+    const apiKey = useUser.getState().apiKey;
+    return fetch(`/api/account/${path}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...body, apiKey: apiKey ?? "" }),
+    });
   });
-  if (!res.ok) {
-    const errorBody = await parseErrorBody(res);
-    const err = new AccountError(
-      errorBody.error ?? `Request failed (${res.status})`,
-      res.status,
-      errorBody.code ?? null,
-    );
-    guardSessionError(err);
-    throw err;
-  }
-  return (await res.json()) as T;
 }
 
 /* ------------------------------------------------------------------ */
@@ -322,27 +394,16 @@ export function useAvatarUpload(): UseMutationResult<
   { file: File }
 > {
   const qc = useQueryClient();
-  const apiKey = useUser((s) => s.apiKey);
   const setAvatar = useUser((s) => s.setAvatar);
 
   return useMutation<AvatarUploadResponse, AccountError, { file: File }>({
-    mutationFn: async ({ file }) => {
-      const form = new FormData();
-      form.append("apiKey", apiKey ?? "");
-      form.append("file", file);
-      const res = await fetch("/api/account/avatar", { method: "POST", body: form });
-      if (!res.ok) {
-        const body = await parseErrorBody(res);
-        const err = new AccountError(
-          body.error ?? `Upload failed (${res.status})`,
-          res.status,
-          body.code ?? null,
-        );
-        guardSessionError(err);
-        throw err;
-      }
-      return (await res.json()) as AvatarUploadResponse;
-    },
+    mutationFn: ({ file }) =>
+      guardedAccountFetch<AvatarUploadResponse>(() => {
+        const form = new FormData();
+        form.append("apiKey", useUser.getState().apiKey ?? "");
+        form.append("file", file);
+        return fetch("/api/account/avatar", { method: "POST", body: form });
+      }),
     onSuccess: (data) => {
       if (data.avatar) setAvatar(data.avatar);
       void qc.invalidateQueries({ queryKey: ["account", "settings"] });

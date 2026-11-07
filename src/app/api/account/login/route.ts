@@ -82,6 +82,9 @@ export async function POST(req: NextRequest) {
       sidebar: me.sidebar,
       themeId: row.themeId,
       watchlist,
+      // Mirror the session cookie to the client — it powers the
+      // post-redeploy self-heal (see /api/account/heal).
+      pwSession: session,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Sign-in failed';
