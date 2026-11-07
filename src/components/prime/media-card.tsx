@@ -5,10 +5,10 @@ import type { MouseEvent, KeyboardEvent, SyntheticEvent } from "react";
 import { motion } from "framer-motion";
 import { Bookmark, Film, Play, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { imgUrl } from "./hooks/use-primewire";
 import { toDetail, toPlayer } from "./nav";
+import { notifyWatchlist } from "./watchlist-toast";
 import { useWatchlist, useWatchlistHas } from "./stores/watchlist";
 import type { MediaItem } from "@/lib/primewire/types";
 
@@ -48,9 +48,7 @@ export function MediaCard({
   const onToggleWatchlist = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     const added = toggle(item);
-    toast.success(added ? "Added to watchlist" : "Removed from watchlist", {
-      description: item.title,
-    });
+    notifyWatchlist(added, item);
   };
 
   const onPlay = (e: MouseEvent<HTMLButtonElement>) => {

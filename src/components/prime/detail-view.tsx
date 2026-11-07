@@ -43,7 +43,8 @@ import { DetailSkeleton } from "./skeletons";
 import { StarRating } from "./star-rating";
 import { useWatchlist, useWatchlistHas } from "./stores/watchlist";
 import { useUser } from "./stores/user";
-import type { MediaType } from "@/lib/primewire/types";
+import { notifyWatchlist } from "./watchlist-toast";
+import type { MediaItem, MediaType } from "@/lib/primewire/types";
 
 /** Detail page for one title: hero band, actions, cast, episodes, sidebar. */
 export function DetailView({
@@ -173,7 +174,7 @@ export function DetailView({
   };
 
   const handleToggleWatchlist = () => {
-    const added = toggleWatchlist({
+    const item: MediaItem = {
       id: data.id,
       slug: data.slug,
       type: data.type,
@@ -181,10 +182,9 @@ export function DetailView({
       year: data.year,
       poster: data.poster,
       rating: data.primewireRating,
-    });
-    toast.success(added ? "Added to watchlist" : "Removed from watchlist", {
-      description: data.title,
-    });
+    };
+    const added = toggleWatchlist(item);
+    notifyWatchlist(added, item);
   };
 
   return (
