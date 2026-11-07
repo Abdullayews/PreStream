@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { imgUrl } from "./hooks/use-primewire";
 import { toBrowse, toDetail, toPlayer } from "./nav";
+import { notifyWatchlist } from "./watchlist-toast";
 import { useWatchlist } from "./stores/watchlist";
 
 /** Right-side sheet listing saved titles. */
@@ -181,9 +182,7 @@ export function WatchlistDrawer({
                       className="size-11 shrink-0 rounded-full text-muted-foreground hover:text-foreground"
                       onClick={() => {
                         remove(item.id, item.type);
-                        toast.success("Removed from watchlist", {
-                          description: item.title,
-                        });
+                        notifyWatchlist(false, item);
                       }}
                       aria-label={`Remove ${item.title} from watchlist`}
                     >

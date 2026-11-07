@@ -8,6 +8,7 @@ import { RequestGuard } from "./request-guard";
 import { ThemeApplier } from "./theme-applier";
 import { useUser } from "./stores/user";
 import { ThemeDecorationsRoot } from "./theme-decorations";
+import { WatchlistToastHost } from "./watchlist-toast";
 
 /**
  * Global client providers: TanStack Query, theme (dark-first) and toasts.
@@ -77,6 +78,8 @@ function ProvidersInner({ children }: { children: ReactNode }) {
           override on [data-sonner-toaster] in globals.css — a calc string
           here breaks this sonner build's inline-style pipeline. */}
       <Toaster richColors position="bottom-right" offset={{ bottom: 88 }} />
+      {/* Watchlist add/remove notices — slide in from the right edge. */}
+      <WatchlistToastHost />
     </ThemeProvider>
   );
 }
