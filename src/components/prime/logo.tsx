@@ -1,13 +1,14 @@
 import { cn } from "@/lib/utils";
 
 /**
- * PreStream brand mark — v3 "Aurora" cut.
+ * PreStream brand mark — v5 flat cut.
  *
- * A squircle badge carrying the brand's rose→amber gradient (kept as a
- * fixed asset: the logo keeps its identity across the 40 themes), with a
- * bold "P" whose bowl is a play triangle (Pre + Play), a warm gold
- * sparkle, and a new deep inner rim that reads crisply on the dark stage.
- * Rendered inline so gradients stay sharp at any size.
+ * A flat rose squircle carrying a bold play triangle with a rounded
+ * "stream" bar beneath it — play over stream, the whole brand in two
+ * shapes. Deliberately flat (no gradient, sheen or sparkle): it stays
+ * crisp from a 16px favicon to print, and reads instantly on any of the
+ * 40 themes because the badge color is fixed, not theme-aware.
+ * Rendered inline so it scales losslessly.
  */
 export function LogoMark({ className }: { className?: string }) {
   return (
@@ -17,88 +18,26 @@ export function LogoMark({ className }: { className?: string }) {
       aria-hidden
       className={cn("shrink-0", className)}
     >
-      <defs>
-        <linearGradient
-          id="prestream-badge"
-          x1="8"
-          y1="4"
-          x2="42"
-          y2="45"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0" stopColor="#fb7185" />
-          <stop offset="0.45" stopColor="#e11d48" />
-          <stop offset="1" stopColor="#f59e0b" />
-        </linearGradient>
-        <linearGradient
-          id="prestream-rim"
-          x1="24"
-          y1="3"
-          x2="24"
-          y2="45"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0" stopColor="#ffffff" stopOpacity="0.35" />
-          <stop offset="1" stopColor="#000000" stopOpacity="0.25" />
-        </linearGradient>
-      </defs>
-      {/* badge */}
-      <rect
-        x="3"
-        y="3"
-        width="42"
-        height="42"
-        rx="13"
-        fill="url(#prestream-badge)"
-      />
-      {/* inner rim for depth on dark stages */}
-      <rect
-        x="3"
-        y="3"
-        width="42"
-        height="42"
-        rx="13"
-        fill="url(#prestream-rim)"
-      />
-      {/* top-edge sheen */}
-      <rect
-        x="3"
-        y="3"
-        width="42"
-        height="42"
-        rx="13"
-        fill="#fff"
-        fillOpacity="0.08"
-        style={{ clipPath: "inset(0 0 62% 0 round 13px)" }}
-      />
-      {/* P stem */}
+      {/* badge — one flat brand color, fixed across all themes */}
+      <rect x="3" y="3" width="42" height="42" rx="13" fill="#e11d48" />
+      {/* play — white, rounded joins for crisp small sizes */}
       <path
-        d="M16.5 13.5v21"
-        stroke="#fff"
-        strokeWidth="5.6"
-        strokeLinecap="round"
-      />
-      {/* P bowl — a play triangle */}
-      <path
-        d="M20.4 14.6 33.2 20.4 20.4 26.2Z"
+        d="M17.3 12.3 30.7 21.1 17.3 29.9Z"
         fill="#fff"
         stroke="#fff"
-        strokeWidth="3"
+        strokeWidth="3.4"
         strokeLinejoin="round"
       />
-      {/* sparkle */}
-      <path
-        d="M36.2 6.2l1 3.5 3.5 1-3.5 1-1 3.5-1-3.5-3.5-1 3.5-1Z"
-        fill="#fde68a"
-      />
+      {/* the stream — a rounded bar flowing under the play */}
+      <rect x="15.2" y="34.3" width="17.6" height="3.1" rx="1.55" fill="#fff" />
     </svg>
   );
 }
 
-/** Full logo — mark + wordmark in the display voice (Cabinet Grotesk). */
+/** Full logo — mark + tight wordmark in the display voice (Cabinet Grotesk). */
 export function PreStreamLogo({ className }: { className?: string }) {
   return (
-    <span className={cn("group flex items-center gap-2.5", className)}>
+    <span className={cn("group flex items-center gap-2", className)}>
       <span className="relative">
         <LogoMark className="size-9 transition-transform duration-200 group-hover:scale-105 group-active:scale-95" />
       </span>
