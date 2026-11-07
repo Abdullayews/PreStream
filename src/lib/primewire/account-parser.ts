@@ -734,7 +734,9 @@ export function parsePlaylistEditPage(html: string): T.PlaylistEditItem[] {
     if (!itemId) return;
     const href = $el.find('a[href^="/tv/"], a[href^="/movie/"]').first().attr('href') ?? '';
     const sm = /^\/(tv|movie)\/(\d+)-/.exec(href);
-    const poster = $el.find('img').first().attr('src') ?? null;
+    // normalize (mirror /poster/… or TMDB/TVMaze) so it can go through the
+    // image proxy like every other poster in the app
+    const poster = tmdbPath($el.find('img').first().attr('src'));
     const text = $el.find('.playlist_info').first().text().replace(/\s+/g, ' ').trim();
     const title = $el.find('.playlist_info a[href^="/tv/"], .playlist_info a[href^="/movie/"]').first().text().trim();
     const year = /\(\s*(\d{4})\s*\)/.exec(text) ? parseInt(/\(\s*(\d{4})\s*\)/.exec(text)![1], 10) : null;

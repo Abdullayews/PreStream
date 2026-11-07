@@ -10,11 +10,21 @@ import type {
 
 const TMDB_RE = /^https?:\/\/image\.tmdb\.org\/(t\/p\/[a-z0-9]+\/.+)$/i;
 const TVMAZE_RE = /^https?:\/\/static\.tvmaze\.com\/(uploads\/.+)$/i;
+/**
+ * PrimeWire self-hosted poster files, served from the mirrors:
+ *   /poster/small/10746-the-sopranos-Q9zgL.jpg
+ * (PrimeWire moved posters off image.tmdb.org/static.tvmaze.com onto its
+ * own origin; only the "small" size is published — medium/large/original
+ * segments return 404 — so size rewriting never applies to these.)
+ */
+const MIRROR_POSTER_RE = /^(?:https?:\/\/[^\/]+)?(\/poster\/[a-z]+\/[A-Za-z0-9_-]+\.(?:jpe?g|png|webp|gif))$/i;
 
 /**
  * Normalize a poster URL to a proxy-able path:
- *  - image.tmdb.org/t/p/w200/x.jpg   → /t/p/w200/x.jpg
- *  - static.tvmaze.com/uploads/...jpg → /uploads/...jpg
+ *  - image.tmdb.org/t/p/w200/x.jpg          → /t/p/w200/x.jpg
+ *  - static.tvmaze.com/uploads/...jpg        → /uploads/...jpg
+ *  - /poster/small/10746-show-token.jpg      → /poster/small/10746-show-token.jpg
+ *    (relative mirror path, or any absolute mirror URL — origin stripped)
  */
 export function tmdbPath(url: string | undefined | null): string | null {
   if (!url) return null;
@@ -23,6 +33,8 @@ export function tmdbPath(url: string | undefined | null): string | null {
   if (m) return `/${m[1]}`;
   const vm = TVMAZE_RE.exec(trimmed);
   if (vm) return `/${vm[1]}`;
+  const pm = MIRROR_POSTER_RE.exec(trimmed);
+  if (pm) return pm[1];
   return null;
 }
 
@@ -183,7 +195,12 @@ export function parseDetailPage(
     title = headTitle.split('|')[0].trim() || `PrimeWire #${id}`;
   }
 
-  const poster = tmdbPath($('.show_thumb img').first().attr('src'));
+  // Poster: .show_thumb wraps the small mirror-hosted <img> in a link to
+  // the FULL-SIZE image (TMDB w1280 for movies, TVMaze original for shows) —
+  // prefer that link, fall back to the <img> itself (mirror /poster/small).
+  const poster =
+    tmdbPath($('.show_thumb > a[href]').first().attr('href')) ??
+    tmdbPath($('.show_thumb img').first().attr('src'));
   const status = $('.tv_show_status').first().text().trim() || null;
 
   const primewireRating = ratingFromWidth($('.current-rating').first().attr('style'));
