@@ -25,8 +25,8 @@ export class SessionExpiredError extends Error {
 
 export class LoginError extends Error {
   status: number;
-  constructor(message: string, status = 401) {
-    super(message);
+  constructor(message: string, status = 401, options?: ErrorOptions) {
+    super(message, options);
     this.name = 'LoginError';
     this.status = status;
   }
@@ -81,11 +81,21 @@ export async function pwLogin(login: string, password: string): Promise<LoginRes
   };
 
   // 1. GET the login page (fresh CSRF + session cookie)
-  const pageRes = await fetch(`${PRIMARY_MIRROR}/sessions/new`, {
-    headers: HEADERS,
-    redirect: 'manual',
-    cache: 'no-store',
-  });
+  const pageController = new AbortController();
+  const pageTimer = setTimeout(() => pageController.abort(), AUTHED_TIMEOUT_MS);
+  let pageRes: Response;
+  try {
+    pageRes = await fetch(`${PRIMARY_MIRROR}/sessions/new`, {
+      headers: HEADERS,
+      redirect: 'manual',
+      cache: 'no-store',
+      signal: pageController.signal,
+    });
+  } catch (err) {
+    throw new LoginError('PrimeWire is unreachable right now', 502, { cause: err });
+  } finally {
+    clearTimeout(pageTimer);
+  }
   if (!pageRes.ok && pageRes.status !== 302) {
     throw new LoginError('PrimeWire is unreachable right now', 502);
   }
@@ -106,26 +116,41 @@ export async function pwLogin(login: string, password: string): Promise<LoginRes
   });
 
   // 2. POST credentials
-  const res = await fetch(`${PRIMARY_MIRROR}/sessions`, {
-    method: 'POST',
-    headers: {
-      ...HEADERS,
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Cookie: cookieHeader,
-      Referer: `${PRIMARY_MIRROR}/sessions/new`,
-      Origin: PRIMARY_MIRROR,
-    },
-    body: body.toString(),
-    redirect: 'manual',
-    cache: 'no-store',
-  });
+  const postController = new AbortController();
+  const postTimer = setTimeout(() => postController.abort(), AUTHED_TIMEOUT_MS);
+  let res: Response;
+  try {
+    res = await fetch(`${PRIMARY_MIRROR}/sessions`, {
+      method: 'POST',
+      headers: {
+        ...HEADERS,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Cookie: cookieHeader,
+        Referer: `${PRIMARY_MIRROR}/sessions/new`,
+        Origin: PRIMARY_MIRROR,
+      },
+      body: body.toString(),
+      redirect: 'manual',
+      cache: 'no-store',
+      signal: postController.signal,
+    });
+  } catch (err) {
+    throw new LoginError('PrimeWire is unreachable right now', 502, { cause: err });
+  } finally {
+    clearTimeout(postTimer);
+  }
   collectCookies(res);
 
   const session = cookieLine(jar);
   const landing = res.headers.get('location');
 
   if (res.status === 200) {
-    // 200 on POST = form re-rendered with errors
+    // 200 on POST = form re-rendered with errors. When the login page GET
+    // was bot-blocked (no CSRF parsed) the POST can't succeed either —
+    // say "temporarily unavailable" instead of accusing the password.
+    if (!csrf) {
+      throw new LoginError('PrimeWire sign-in is temporarily unavailable — try again shortly', 503);
+    }
     throw new LoginError('Wrong email/username or password');
   }
   if (res.status === 302 || res.status === 303) {
@@ -167,6 +192,8 @@ export async function pwLogout(session: string): Promise<void> {
 
 const csrfCache = new Map<string, { token: string; at: number }>();
 const CSRF_TTL = 30 * 60 * 1000;
+/** Upper bound so expired sessions that never log out can't grow it forever. */
+const CSRF_CACHE_MAX = 128;
 
 /** Fetch a fresh CSRF token for the session (from any page). */
 export async function getCsrf(session: string): Promise<string> {
@@ -179,6 +206,11 @@ export async function getCsrf(session: string): Promise<string> {
     /name="_csrf_token"[^>]*value="([^"]+)"/.exec(html)?.[1] ??
     '';
   if (!token) throw new SessionExpiredError();
+  if (csrfCache.size >= CSRF_CACHE_MAX) {
+    // Map iterates in insertion order — evict the oldest entry
+    const oldest = csrfCache.keys().next().value;
+    if (oldest !== undefined) csrfCache.delete(oldest);
+  }
   csrfCache.set(session, { token, at: Date.now() });
   return token;
 }
@@ -239,6 +271,9 @@ export async function authedFetch(session: string, path: string, opts: AuthedOpt
   // timeout: a hung PrimeWire connection must never stall a route worker
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), AUTHED_TIMEOUT_MS);
+  // The timer stays armed for the response BODY too — aborting a settled
+  // fetch is a no-op, but a slow-dripping body gets cut at the same budget.
+  // unref so pending timers never hold the event loop open on shutdown.
   let res: Response;
   try {
     res = await fetch(url, {
@@ -250,7 +285,7 @@ export async function authedFetch(session: string, path: string, opts: AuthedOpt
       signal: controller.signal,
     });
   } finally {
-    clearTimeout(timer);
+    (timer as { unref?: () => void }).unref?.();
   }
 
   if (res.status === 302 || res.status === 303) {
@@ -263,15 +298,17 @@ export async function authedFetch(session: string, path: string, opts: AuthedOpt
 }
 
 /** GET an authed page as text (throws SessionExpiredError when the session is gone). */
-export async function authedGet(session: string, path: string): Promise<string> {
+export async function authedGet(session: string, path: string, depth = 0): Promise<string> {
   const res = await authedFetch(session, path);
   if (res.status === 302 || res.status === 303) {
-    // non-login redirect → follow once manually (fetch with redirect:'manual' returns here)
+    // non-login redirect → follow manually (fetch with redirect:'manual'
+    // returns here). Capped so an upstream redirect cycle can never
+    // recurse forever.
     const location = res.headers.get('location') ?? '';
-    if (location.startsWith('/')) {
-      return authedGet(session, location);
+    if (location.startsWith('/') && depth < 5) {
+      return authedGet(session, location, depth + 1);
     }
-    throw new Error(`PrimeWire redirect: ${location}`);
+    throw new Error(`PrimeWire redirect loop or absolute redirect: ${location}`);
   }
   if (!res.ok) throw new Error(`PrimeWire responded ${res.status}`);
   return res.text();
@@ -287,16 +324,23 @@ export async function authedJson<T>(session: string, path: string): Promise<T> {
   }
 }
 
-/** POST an authed form (auto-attaches CSRF). Returns the response text. */
+/** POST an authed form (auto-attaches CSRF). Returns the response text.
+ *
+ * With `expectRedirect: true`, a 200 response — which Phoenix uses to
+ * re-render the form with validation errors — throws `FormRejectedError`
+ * instead of silently reporting success. Success on these endpoints is
+ * always a redirect.
+ */
 export async function authedPost(
   session: string,
   path: string,
   form: Record<string, string>,
-  extra: Omit<AuthedOptions, 'form' | 'method'> = {},
+  extra: Omit<AuthedOptions, 'form' | 'method'> & { expectRedirect?: boolean } = {},
 ): Promise<string> {
+  const { expectRedirect = false, ...opts } = extra;
   const csrf = await getCsrf(session);
   const res = await authedFetch(session, path, {
-    ...extra,
+    ...opts,
     method: 'POST',
     form: { _csrf_token: csrf, ...form },
     csrfHeader: csrf,
@@ -307,7 +351,28 @@ export async function authedPost(
     return '';
   }
   if (!res.ok) throw new Error(`PrimeWire responded ${res.status}`);
-  return res.text();
+  const text = await res.text();
+  if (expectRedirect) {
+    // Phoenix re-renders the form (HTTP 200) on validation failure.
+    throw new FormRejectedError(extractFormError(text));
+  }
+  return text;
+}
+
+/** Thrown when PrimeWire re-renders a form instead of redirecting (= rejected input). */
+export class FormRejectedError extends Error {
+  constructor(message = 'PrimeWire rejected the change — check your input') {
+    super(message);
+    this.name = 'FormRejectedError';
+  }
+}
+
+/** Best-effort error message extraction from a re-rendered Phoenix form page. */
+function extractFormError(html: string): string {
+  const inline =
+    /class="[^"]*(?:error|alert|invalid)[^"]*"[^>]*>([^<]{3,200})</i.exec(html)?.[1]?.trim();
+  if (inline) return inline.replace(/\s+/g, ' ');
+  return 'PrimeWire rejected the change — check your input';
 }
 
 /** GET an authed action URL (PrimeWire uses GET for many actions). Returns response text. */
@@ -315,7 +380,9 @@ export async function authedAction(session: string, path: string): Promise<strin
   const res = await authedFetch(session, path);
   if (res.status === 302 || res.status === 303) {
     const location = res.headers.get('location') ?? '';
-    if (location.startsWith('/')) return authedGet(session, location.split('#')[0].split('?')[0] + (location.includes('?') ? '?' + location.split('?')[1] : ''));
+    // drop the fragment, keep the (full) query — a naive split('?')
+    // would truncate everything after a second '?'
+    if (location.startsWith('/')) return authedGet(session, location.split('#')[0]);
   }
   if (!res.ok) throw new Error(`PrimeWire responded ${res.status}`);
   return res.text();

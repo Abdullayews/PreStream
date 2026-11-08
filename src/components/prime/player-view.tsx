@@ -222,6 +222,16 @@ export function PlayerView({
  * moment the user picks a PrimeWire host again.
  */
 const lastProviderPick = new Map<string, string>();
+/** Keep the pick memory bounded — trim oldest entries beyond this size. */
+const LAST_PICK_MAX = 200;
+
+function rememberProviderPick(key: string, value: string): void {
+  lastProviderPick.set(key, value);
+  if (lastProviderPick.size > LAST_PICK_MAX) {
+    const oldest = lastProviderPick.keys().next().value;
+    if (oldest !== undefined) lastProviderPick.delete(oldest);
+  }
+}
 
 function PlayerLoaded({
   data,
@@ -386,7 +396,7 @@ function PlayerLoaded({
   const pickProvider = useCallback(
     (provider: ProviderHealth) => {
       setSourcesOpen(false);
-      lastProviderPick.set(`${data.type}:${data.id}`, provider.id);
+      rememberProviderPick(`${data.type}:${data.id}`, provider.id);
       const rePick = selectedProvider === provider.id;
       if (!rePick) {
         setSelectedProvider(provider.id);
@@ -436,8 +446,14 @@ function PlayerLoaded({
   /* keyboard shortcuts — f fullscreen, r reload, n/p episode */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      const tag = (e.target as HTMLElement | null)?.tagName ?? "";
-      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      // never hijack browser/system combos (Cmd+R, Ctrl+R, Alt+F …)
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const target = e.target as HTMLElement | null;
+      const tag = target?.tagName ?? "";
+      if (
+        tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" ||
+        target?.isContentEditable
+      ) return;
       if (e.key === "f" || e.key === "F") toggleFullscreen();
       else if (e.key === "r" || e.key === "R") reloadPlayer();
       else if ((e.key === "n" || e.key === "N") && data.next) goEpisode(data.next);

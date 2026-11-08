@@ -32,6 +32,7 @@ player, watchlists and full account sync in a clean, modern interface.
 - Multi-provider player — VidSrc, VidLink, VidFast, 2Embed, Videm and Videasy, plus PrimeWire's own hosts; switch sources mid-watch with one click
 - Watch progress syncs to your PrimeWire account; episode tracker for shows
 - Trailer playback on detail pages
+- Your watchlist is cached on your account and survives reloads and redeploys
 
 **Discover**
 - Cinematic home feed with curated rows
@@ -138,8 +139,12 @@ scripts/              # theme generator + contrast checker
 | `GET /api/primewire/image` | Poster/backdrop proxy |
 | `GET /api/primewire/schedule` | Airing schedule |
 | `GET /api/primewire/playlists` | Public playlists |
+| `GET /api/primewire/playlist` | One playlist with its items |
+| `GET /api/primewire/hosts` | Live health of the video hosts |
+| `GET /api/primewire/external-providers` | Live health of the external player providers |
 | `/api/account/*` | PrimeWire account sync: library, playlists, forum, friends, messages, … |
 | `POST /api/users/register` | Local profile registry |
+| `/api/users/profile` | Local profile cache — theme + watchlist persistence |
 | `GET /api/health` | Liveness probe — `{ ok, uptimeSec }` |
 
 ## 🗺 Roadmap

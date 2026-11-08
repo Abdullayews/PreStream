@@ -49,30 +49,41 @@ export async function fetchPage(
   { timeoutMs = 12000, retries = 1 }: FetchOptions = {},
 ): Promise<string> {
   let lastError: unknown = null;
+  let saw404 = false;
 
   for (let attempt = 0; attempt <= retries; attempt++) {
     for (const base of MIRRORS) {
       try {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), timeoutMs);
-        const res = await fetch(base + path, {
-          headers: HEADERS,
-          redirect: 'follow',
-          signal: controller.signal,
-          cache: 'no-store',
-        });
-        clearTimeout(timer);
+        // the timer covers the BODY download too (cleared once fully read)
+        let res: Response;
+        let html: string;
+        try {
+          res = await fetch(base + path, {
+            headers: HEADERS,
+            redirect: 'follow',
+            signal: controller.signal,
+            cache: 'no-store',
+          });
 
-        if (res.status === 401) {
-          throw new PrimeWireError('PrimeWire rejected the request (unauthorized)', 502);
+          if (res.status === 401) {
+            throw new PrimeWireError('PrimeWire rejected the request (unauthorized)', 502);
+          }
+          if (!res.ok && res.status !== 404) {
+            throw new PrimeWireError(`PrimeWire responded ${res.status}`, 502);
+          }
+          html = await res.text();
+        } finally {
+          clearTimeout(timer);
         }
+
         if (res.status === 404) {
+          // a stale mirror can 404 content the others still serve — try
+          // the next mirror, but remember it for the "all mirrors" case
+          saw404 = true;
           throw new PrimeWireError('Not found on PrimeWire', 404);
         }
-        if (!res.ok) {
-          throw new PrimeWireError(`PrimeWire responded ${res.status}`, 502);
-        }
-        const html = await res.text();
         // JSON payloads (autocomplete endpoints) can be tiny — only enforce
         // the minimum length for HTML documents
         const contentType = res.headers.get('content-type') ?? '';
@@ -82,11 +93,18 @@ export async function fetchPage(
         }
         return html;
       } catch (err) {
-        if (err instanceof PrimeWireError && err.status === 404) throw err;
+        if (err instanceof PrimeWireError && err.status === 404) {
+          lastError = err;
+          continue; // failover: another mirror may still have it
+        }
         lastError = err;
         // try next mirror
       }
     }
+  }
+  // every mirror 404'd (or the last attempt failed otherwise)
+  if (saw404 && lastError instanceof PrimeWireError && lastError.status === 404) {
+    throw lastError;
   }
   throw new PrimeWireError(
     `All PrimeWire mirrors failed: ${lastError instanceof Error ? lastError.message : 'unknown error'}`,
@@ -101,5 +119,14 @@ export function sourceUrl(type: 'movie' | 'tv', id: number, slug: string): strin
 
 /** Canonical path for a detail page (id + slug; PrimeWire redirects dummy slugs to canonical). */
 export function detailPath(type: 'movie' | 'tv', id: number, slug: string): string {
-  return `/${type}/${id}-${slug || 'x'}`;
+  return `/${type}/${id}-${safeSlug(slug)}`;
+}
+
+/**
+ * PrimeWire slugs are purely [a-z0-9-]. Restricting to that alphabet keeps
+ * crafted `?`/`#`/`../` sequences in a client-supplied slug from steering
+ * the mirrored fetch to a different path or query.
+ */
+export function safeSlug(slug: string): string {
+  return slug.replace(/[^a-zA-Z0-9-]/g, '').slice(0, 120) || 'x';
 }

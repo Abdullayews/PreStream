@@ -63,9 +63,6 @@ const csp = [
 
 const nextConfig: NextConfig = {
   output: "standalone",
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   reactStrictMode: false,
   // keep any dev/Node-facing indicators out of the UI
   devIndicators: false,

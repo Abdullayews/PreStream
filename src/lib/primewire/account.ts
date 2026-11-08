@@ -3,7 +3,7 @@
  * the user's stored PrimeWire session.
  */
 import { PRIMARY_MIRROR, fetchPage } from './client';
-import { authedAction, authedFetch, authedGet, authedJson, authedPost, getCsrf } from './session';
+import { authedAction, authedFetch, authedGet, authedJson, authedPost, getCsrf, SessionExpiredError } from './session';
 import type * as T from './account-types';
 import {
   parseCommentsFeed, parseCommentsSection, parseFriendsPage, parseForumCategoryPage,
@@ -42,7 +42,7 @@ function qs(params: Record<string, string | number | boolean | undefined | null>
  */
 export async function fetchMe(session: string): Promise<T.PwUserProfile & { sidebar: ReturnType<typeof parseSidebarUser> }> {
   const sidebar = await authedGet(session, '/home').then(parseSidebarUser);
-  if (!sidebar || !sidebar.username) throw new Error('Not signed in');
+  if (!sidebar || !sidebar.username) throw new SessionExpiredError();
   try {
     const html = await authedGet(session, `/user/${encodeURIComponent(sidebar.username)}`);
     const profile = parseUserProfile(html);
@@ -150,6 +150,11 @@ export async function exportLibraryCsv(session: string): Promise<string> {
     form: { _csrf_token: csrf },
   });
   const text = await res.text();
+  // an upstream error page must never be served to the user as "CSV"
+  const contentType = res.headers.get('content-type') ?? '';
+  if (!res.ok || (!contentType.includes('csv') && !contentType.includes('octet-stream') && !/^(show|title)/i.test(text.trim()))) {
+    throw new Error('PrimeWire could not export the library right now');
+  }
   return text;
 }
 
@@ -308,7 +313,7 @@ export async function createComment(
     'comment[review]': input.review ? 'true' : 'false',
     'comment[about_links]': input.aboutLinks ? 'true' : 'false',
     'comment[spoiler]': input.spoiler ? 'true' : 'false',
-  });
+  }, { expectRedirect: true });
   return { ok: true };
 }
 
@@ -536,17 +541,33 @@ export async function updateSettings(session: string, input: SettingsUpdate): Pr
       if (WALL_ACCESS.has(v)) form[key] = v;
     }
   }
-  if (input.countryId !== undefined) form['registration[country_id]'] = input.countryId.trim();
+  if (input.countryId !== undefined) {
+    // numeric select id upstream — anything non-numeric can corrupt the
+    // stored profile (their public page then hard-500s)
+    const v = input.countryId.trim();
+    if (/^\d{0,4}$/.test(v)) form['registration[country_id]'] = v;
+  }
   if (input.city !== undefined) form['registration[city]'] = input.city;
   if (input.bio !== undefined) form['registration[bio]'] = input.bio;
   if (input.hobbies !== undefined) form['registration[hobbies]'] = input.hobbies;
   if (input.pmMessage !== undefined) form['registration[pm_message]'] = input.pmMessage;
-  if (input.birthdayYear !== undefined) form['registration[birthday][year]'] = input.birthdayYear.trim();
-  if (input.birthdayMonth !== undefined) form['registration[birthday][month]'] = input.birthdayMonth.trim();
-  if (input.birthdayDay !== undefined) form['registration[birthday][day]'] = input.birthdayDay.trim();
+  if (input.birthdayYear !== undefined) {
+    const v = input.birthdayYear.trim();
+    if (/^\d{0,4}$/.test(v)) form['registration[birthday][year]'] = v;
+  }
+  if (input.birthdayMonth !== undefined) {
+    const v = input.birthdayMonth.trim();
+    if (/^\d{0,2}$/.test(v)) form['registration[birthday][month]'] = v;
+  }
+  if (input.birthdayDay !== undefined) {
+    const v = input.birthdayDay.trim();
+    if (/^\d{0,2}$/.test(v)) form['registration[birthday][day]'] = v;
+  }
   form.mysettings = 'Update Settings';
 
-  await authedPost(session, '/registrations', form, { methodOverride: 'put' });
+  // expectRedirect: Phoenix re-renders the form (HTTP 200) on validation
+  // failure — without this a rejected change reports fake success.
+  await authedPost(session, '/registrations', form, { methodOverride: 'put', expectRedirect: true });
   return { ok: true };
 }
 
@@ -564,7 +585,9 @@ export async function changePassword(
       'registration[password_confirmation]': next,
       mysettings: 'Update Settings',
     },
-    { methodOverride: 'put' },
+    // expectRedirect: a wrong current password re-renders the form with
+    // HTTP 200 — that must surface as an error, not a fake success.
+    { methodOverride: 'put', expectRedirect: true },
   );
   return { ok: true };
 }

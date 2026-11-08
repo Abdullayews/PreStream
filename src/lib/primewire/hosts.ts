@@ -167,7 +167,7 @@ async function probeHostOnce(host: string): Promise<HostHealth> {
       // Any source list other than "*" excludes our origin.
       const faRestrictive = fa.length > 0 && fa !== '*';
       const xfoRestrictive =
-        xfo.some((v) => v === 'DENY' || v === 'SAMEORIGIN' || v.startsWith('SAMEORIGIN')) ||
+        xfo.some((v) => v === 'DENY' || v.startsWith('SAMEORIGIN')) ||
         xfo.some((v) => v === 'ALLOW-FROM');
       framable = !(xfoRestrictive || faRestrictive);
     }
@@ -202,7 +202,9 @@ async function probeHost(host: string): Promise<HostHealth> {
  * domain.
  */
 export async function checkHostHealth(hosts: string[]): Promise<HostHealth[]> {
-  const unique = [...new Set(hosts)].slice(0, 20).filter(Boolean);
+  // no arbitrary truncation: the registry's priority list alone has 24
+  // entries — capping at 20 silently left tail hosts without a verdict
+  const unique = [...new Set(hosts)].filter(Boolean).slice(0, 48);
   return Promise.all(
     unique.map((host) =>
       coalesce<HostHealth>(`host:${host}`, () => probeHost(host)),

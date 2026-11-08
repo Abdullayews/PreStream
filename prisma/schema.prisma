@@ -29,7 +29,7 @@ model Profile {
   pwApiKey  String?
   /** Avatar image path on PrimeWire, e.g. "/avatar/noavatar.jpg". */
   avatar    String?
-  themeId   String   @default("mono")
+  themeId   String   @default("neutral")
   /** JSON-encoded watchlist items (MediaItem[]) */
   watchlist String   @default("[]")
   createdAt DateTime @default(now())

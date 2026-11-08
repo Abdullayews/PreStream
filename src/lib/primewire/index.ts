@@ -6,7 +6,7 @@
  * duplicate loads (in-flight dedup); it never stores results.
  */
 import { coalesce } from './cache';
-import { detailPath, fetchPage, searchSignature, sourceUrl, PRIMARY_MIRROR, PrimeWireError } from './client';
+import { detailPath, fetchPage, safeSlug, searchSignature, sourceUrl, PRIMARY_MIRROR, PrimeWireError } from './client';
 import { PLAYER_MIRROR } from './mirrors';
 import {
   embedParams, parseDetailPage, parseEmbedPath, parseListPage, parsePlaylistDetailPage,
@@ -113,8 +113,9 @@ export async function getPlaylists(page = 1): Promise<PlaylistsResponse> {
 }
 
 export async function getPlaylistDetail(id: number, slug = ''): Promise<PlaylistDetail> {
-  return coalesce(`playlist:${id}`, async () => {
-    const html = await fetchPage(`/playlist/${id}-${slug || 'x'}`);
+  const cleanId = String(id).replace(/\D/g, '') || '0';
+  return coalesce(`playlist:${cleanId}`, async () => {
+    const html = await fetchPage(`/playlist/${cleanId}-${safeSlug(slug)}`);
     const detail = parsePlaylistDetailPage(html, id, slug);
     detail.sourceUrl = `${PRIMARY_MIRROR}/playlist/${detail.id}-${detail.slug}`;
     return detail;
@@ -285,7 +286,13 @@ export async function getSources(
           audioType: s.audio_type?.trim() || null,
           goUrl: `${PRIMARY_MIRROR}/links/gos/${s.key}`,
         }));
-    } catch {
+    } catch (err) {
+      // a TOTAL upstream outage (all mirrors down / timeouts) must not be
+      // silently rendered as "no sources" — rethrow it so the player shows
+      // the real error. Genuine "no sources" is a 404 or a parse miss.
+      if (err instanceof PrimeWireError && (err.status === 504 || err.status === 502)) {
+        throw err;
+      }
       // 404 / missing sources / parse issues — treat as "no sources"
       return [];
     }
@@ -319,9 +326,7 @@ export async function getPlayer(params: PlayerParams): Promise<PlayerResponse> {
     const detail = await getDetail('movie', id, slug);
     const mparams = embedParams(detail.embedPath);
     const tmdbId = mparams.tmdb_id ? parseInt(mparams.tmdb_id, 10) : NaN;
-    const [sources] = await Promise.all([
-      getSources('movie', id, undefined, Number.isFinite(tmdbId) ? tmdbId : undefined),
-    ]);
+    const sources = await getSources('movie', id, undefined, Number.isFinite(tmdbId) ? tmdbId : undefined);
     return {
       type: 'movie',
       id: detail.id,

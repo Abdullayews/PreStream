@@ -81,7 +81,7 @@ export function DetailView({
   const detailState = useAccount<{
     tracker: { library: boolean; status: string | null; favorite: boolean; schedule: boolean };
     episodes: { videoId: number; season: number; number: number; watched: boolean }[];
-  }>("detail-state", { type, id, slug: slug ?? "" }, { enabled: !!apiKey });
+  }>("detail-state", { type, id, slug: slug ?? "" }, { enabled: !!apiKey && valid && numericId > 0 });
   const episodeAction = useAccountMutation<{ ok: boolean }>("episode", {
     invalidates: [["account", "detail-state"], ["account", "library"]],
   });

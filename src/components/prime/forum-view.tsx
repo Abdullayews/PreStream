@@ -19,7 +19,8 @@ import { useAccount, useAccountMutation } from "./hooks/use-account";
 import { forumHref, toForum } from "./nav";
 import { SectionTitle } from "./section-title";
 import { TabEmpty, TabError, TabLoading } from "./account/account-states";
-import { useUser } from "./stores/user";
+import { useUser, useUserHydrated } from "./stores/user";
+import { openSignIn } from "./onboarding-dialog";
 
 /**
  * The PrimeWire forum (?view=forum): index of categories → threads in a
@@ -47,6 +48,8 @@ export function ForumView({
 function ForumIndex() {
   const router = useRouter();
   const index = useAccount<ForumIndexResponse>("forum");
+  const apiKey = useUser((s) => s.apiKey);
+  const hydrated = useUserHydrated();
 
   if (index.isLoading && !index.data) {
     return (
@@ -69,6 +72,34 @@ function ForumIndex() {
 
   const categories = index.data?.categories ?? [];
   if (categories.length === 0) {
+    // signed out: the forum needs a PrimeWire account — a misleading
+    // "unavailable" panel is the wrong message on a public URL
+    if (hydrated && !apiKey) {
+      return (
+        <div className="flex min-h-[60vh] flex-col items-center justify-center gap-5 px-4 pb-32 text-center">
+          <div className="flex size-16 items-center justify-center rounded-full border-2 border-dashed border-border">
+            <MessagesSquare className="size-7 text-muted-foreground" aria-hidden />
+          </div>
+          <div>
+            <h1 className="text-lg font-semibold tracking-tight">
+              The forum needs an account
+            </h1>
+            <p className="mx-auto mt-1 max-w-md text-sm leading-relaxed text-muted-foreground">
+              Sign in with your PrimeWire account to browse the community
+              boards, read threads and post replies.
+            </p>
+          </div>
+          <Button
+            className="rounded-full"
+            onClick={() => {
+              if (typeof window !== "undefined") openSignIn();
+            }}
+          >
+            Sign in
+          </Button>
+        </div>
+      );
+    }
     return (
       <div className="mx-auto max-w-4xl px-4 pt-20 pb-32 sm:px-6">
         <TabEmpty

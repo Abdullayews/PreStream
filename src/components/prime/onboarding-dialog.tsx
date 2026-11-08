@@ -97,7 +97,6 @@ export function OnboardingDialog() {
   const firstRun = hydrated && (apiKey === null || username === null);
   // Session-expired re-prompt → dismissable (public browsing still works).
   const open = (firstRun && !onboardingDismissed) || reloginOpen || forcedOpen;
-  const dismissable = true;
 
   const dismissOnboarding = () => {
     setOnboardingDismissed(true);
@@ -157,13 +156,7 @@ export function OnboardingDialog() {
       }}
     >
       <DialogContent
-        showCloseButton={dismissable}
-        onPointerDownOutside={(e) => {
-          if (!dismissable) e.preventDefault();
-        }}
-        onInteractOutside={(e) => {
-          if (!dismissable) e.preventDefault();
-        }}
+        showCloseButton
         // no exit animation wiring — it closes on success
         className="glass max-w-[calc(100%-2rem)] gap-0 rounded-2xl border-border/60 p-0 sm:max-w-md"
       >

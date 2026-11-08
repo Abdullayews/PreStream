@@ -5,6 +5,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { AUTO_THEME_ID, canonicalThemeId, isThemeId } from "@/themes/registry";
 import type { LoginResponse } from "@/lib/account-client-types";
+import { setWatchlistSyncKey, useWatchlist } from "./watchlist";
 
 interface UserState {
   /** OUR API token (ps_…) returned by /api/account/login. */
@@ -72,10 +73,13 @@ export const useUser = create<UserState>()(
           pwApiKey: login.user.pwApiKey ?? null,
           userId: login.user.userId ?? null,
           themeId: safeTheme,
+          watchlistSyncedAt: Date.now(),
         });
 
-        // The session watchlist stays in-memory only — data comes from the
-        // site on every visit; just account info + settings are cached here.
+        // Seed the watchlist from the account cache and attach the server
+        // sync so later toggles persist (see stores/watchlist.ts).
+        useWatchlist.getState().hydrate(login.watchlist);
+        setWatchlistSyncKey(login.apiKey);
       },
 
       setAvatar: (avatar) => set({ avatar }),
@@ -110,6 +114,10 @@ export const useUser = create<UserState>()(
             body: JSON.stringify({ apiKey, pwSession: pwSession ?? "" }),
           }).catch(() => {});
         }
+        // forget the cached watchlist too — another account may sign in
+        // next on this same browser session
+        useWatchlist.getState().reset();
+        setWatchlistSyncKey(null);
         set({
           apiKey: null,
           pwSession: null,
