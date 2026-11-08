@@ -12,9 +12,7 @@
  */
 
 const FILTERED_HOSTS = [
-  // catalog redirector (the splash interstitial inside the player)
   "sorrowfulpsychology.com",
-  // pop-under / popup redirect networks used by video hosts
   "propellerads.com",
   "propellerclick.com",
   "propellertracking.com",
@@ -63,7 +61,6 @@ const FILTERED_HOSTS = [
   "taxiroute.site",
   "higurashineit.org",
   "redundantinitiallycompact.com",
-  // additional popunder / redirect networks seen on stream hosts
   "admaven.com",
   "ad-maven.com",
   "inersit.com",
@@ -90,23 +87,14 @@ const FILTERED_HOSTS = [
   "bc.vc",
   "shrinkme.io",
   "linkvertise.com",
-  // hidden third-party trackers the hosts embed
   "google-analytics.com",
   "googletagmanager.com",
   "doubleclick.net",
   "googlesyndication.com",
   "adservice.google.com",
-  // major display/video ad exchanges & RTB networks
   "amazon-adsystem.com",
   "advertising.com",
   "adsrvr.org",
-  "adnxs.com",
-  "adnxs-simple.com",
-  "casalemedia.com",
-  "rubiconproject.com",
-  "openx.net",
-  "pubmatic.com",
-  "smartadserver.com",
   "indexww.com",
   "sharethrough.com",
   "yieldmo.com",
@@ -127,12 +115,10 @@ const FILTERED_HOSTS = [
   "trafficstars.com",
   "galaksion.com",
   "clickaine.com",
-  // viewability / brand-safety verification beacons
   "moatads.com",
   "moatpixel.com",
   "adsafeprotected.com",
   "doubleverify.com",
-  // analytics / measurement pixels
   "scorecardresearch.com",
   "quantserve.com",
   "comscore.com",
@@ -144,11 +130,9 @@ const FILTERED_HOSTS = [
   "ads-twitter.com",
   "newrelic.com",
   "nr-data.net",
-  // push-notification ad networks
   "onesignal.com",
   "pushwoosh.com",
   "propu.sh",
-  // cryptojacking miners sometimes bundled with stream hosts
   "coinhive.com",
   "coin-hive.com",
   "jsecoin.com",

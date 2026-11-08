@@ -9,6 +9,72 @@ import { tmdbPath } from './parser';
 type El = Element;
 type ElCollection = cheerio.Cheerio<Element>;
 
+/** Tags allowed in rendered markdown bodies (anything else is dropped). */
+const ALLOWED_TAGS = new Set([
+  'a', 'b', 'i', 'u', 's', 'em', 'strong', 'small', 'sub', 'sup', 'br', 'hr',
+  'p', 'span', 'div', 'blockquote', 'pre', 'code',
+  'ul', 'ol', 'li', 'dl', 'dt', 'dd', 'table', 'thead', 'tbody', 'tr', 'td', 'th',
+  'img', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'font',
+]);
+/** Attributes allowed on specific tags. */
+const ALLOWED_ATTRS: Record<string, Set<string>> = {
+  a: new Set(['href', 'title']),
+  img: new Set(['src', 'alt', 'title', 'width', 'height']),
+  font: new Set(['color']),
+};
+
+function isSafeUrl(value: string): boolean {
+  const v = value.trim().toLowerCase();
+  // relative URLs, http(s), and PrimeWire-style paths only — blocks
+  // javascript:, data: (except tiny inline images), vbscript: etc.
+  if (v.startsWith('javascript:') || v.startsWith('vbscript:')) return false;
+  if (v.startsWith('data:')) return /^data:image\/(png|gif|jpe?g|webp);/i.test(v);
+  return true;
+}
+
+/**
+ * Allowlist sanitizer for upstream-rendered markdown HTML. PrimeWire is a
+ * third-party source (and its mirrors rotate), so nothing that isn't on the
+ * list survives: <script>, <iframe>, event handlers, javascript: URLs and
+ * unknown tags are all stripped before the HTML reaches the client.
+ */
+function sanitizeHtml(html: string): string {
+  const $ = cheerio.load(`<div id="__root">${html}</div>`);
+  const root = $('#__root');
+
+  // remove disallowed elements entirely (contents included for containers)
+  root.find('*').each((_, el) => {
+    const tag = (el.tagName ?? '').toLowerCase();
+    if (!ALLOWED_TAGS.has(tag)) {
+      // unwrap harmless unknown inline wrappers, drop the dangerous ones
+      if (tag === 'script' || tag === 'style' || tag === 'iframe' || tag === 'object' ||
+          tag === 'embed' || tag === 'form' || tag === 'svg' || tag === 'math' || tag === 'link' || tag === 'meta') {
+        $(el).remove();
+      } else {
+        // harmless unknown wrapper → keep its children, drop the tag itself
+        $(el).replaceWith($(el).contents());
+      }
+      return;
+    }
+    // strip every attribute except the allowlist for this tag
+    const allowed = ALLOWED_ATTRS[tag];
+    if (el.attribs) {
+      for (const attr of Object.keys(el.attribs)) {
+        if (!allowed || !allowed.has(attr)) {
+          $(el).removeAttr(attr);
+          continue;
+        }
+        const value = el.attribs[attr] ?? '';
+        if ((attr === 'href' || attr === 'src') && !isSafeUrl(value)) {
+          $(el).removeAttr(attr);
+        }
+      }
+    }
+  });
+
+  return root.html() ?? '';
+}
+
 function textOf($: cheerio.CheerioAPI, el: ElCollection | El | null | undefined): string {
   if (!el) return '';
   return $(el as El).text().replace(/\s+/g, ' ').trim();
@@ -16,9 +82,11 @@ function textOf($: cheerio.CheerioAPI, el: ElCollection | El | null | undefined)
 
 /** Inner *rendered* markdown HTML of an element (used for comment bodies). */
 function markdownHtml($: cheerio.CheerioAPI, $el: ElCollection): string {
-  return ($el.find('.markdown').first().html() ?? $el.html() ?? '')
-    .replace(/\s+/g, ' ')
-    .trim();
+  return sanitizeHtml(
+    ($el.find('.markdown').first().html() ?? $el.html() ?? '')
+      .replace(/\s+/g, ' ')
+      .trim(),
+  );
 }
 
 function parseIntSafe(v: string | undefined | null): number | null {
@@ -520,7 +588,7 @@ export function parseWatchPartiesPage(html: string): T.WatchParty[] {
     const label = $row.text().replace(/\s+/g, ' ').trim();
     const name = $(a).text().trim() || label.slice(0, 80) || null;
     const host = /Hosted by\s+([^\s]+)/i.exec(label)?.[1] ?? null;
-    out.push({ code, name, link: null, members: null, ...(host ? { name: `${name}`, link: host } : {}) });
+    out.push({ code, name, link: null, members: null, ...(host ? { link: host } : {}) });
   });
   return out;
 }

@@ -32,7 +32,8 @@ import { useAccount, useAccountMutation } from "./hooks/use-account";
 import { toAccount, toUser } from "./nav";
 import { SectionTitle } from "./section-title";
 import { TabError, TabLoading } from "./account/account-states";
-import { useUser } from "./stores/user";
+import { useUser, useUserHydrated } from "./stores/user";
+import { openSignIn } from "./onboarding-dialog";
 
 /**
  * Public PrimeWire member profile (?view=user&name=…): avatar, stats,
@@ -42,6 +43,7 @@ export function UserProfileView({ name }: { name: string | null }) {
   const router = useRouter();
   const valid = !!name && name.trim().length > 0 && name.length <= 40;
   const myUsername = useUser((s) => s.username);
+  const hydrated = useUserHydrated();
   const [messageOpen, setMessageOpen] = useState(false);
 
   const profile = useAccount<ProfileResponse>(
@@ -49,7 +51,6 @@ export function UserProfileView({ name }: { name: string | null }) {
     { name: name ?? "" },
     { enabled: valid },
   );
-
   const friendAction = useAccountMutation<{ ok: boolean }>("friends", {
     invalidates: [["account", "friends"]],
   });
@@ -85,7 +86,44 @@ export function UserProfileView({ name }: { name: string | null }) {
   }
 
   const user = profile.data?.profile;
-  if (!user) return null;
+  if (!user) {
+    // still restoring the persisted session — indistinguishable from
+    // signed-out until hydration finishes, so show a quiet loading state
+    // instead of flashing a sign-in prompt
+    if (!hydrated) {
+      return (
+        <div className="mx-auto max-w-4xl px-4 pt-20 pb-8 sm:px-6">
+          <TabLoading rows={4} />
+        </div>
+      );
+    }
+    // signed out (or the profile is private): a blank page is never the
+    // right answer on a public, shareable URL — offer sign-in instead
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-5 px-4 pb-32 text-center">
+        <div className="flex size-16 items-center justify-center rounded-full border-2 border-dashed border-border">
+          <CircleUserRound className="size-7 text-muted-foreground" aria-hidden />
+        </div>
+        <div>
+          <h1 className="text-lg font-semibold tracking-tight">
+            Member profiles need an account
+          </h1>
+          <p className="mx-auto mt-1 max-w-md text-sm leading-relaxed text-muted-foreground">
+            Sign in with your PrimeWire account to view {name}&apos;s profile,
+            send messages and add friends.
+          </p>
+        </div>
+        <Button
+          className="rounded-full"
+          onClick={() => {
+            if (typeof window !== "undefined") openSignIn();
+          }}
+        >
+          Sign in
+        </Button>
+      </div>
+    );
+  }
 
   const isSelf = myUsername === user.username;
   const actionId = user.userIdForActions ?? user.userId;

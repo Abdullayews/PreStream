@@ -36,8 +36,13 @@ export const metadata: Metadata = {
   description:
     "A cinematic way to browse the PrimeWire catalog: movies, TV shows, ratings, cast and trailers — with watchlists, playlists and full account sync.",
   applicationName: "PreStream",
+  manifest: "/manifest.webmanifest",
   icons: {
-    icon: "/logo.svg",
+    icon: [
+      { url: "/logo.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
 };
 

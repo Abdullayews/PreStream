@@ -182,13 +182,16 @@ async function dohResolve(hostname: string, family: number): Promise<DohAnswer[]
 
 type LookupCallback = (
   err: NodeJS.ErrnoException | null,
-  address: string | { address: string; family: number } | Array<{ address: string; family: number }>,
+  address: string | Array<{ address: string; family: number }>,
   family?: number,
 ) => void;
 
-function systemLookupFallback(hostname: string, options: dns.LookupAllOptions, callback: LookupCallback, reason: string): void {
+function systemLookupFallback(hostname: string, options: dns.LookupOptions, callback: LookupCallback, reason: string): void {
   console.warn(`[doh] falling back to system resolver for ${hostname}: ${reason}`);
-  dns.lookup(hostname, options, (err, ...rest) => callback(err, ...(rest as [never])));
+  dns.lookup(hostname, options, (err, address, family) => {
+    if (typeof address === 'string') callback(err, address, family);
+    else callback(err, address);
+  });
 }
 
 /**
@@ -198,23 +201,28 @@ function systemLookupFallback(hostname: string, options: dns.LookupAllOptions, c
  */
 export function dohLookup(
   hostname: string,
-  options: dns.LookupAllOptions,
+  options: dns.LookupOptions,
   callback: LookupCallback,
 ): void {
   if (net.isIP(hostname) !== 0 || hostname === 'localhost') {
-    dns.lookup(hostname, options, (err, ...rest) => callback(err, ...(rest as [never])));
+    dns.lookup(hostname, options, (err, address, family) => {
+      if (typeof address === 'string') callback(err, address, family);
+      else callback(err, address);
+    });
     return;
   }
 
-  const wantFamily = options.family ?? 0;
-  const t0 = Date.now();
+  // dns.LookupOptions.family is 0|4|6|'IPv4'|'IPv6' — normalize to a number.
+  const wantFamily: number =
+    options.family === 'IPv6' ? 6 :
+    options.family === 'IPv4' ? 4 :
+    (options.family ?? 0);
   dohResolve(hostname, wantFamily)
     .then((answers) => {
       if (answers.length === 0) {
         systemLookupFallback(hostname, options, callback, 'no A/AAAA records');
         return;
       }
-      console.log(`[doh] ${hostname} → ${answers.map((a) => a.address).join(', ')} (${Date.now() - t0}ms)`);
       if (options.all) {
         callback(null, answers.map((a) => ({ address: a.address, family: a.family })));
       } else {

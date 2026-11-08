@@ -25,11 +25,13 @@
  * (scripts + same-origin + forms, pop-ups off).
  *
  * Like PrimeWire's own hosts, these are third-party services that rotate
- * and die — healthProbe() re-checks the EXACT urls (5-min cache) so the
- * picker can badge providers live, same as PrimeWire host rows. (Nunflix
- * was removed from this registry on 2026-04 after its domain became a
- * parked `/lander` redirect stub; 111movies / autoembed / vidsrc.xyz /
- * vidora / superembed were probed and are parked, blank or dead too.)
+ * and die — healthProbe() re-checks the EXACT urls LIVE on every call
+ * (concurrent probes for the same URL are only coalesced in-flight) so
+ * the picker can badge providers live, same as PrimeWire host rows.
+ * (Nunflix was removed from this registry on 2026-04 after its domain
+ * became a parked `/lander` redirect stub; 111movies / autoembed /
+ * vidsrc.xyz / vidora / superembed were probed and are parked, blank or
+ * dead too.)
  */
 
 import { coalesce } from './cache';

@@ -38,13 +38,6 @@ export function tmdbPath(url: string | undefined | null): string | null {
   return null;
 }
 
-/** Re-size a TMDB path: "/t/p/w200/x.jpg" + "w500" → "/t/p/w500/x.jpg" (no-op for other hosts). */
-export function tmdbResized(path: string | null, size: string): string | null {
-  if (!path) return null;
-  if (!path.startsWith('/t/p/')) return path; // tvmaze etc. — served as-is
-  return path.replace(/^(\/t\/p\/)[a-z0-9]+/, `$1${size}`);
-}
-
 /** Rating from star-width: current-rating li width px on a 100px bar → 0–5. */
 function ratingFromWidth(style: string | undefined): number | null {
   const m = /width:\s*([\d.]+)px/i.exec(style ?? '');
@@ -413,12 +406,6 @@ export function parseSchedulePage(html: string): ScheduleDay[] {
 /* ------------------------------------------------------------------ */
 /* Playlists (/playlists)                                              */
 /* ------------------------------------------------------------------ */
-
-function parseIntSafe(v: string | null | undefined): number | null {
-  if (!v) return null;
-  const n = parseInt(v.replace(/[^\d]/g, ''), 10);
-  return Number.isFinite(n) ? n : null;
-}
 
 /**
  * Parse the playlists listing: a single div.playlist_listing container

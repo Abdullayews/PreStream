@@ -4,7 +4,7 @@
 import { randomBytes } from 'crypto';
 import type { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { SessionExpiredError } from '@/lib/primewire/session';
+import { FormRejectedError, SessionExpiredError } from '@/lib/primewire/session';
 
 export const KEY_RE = /^[A-Za-z0-9_-]{8,64}$/;
 
@@ -63,6 +63,9 @@ export async function accountError(err: unknown): Promise<NextResponse> {
       { error: 'Your PrimeWire session expired — sign in again', code: 'session-expired' },
       { status: 401 },
     );
+  }
+  if (err instanceof FormRejectedError) {
+    return NR.json({ error: err.message, code: 'rejected' }, { status: 422 });
   }
   const message = err instanceof Error ? err.message : 'PrimeWire request failed';
   const status = /not found/i.test(message) ? 404 : 502;
